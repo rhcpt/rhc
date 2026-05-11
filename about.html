@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — RHC</title>
+<meta name="description" content="Learn about RHC — the team behind AI-powered recruitment that helps companies find the right candidates faster.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f3ef;
+    --accent: #e8ff47;
+    --accent2: #00d4aa;
+    --mid: #2a2a3a;
+    --muted: #6b6b7e;
+    --border: rgba(10,10,15,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV (same as index) ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.6rem;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent2); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.9rem; font-weight: 500;
+    color: rgba(245,243,239,0.6); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--paper); }
+  .nav-links a.active-link { color: var(--paper); }
+  .nav-cta {
+    background: var(--ink); color: var(--accent) !important;
+    padding: .55rem 1.4rem; border-radius: 100px;
+    font-weight: 600 !important; font-size: 0.88rem !important;
+    transition: transform .2s, background .2s !important;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-cta:hover { background: var(--mid) !important; transform: scale(1.04); }
+
+  /* ── HERO (lighter, About Us version) ── */
+  .about-hero {
+    min-height: 60vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10rem 4rem 4rem;
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(0,212,170,0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .about-hero-content {
+    max-width: 900px;
+    position: relative;
+    z-index: 1;
+  }
+  .about-tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 100px;
+    margin-bottom: 2rem;
+  }
+  .about-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .about-hero h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent2);
+  }
+  .about-hero p {
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.65;
+    color: rgba(245,243,239,0.7);
+    max-width: 700px;
+    font-weight: 300;
+  }
+
+  /* ── STORY SECTION ── */
+  .story-section {
+    padding: 6rem 4rem;
+    background: var(--paper);
+  }
+  .story-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .story-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+  .story-section p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 1.4rem;
+    font-weight: 400;
+  }
+  .story-section p strong { font-weight: 600; }
+
+  /* ── TEAM SECTION ── */
+  .team-section {
+    padding: 6rem 4rem;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .team-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .team-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+  }
+  .team-section .section-desc {
+    color: rgba(245,243,239,0.6);
+    font-size: 1.05rem;
+    margin-bottom: 3.5rem;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+    gap: 1.2rem;
+    justify-content: flex-start;
+  }
+  .team-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    transition: transform .25s, border-color .25s;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .team-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0,212,170,0.3);
+  }
+  .team-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d4aa 0%, #007a63 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+  .team-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+  }
+  .team-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.98rem;
+    margin: 0;
+  }
+  .team-role {
+    color: var(--accent2);
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-top: 0.15rem;
+  }
+
+  /* ── CONTACT BAND ── */
+  .contact-band {
+    padding: 5rem 4rem;
+    background: var(--paper);
+    text-align: center;
+  }
+  .contact-band h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .contact-band p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .contact-cta {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1rem 2.5rem;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform .2s, background .2s;
+  }
+  .contact-cta:hover {
+    background: var(--mid);
+    transform: scale(1.03);
+  }
+
+  /* ── FOOTER (same as index) ── */
+  footer {
+    background: #07070d;
+    color: rgba(245,243,239,.4);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: .82rem;
+    border-top: 1px solid rgba(255,255,255,.05);
+  }
+  footer a { text-decoration: none; transition: color .2s; }
+
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+    nav, .about-hero, .story-section, .team-section, .contact-band, footer {
+      padding-left: 1.5rem; padding-right: 1.5rem;
+    }
+  }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">RH<span>C</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/about.html" class="active-link">About Us</a></li>
+    <li><a href="/blog.html">Blog</a></li>
+    <li><a href="/#cta" class="nav-cta">Get a Demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div class="about-hero-content">
+    <span class="about-tag">About RHC</span>
+    <h1><em>The Team</em></h1>
+    <p>We're building the recruitment platform we always wished existed, one where AI choses candidates.</p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story-section">
+  <div class="story-wrap">
+    <h2 class="reveal">Who we are</h2>
+    <p class="reveal">RHC was born out of a simple frustration: traditional recruitment is slow, expensive, and often disconnected from what really matters. Hiring teams drown in CVs, candidates get lost in inboxes, and the best people slip through the cracks.</p>
+    <p class="reveal">We're a Portuguese team building an end-to-end recruitment platform that combines AI-powered screening, psychometric assessment, and a clear, modern experience for both recruiters and candidates. Every part of the product is designed to remove friction and let people make better hiring decisions.</p>
+    <p class="reveal">We work closely with HR teams, founders, and recruitment specialists to shape the product around real workflows. We believe great hiring shouldn't be a privilege of large enterprises, it should be accessible, transparent, and powered by the best technology available today.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section">
+  <div class="team-wrap">
+    <h2 class="reveal">The team</h2>
+    <p class="section-desc reveal">The people building RHC every day.</p>
+
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="team-avatar">FC</div>
+        <div class="team-info">
+          <div class="team-name">Francisco Cameira</div>
+          <div class="team-role">Founder</div>
+        </div>
+      </div>
+      <!-- Add more team-card blocks here as the team grows -->
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT BAND -->
+<section class="contact-band">
+  <h2 class="reveal">Want to talk?</h2>
+  <p class="reveal">Whether you're hiring, looking for a partnership, or just want to know more about how RHC works, drop us a line.</p>
+  <a href="mailto:hello@rhc.pt" class="contact-cta reveal">hello@rhc.pt</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--paper);text-decoration:none;letter-spacing:-0.04em;">RH<span style="color:var(--accent2)">C</span></a>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;">
+    <a href="/" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Home</a>
+    <a href="/about.html" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">About Us</a>
+    <a href="/blog.html" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Blog</a>
+    <a href="mailto:hello@rhc.pt" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Contact</a>
+  </div>
+  <span>© 2026 RHC. All rights reserved.</span>
+</footer>
+
+<script>
+  // Scroll reveal — same pattern as index
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
