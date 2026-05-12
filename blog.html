@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog</title>
+<meta name="description" content="Insights on recruitment, hiring, AI screening and building great teams - from the RHC team.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f3ef;
+    --accent: #e8ff47;
+    --accent2: #00d4aa;
+    --mid: #2a2a3a;
+    --muted: #6b6b7e;
+    --border: rgba(10,10,15,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.6rem;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent2); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.9rem; font-weight: 500;
+    color: rgba(245,243,239,0.6); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--paper); }
+  .nav-links a.active-link { color: var(--paper); }
+  .nav-cta {
+    background: var(--ink); color: var(--accent) !important;
+    padding: .55rem 1.4rem; border-radius: 100px;
+    font-weight: 600 !important; font-size: 0.88rem !important;
+    transition: transform .2s, background .2s !important;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-cta:hover { background: var(--mid) !important; transform: scale(1.04); }
+
+  /* ── HERO ── */
+  .blog-hero {
+    padding: 10rem 4rem 4rem;
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .blog-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 70% 30%, rgba(0,212,170,0.12), transparent 60%);
+    pointer-events: none;
+  }
+  .blog-hero-content {
+    max-width: 900px;
+    position: relative;
+    z-index: 1;
+  }
+  .blog-tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 100px;
+    margin-bottom: 2rem;
+  }
+  .blog-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.2rem;
+  }
+  .blog-hero h1 em {
+    font-style: normal;
+    font-weight: 800;
+    color: var(--accent2);
+  }
+  .blog-hero p {
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.65;
+    color: rgba(245,243,239,0.7);
+    max-width: 700px;
+    font-weight: 300;
+  }
+
+  /* ── BLOG MAIN AREA ── */
+  .blog-main {
+    flex: 1;
+    padding: 6rem 4rem;
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Empty state - shown until first posts are added */
+  .blog-empty {
+    max-width: 560px;
+    text-align: center;
+  }
+  .blog-empty-icon {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--accent2);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  .blog-empty h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+  .blog-empty p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+  .blog-empty a {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1rem 2.5rem;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform .2s, background .2s;
+  }
+  .blog-empty a:hover {
+    background: var(--mid);
+    transform: scale(1.03);
+  }
+
+  /* Posts grid - used once posts exist (kept here ready) */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .post-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform .25s, box-shadow .25s;
+    cursor: pointer;
+  }
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.08);
+  }
+  .post-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #00d4aa 0%, #007a63 100%);
+  }
+  .post-content { padding: 1.8rem 1.6rem 2rem; }
+  .post-meta {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.6rem;
+  }
+  .post-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    line-height: 1.25;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.01em;
+  }
+  .post-excerpt {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #07070d;
+    color: rgba(245,243,239,.4);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: .82rem;
+    border-top: 1px solid rgba(255,255,255,.05);
+  }
+  footer a { text-decoration: none; transition: color .2s; }
+
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+    nav, .blog-hero, .blog-main, footer {
+      padding-left: 1.5rem; padding-right: 1.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">RH<span>C</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/about.html">About Us</a></li>
+    <li><a href="/blog.html" class="active-link">Blog</a></li>
+    <li><a href="/#cta" class="nav-cta">Get a Demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="blog-hero">
+  <div class="blog-hero-content">
+    <span class="blog-tag">Blog</span>
+    <h1><em>News</em></h1>
+    <p>All about RHC news, insights and product updates.</p>
+  </div>
+</section>
+
+<!-- MAIN - empty state for now. Replace with .posts-grid when posts exist. -->
+<section class="blog-main">
+  <div class="blog-empty">
+    <div class="blog-empty-icon">✦</div>
+    <h2>Coming soon.</h2>
+    <p>We're putting the finishing touches on our first articles. Subscribe or check back soon - the first post is almost ready.</p>
+    <a href="mailto:hello@rhc.pt?subject=Notify%20me%20when%20the%20blog%20launches">Notify me</a>
+  </div>
+
+  <!--
+    POSTS TEMPLATE - copy this block once posts exist, paste each post inside <div class="posts-grid">…</div>
+    Replace .blog-empty above with the grid when ready.
+
+    <div class="posts-grid">
+      <article class="post-card" onclick="window.location='/blog/post-slug.html'">
+        <div class="post-image"></div>
+        <div class="post-content">
+          <div class="post-meta">10 May 2026 · 5 min read</div>
+          <h3 class="post-title">Why AI screening doesn't have to feel cold</h3>
+          <p class="post-excerpt">Most recruitment tools strip empathy out of the process. Here's how we kept it in…</p>
+        </div>
+      </article>
+    </div>
+  -->
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--paper);text-decoration:none;letter-spacing:-0.04em;">RH<span style="color:var(--accent2)">C</span></a>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;">
+    <a href="/" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Home</a>
+    <a href="/about.html" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">About Us</a>
+    <a href="/blog.html" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Blog</a>
+    <a href="mailto:hello@rhc.pt" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Contact</a>
+  </div>
+  <span>© 2026 RHC. All rights reserved.</span>
+</footer>
+
+</body>
+</html>
