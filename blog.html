@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog</title>
-<meta name="description" content="Insights on recruitment, hiring, AI screening and building great teams - from the RHC team.">
+<title>Blog · RHC</title>
+<meta name="description" content="On hiring, AI, GDPR and building RHC — insights and product updates from the RHC team.">
+<meta property="og:title" content="Blog · RHC">
+<meta property="og:description" content="On hiring, AI, and the messy bits in between.">
+<meta property="og:type" content="website">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -65,7 +68,7 @@
 
   /* ── HERO ── */
   .blog-hero {
-    padding: 10rem 4rem 4rem;
+    padding: 10rem 4rem 5rem;
     background: var(--ink);
     color: var(--paper);
     position: relative;
@@ -74,11 +77,21 @@
   .blog-hero::before {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(circle at 70% 30%, rgba(0,212,170,0.12), transparent 60%);
+    background:
+      radial-gradient(ellipse 50% 60% at 70% 30%, rgba(0,212,170,.15), transparent 60%),
+      radial-gradient(ellipse 40% 50% at 15% 80%, rgba(232,255,71,.07), transparent 60%);
+    pointer-events: none;
+  }
+  .blog-hero-grid {
+    position: absolute; inset: 0; opacity: .25;
+    background-image:
+      linear-gradient(rgba(245,243,239,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,243,239,.04) 1px, transparent 1px);
+    background-size: 60px 60px;
     pointer-events: none;
   }
   .blog-hero-content {
-    max-width: 900px;
+    max-width: 950px;
     position: relative;
     z-index: 1;
   }
@@ -98,25 +111,63 @@
   .blog-hero h1 {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: clamp(1.8rem, 3.5vw, 3rem);
-    line-height: 1.1;
+    font-size: clamp(1.8rem, 3.6vw, 3.2rem);
+    line-height: 1.08;
     letter-spacing: -0.03em;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
   }
   .blog-hero h1 em {
     font-style: normal;
     font-weight: 800;
     color: var(--accent2);
   }
-  .blog-hero p {
-    font-size: clamp(1rem, 1.4vw, 1.2rem);
-    line-height: 1.65;
+  .blog-hero p.lead {
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    line-height: 1.6;
     color: rgba(245,243,239,0.7);
     max-width: 700px;
     font-weight: 300;
+    margin-bottom: 2.5rem;
   }
 
-  /* ── BLOG MAIN AREA ── */
+  /* Topics chips inside hero */
+  .topics-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+    max-width: 720px;
+  }
+  .topics-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(245,243,239,0.4);
+    margin-right: 0.4rem;
+  }
+  .topic-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(245,243,239,0.85);
+  }
+  .topic-chip .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+  .topic-chip .dot.c1 { background: #00d4aa; }
+  .topic-chip .dot.c2 { background: #e8ff47; }
+  .topic-chip .dot.c3 { background: #00aaff; }
+  .topic-chip .dot.c4 { background: #ff6496; }
+
+  /* ── MAIN AREA ── */
   .blog-main {
     flex: 1;
     padding: 6rem 4rem;
@@ -126,9 +177,8 @@
     justify-content: center;
   }
 
-  /* Empty state - shown until first posts are added */
   .blog-empty {
-    max-width: 560px;
+    max-width: 580px;
     text-align: center;
   }
   .blog-empty-icon {
@@ -172,7 +222,7 @@
     transform: scale(1.03);
   }
 
-  /* Posts grid - used once posts exist (kept here ready) */
+  /* Posts grid - kept ready for when posts exist */
   .posts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -239,6 +289,8 @@
     nav, .blog-hero, .blog-main, footer {
       padding-left: 1.5rem; padding-right: 1.5rem;
     }
+    .blog-hero { padding-top: 7rem; padding-bottom: 4rem; }
+    .topics-label { width: 100%; margin-bottom: 0.2rem; }
   }
 </style>
 </head>
@@ -257,10 +309,19 @@
 
 <!-- HERO -->
 <section class="blog-hero">
+  <div class="blog-hero-grid"></div>
   <div class="blog-hero-content">
     <span class="blog-tag">Blog</span>
-    <h1><em>News</em></h1>
-    <p>All about RHC news, insights and product updates.</p>
+    <h1>All about <em>RHC.</em></h1>
+    <p class="lead">Insights, playbooks and product updates from the team building RHC.</p>
+
+    <div class="topics-row">
+      <span class="topics-label">We'll be writing about:</span>
+      <span class="topic-chip"><span class="dot c1"></span>AI screening</span>
+      <span class="topic-chip"><span class="dot c2"></span>Candidate experience</span>
+      <span class="topic-chip"><span class="dot c3"></span>GDPR &amp; candidates</span>
+      <span class="topic-chip"><span class="dot c4"></span>Building RHC</span>
+    </div>
   </div>
 </section>
 
@@ -269,8 +330,8 @@
   <div class="blog-empty">
     <div class="blog-empty-icon">✦</div>
     <h2>Coming soon.</h2>
-    <p>We're putting the finishing touches on our first articles. Subscribe or check back soon - the first post is almost ready.</p>
-    <a href="mailto:hello@rhc.pt?subject=Notify%20me%20when%20the%20blog%20launches">Notify me</a>
+    <p>We're putting the finishing touches on our first articles. Subscribe or check back soon — the first post is almost ready.</p>
+    <a href="/cdn-cgi/l/email-protection#026a676e6e6d42706a612c72763d717760686761763f4c6d766b647b2730326f67273032756a676c273032766a67273032606e6d652730326e63776c616a6771">Notify me</a>
   </div>
 
   <!--
@@ -297,10 +358,10 @@
     <a href="/" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Home</a>
     <a href="/about.html" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">About Us</a>
     <a href="/blog.html" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Blog</a>
-    <a href="mailto:hello@rhc.pt" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Contact</a>
+    <a href="/cdn-cgi/l/email-protection#d5bdb0b9b9ba95a7bdb6fba5a1" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Contact</a>
   </div>
   <span>© 2026 RHC. All rights reserved.</span>
 </footer>
 
-</body>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
 </html>
