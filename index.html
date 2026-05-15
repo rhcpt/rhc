@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RHC · AI-powered recruitment for HR teams</title>
+<meta name="description" content="RHC is an AI-powered recruitment platform that screens CVs, runs personalised psychometric and technical tests, and ranks the best-fit candidates for your role — so HR teams spend time only on the people worth interviewing.">
+<meta property="og:title" content="RHC · AI-powered recruitment for HR teams">
+<meta property="og:description" content="AI candidate screening, personalised tests, and real-time ranking — built for HR teams that want to hire the right people, faster.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f3ef;
+    --accent: #e8ff47;
+    --accent2: #00d4aa;
+    --mid: #2a2a3a;
+    --muted: #6b6b7e;
+    --border: rgba(10,10,15,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.6rem;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent2); }
+  nav .logo { color: #0a0a0f; }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.9rem; font-weight: 500;
+    color: rgba(245,243,239,0.6); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--paper); }
+  .nav-links a.active-link { color: var(--paper); }
+
+  .nav-cta {
+    background: var(--ink); color: var(--accent) !important;
+    padding: .55rem 1.4rem; border-radius: 100px;
+    font-weight: 600 !important; font-size: 0.88rem !important;
+    transition: transform .2s, background .2s !important;
+  }
+  .nav-cta:hover { background: var(--mid) !important; transform: scale(1.04); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 85vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 4rem 3rem;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(0,212,170,.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 70%, rgba(232,255,71,.1) 0%, transparent 60%);
+  }
+
+  .grid-lines {
+    position: absolute; inset: 0; z-index: 0; opacity: .35;
+    background-image:
+      linear-gradient(rgba(10,10,15,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10,10,15,.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--ink); color: var(--accent);
+    font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    padding: .4rem 1rem; border-radius: 100px;
+    margin-bottom: 2rem;
+    animation: fadeUp .6s ease both;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .5; transform: scale(1.4); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3.6vw, 3.2rem);
+    font-weight: 800; line-height: 1.08;
+    letter-spacing: -0.03em;
+    animation: fadeUp .7s .1s ease both;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent2);
+    -webkit-text-fill-color: var(--accent2);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 300;
+    color: var(--muted); max-width: 560px; line-height: 1.7;
+    margin: 1.8rem 0 3rem;
+    animation: fadeUp .7s .2s ease both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp .7s .3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--ink); color: var(--accent);
+    padding: .9rem 2.2rem; border-radius: 100px;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 4px 20px rgba(10,10,15,.2);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(10,10,15,.3); }
+
+  .btn-secondary {
+    background: transparent; color: var(--ink);
+    padding: .9rem 2.2rem; border-radius: 100px;
+    font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1rem;
+    text-decoration: none; border: 2px solid var(--border);
+    cursor: pointer; transition: border-color .2s, background .2s;
+  }
+  .btn-secondary:hover { border-color: var(--ink); background: rgba(10,10,15,.04); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 5rem;
+    animation: fadeUp .7s .4s ease both;
+  }
+  .stat-item { display: flex; flex-direction: column; gap: .2rem; }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .stat-label { font-size: .8rem; color: var(--muted); font-weight: 400; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 7rem 4rem; }
+  /* The first content section after hero gets less top padding so the gap
+     between hero stats and "PROCESS" isn't visually disjointed. */
+  #how-it-works { padding-top: 5rem; }
+  .section-tag {
+    font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: .8rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+    max-width: 600px;
+  }
+  .section-desc {
+    color: var(--muted); font-weight: 300; line-height: 1.7;
+    max-width: 520px; margin-top: 1rem;
+  }
+
+  /* ── HOW IT WORKS ── */
+  #como-funciona { background: var(--ink); color: var(--paper); }
+  #como-funciona .section-tag { color: var(--accent); }
+  #como-funciona .section-desc { color: rgba(245,243,239,.6); }
+
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+    gap: 1.5px; margin-top: 4rem;
+    background: rgba(245,243,239,.1);
+    border: 1px solid rgba(245,243,239,.1);
+    border-radius: 16px; overflow: hidden;
+    position: relative;
+  }
+  .step-connector {
+    position: absolute; top: 50%; left: 0; right: 0;
+    height: 1px; background: linear-gradient(90deg, transparent, rgba(232,255,71,.2), rgba(0,212,170,.3), rgba(232,255,71,.2), transparent);
+    pointer-events: none; z-index: 0;
+  }
+  .step-card { position: relative; z-index: 1; }
+
+  .step-card {
+    background: var(--ink);
+    padding: 2.5rem 2rem;
+    position: relative;
+    transition: background .3s;
+  }
+  .step-card:hover { background: var(--mid); }
+
+  .step-number {
+    font-family: 'Syne', sans-serif; font-size: 3.5rem; font-weight: 800;
+    color: rgba(232,255,71,.15); letter-spacing: -0.05em;
+    line-height: 1; margin-bottom: 1.2rem;
+  }
+
+  .step-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: rgba(232,255,71,.1); border: 1px solid rgba(232,255,71,.2);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.2rem;
+    color: var(--accent);
+  }
+  .step-icon svg { width: 22px; height: 22px; }
+
+  .step-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.1rem;
+    font-weight: 700; margin-bottom: .6rem; color: var(--paper);
+  }
+
+  .step-card p { font-size: .9rem; color: rgba(245,243,239,.55); line-height: 1.6; font-weight: 300; }
+
+  /* ── FEATURES ── */
+  #funcionalidades { background: var(--paper); }
+
+  .features-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center; margin-top: 4rem;
+  }
+
+  .features-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .feature-item {
+    display: flex; gap: 1.2rem; align-items: flex-start;
+    padding: 1.5rem; border-radius: 14px;
+    border: 1px solid transparent;
+    transition: border-color .3s, background .3s;
+    cursor: default;
+  }
+  .feature-item:hover {
+    border-color: var(--border);
+    background: rgba(255,255,255,.6);
+  }
+
+  .feature-icon {
+    width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .feature-icon svg { width: 20px; height: 20px; }
+  .fi-green { background: rgba(0,212,170,.12); color: #008a6a; }
+  .fi-yellow { background: rgba(232,255,71,.3); color: #7a6a00; }
+  .fi-blue { background: rgba(0,170,255,.12); color: #0066aa; }
+  .fi-pink { background: rgba(255,100,150,.12); color: #c63d6e; }
+
+  .feature-item h4 {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem;
+    margin-bottom: .3rem;
+  }
+  .feature-item p { font-size: .85rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+  /* mock dashboard card */
+  .dashboard-mock {
+    background: var(--ink); border-radius: 20px;
+    padding: 2rem; overflow: hidden;
+    box-shadow: 0 30px 80px rgba(10,10,15,.25);
+    position: relative;
+  }
+  .mock-header {
+    display: flex; align-items: center; gap: .6rem; margin-bottom: 1.5rem;
+  }
+  .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mock-title { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--paper); font-size: .85rem; margin-left: .4rem; }
+
+  .ai-chat-bubble {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: .8rem;
+  }
+  .ai-chat-bubble.user { background: rgba(232,255,71,.08); border-color: rgba(232,255,71,.15); }
+  .bubble-label { font-size: .65rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .4rem; }
+  .bubble-label.ai { color: var(--accent2); }
+  .bubble-label.user-lbl { color: var(--accent); }
+  .bubble-text { font-size: .82rem; color: rgba(245,243,239,.8); line-height: 1.5; font-weight: 300; }
+
+  .candidates-mini { margin-top: 1.5rem; }
+  .cand-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .7rem 0; border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .cand-info { display: flex; align-items: center; gap: .8rem; }
+  .cand-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent2), #00aaff);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .7rem; font-weight: 700; color: var(--ink);
+  }
+  .cand-name { font-size: .8rem; color: var(--paper); font-weight: 500; }
+  .match-badge {
+    font-size: .7rem; font-weight: 700; padding: .25rem .7rem; border-radius: 100px;
+  }
+  .match-high { background: rgba(0,212,170,.2); color: var(--accent2); }
+  .match-mid { background: rgba(232,255,71,.15); color: var(--accent); }
+
+  /* ── PRICING ── */
+  #precos { background: #0e0e16; color: var(--paper); }
+  #precos .section-tag { color: var(--accent); }
+  #precos .section-desc { color: rgba(245,243,239,.55); }
+
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem; margin-top: 4rem; max-width: 980px;
+  }
+
+  .pricing-card {
+    border-radius: 20px; padding: 2.5rem 2rem;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+    position: relative; overflow: hidden;
+    transition: transform .3s, border-color .3s;
+  }
+  .pricing-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,.18); }
+  .pricing-card.featured {
+    background: var(--accent);
+    border-color: transparent;
+  }
+  .pricing-card.featured * { color: var(--ink) !important; }
+  .pricing-card.featured .plan-price { color: var(--ink); }
+
+  .plan-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .9rem; letter-spacing: .06em; text-transform: uppercase; color: rgba(245,243,239,.5); margin-bottom: 1rem; }
+  .pricing-card.featured .plan-name { color: rgba(10,10,15,.5) !important; }
+  .plan-price { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; color: var(--paper); }
+  .plan-price span { font-size: 1rem; font-weight: 400; opacity: .6; }
+  .plan-desc { font-size: .85rem; margin: .8rem 0 1.8rem; opacity: .6; font-weight: 300; line-height: 1.5; }
+
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+  .plan-features li { font-size: .85rem; display: flex; gap: .6rem; align-items: flex-start; opacity: .8; }
+  .plan-features li::before { content: '✓'; font-weight: 700; flex-shrink: 0; }
+  .pricing-card.featured .plan-features li::before { color: var(--ink); }
+  .plan-features li::before { color: var(--accent2); }
+
+  .plan-btn {
+    display: block; text-align: center; margin-top: 2rem;
+    padding: .85rem; border-radius: 100px; font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: .9rem; text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .plan-btn:hover { transform: scale(1.02); }
+  .plan-btn-dark { background: var(--ink); color: var(--accent); }
+  .plan-btn-light { background: rgba(255,255,255,.1); color: var(--paper); border: 1px solid rgba(255,255,255,.15); }
+
+  #testimonials { background: #0e0e16; color: var(--paper); }
+  #testimonials .section-title { color: var(--paper); }
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+    gap: 1.5rem; margin-top: 4rem;
+  }
+  .testimonial-card {
+    padding: 2rem; border-radius: 16px;
+    background: #ffffff; border: 1px solid var(--border);
+    transition: box-shadow .3s;
+    color: var(--ink);
+  }
+  .testimonial-card:hover { box-shadow: 0 8px 40px rgba(0,0,0,.3); }
+  .stars { color: var(--accent2); font-size: 1rem; margin-bottom: 1rem; letter-spacing: .1em; }
+  .testimonial-text { font-size: .9rem; color: var(--muted); line-height: 1.7; font-weight: 300; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: .8rem; margin-top: 1.4rem; }
+  .author-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 700; color: var(--ink);
+  }
+  .author-name { font-weight: 600; font-size: .85rem; color: var(--ink); }
+  .author-company { font-size: .75rem; color: var(--muted); }
+
+  /* ── SUPPORT ── */
+  .support-list { list-style: none; display: flex; flex-direction: column; gap: 1.4rem; }
+  .support-list li { display: flex; gap: 1rem; align-items: flex-start; }
+  .support-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: .1rem; }
+  .support-list strong { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; display: block; margin-bottom: .3rem; }
+  .support-list p { font-size: .85rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+  .support-icon {
+    flex-shrink: 0; margin-top: .15rem;
+    width: 34px; height: 34px; border-radius: 10px;
+    background: rgba(0,212,170,.1); border: 1px solid rgba(0,212,170,.18);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent2);
+  }
+  .support-icon svg { width: 18px; height: 18px; }
+
+  /* ── CTA ── */
+  #cta {
+    background: var(--ink); color: var(--paper);
+    text-align: center; padding: 8rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  #cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,212,170,.12), transparent 70%);
+  }
+  #cta .section-title { color: var(--paper); margin: 0 auto; text-align: center; }
+  #cta .section-title em { font-style: normal; color: var(--accent); }
+  #cta .section-desc { margin: 1.2rem auto 2.5rem; text-align: center; color: rgba(245,243,239,.55); }
+  #cta .hero-actions { justify-content: center; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #07070d; color: var(--muted);
+    padding: 3rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    font-size: .82rem;
+  }
+  footer .logo { color: var(--paper); font-size: 1.2rem; }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--paper); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── DEMO MODAL ── */
+  .demo-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(10,10,15,0.7);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .demo-overlay.open { display: flex; opacity: 1; }
+  .demo-modal {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 20px;
+    width: 100%; max-width: 460px;
+    padding: 2.4rem 2.2rem 2rem;
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 40px 80px rgba(0,0,0,.5);
+    position: relative;
+    transform: translateY(12px) scale(.98);
+    transition: transform .3s cubic-bezier(.2,.7,.2,1);
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+  }
+  .demo-overlay.open .demo-modal { transform: none; }
+  .demo-close {
+    position: absolute; top: 1rem; right: 1rem;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.08);
+    color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 1.2rem; line-height: 1;
+    transition: background .2s;
+  }
+  .demo-close:hover { background: rgba(255,255,255,.12); }
+  .demo-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem; font-weight: 800;
+    letter-spacing: -0.02em; line-height: 1.1;
+    margin-bottom: .5rem; padding-right: 2.5rem;
+  }
+  .demo-title em { font-style: normal; color: var(--accent2); }
+  .demo-sub {
+    font-size: .88rem; color: rgba(245,243,239,.55);
+    line-height: 1.5; font-weight: 300;
+    margin-bottom: 1.6rem;
+  }
+  .demo-field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
+  .demo-field label {
+    font-size: .72rem; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: rgba(245,243,239,.55);
+  }
+  .demo-field input, .demo-field select {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px;
+    padding: .75rem 1rem;
+    color: var(--paper);
+    font-family: inherit; font-size: .92rem;
+    outline: none;
+    transition: border-color .2s, background .2s;
+  }
+  .demo-field input:focus, .demo-field select:focus {
+    border-color: var(--accent2);
+    background: rgba(0,212,170,.05);
+  }
+  .demo-field input::placeholder { color: rgba(245,243,239,.3); }
+  .demo-field select { appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f5f3ef' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+  .demo-field.error input, .demo-field.error select { border-color: #ff6496; }
+  .demo-field-err {
+    font-size: .72rem; color: #ff6496;
+    margin-top: .15rem;
+    display: none;
+  }
+  .demo-field.error .demo-field-err { display: block; }
+  .demo-submit {
+    width: 100%;
+    background: var(--accent);
+    color: var(--ink);
+    padding: .9rem;
+    border-radius: 100px;
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: .95rem;
+    cursor: pointer;
+    margin-top: .6rem;
+    transition: transform .15s, box-shadow .2s;
+  }
+  .demo-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(232,255,71,.25); }
+  .demo-foot {
+    margin-top: 1rem; padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,.06);
+    font-size: .72rem; color: rgba(245,243,239,.4);
+    line-height: 1.5; text-align: center;
+  }
+  .demo-success {
+    text-align: center; padding: 1rem 0 .4rem;
+    display: none;
+  }
+  .demo-success.show { display: block; }
+  .demo-success-icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: rgba(0,212,170,.15);
+    border: 1px solid rgba(0,212,170,.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent2); margin: 0 auto 1rem;
+  }
+  .demo-success-icon svg { width: 24px; height: 24px; }
+  .demo-success h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem; font-weight: 700;
+    letter-spacing: -0.02em; margin-bottom: .5rem;
+  }
+  .demo-success p {
+    font-size: .88rem; color: rgba(245,243,239,.6);
+    line-height: 1.6; font-weight: 300;
+  }
+  body.demo-locked { overflow: hidden; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section, #hero { padding: 5rem 1.5rem; }
+    .features-layout { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo" style="color:#ffffff;">RH<span style="color:var(--accent2)">C</span></a>
+  <ul class="nav-links">
+    <li><a href="/" class="active-link">Home</a></li>
+    <li><a href="/about.html">About Us</a></li>
+    <li><a href="/blog.html">Blog</a></li>
+    <li><a href="#" class="nav-cta" data-open-demo>Get a Demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-badge">AI-Powered Recruitment</div>
+    <h1>Hire the right people,<br><em>faster.</em></h1>
+    <p class="hero-sub">AI candidate screening, personalised tests and real-time ranking, built for HR teams.</p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary" data-open-demo>Get a Demo</a>
+      <a href="#how-it-works" class="btn-secondary">See how it works →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num" data-target="10" data-suffix="×">0×</span>
+        <span class="stat-label">faster than traditional process</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-target="95" data-suffix="%">0%</span>
+        <span class="stat-label">accuracy in candidate-company match</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="how-it-works">
+  <div class="section-tag reveal">Process</div>
+  <h2 class="section-title reveal">Modules</h2>
+  <p class="section-desc reveal">Each company customises their recruitment process with the modules that make sense for them.</p>
+
+  <div class="steps-grid reveal"><div class="step-connector"></div>
+    <div class="step-card">
+      <div class="step-number">01</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
+      <h3>AI CV Screening</h3>
+      <p>The company defines the ideal profile and AI automatically screens submitted CVs, identifying the candidates with the highest compatibility.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">02</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></div>
+      <h3>Psychometric & Technical Test</h3>
+      <p>The candidate answers a personalised questionnaire with technical and behavioural questions, evaluating competencies and cultural fit objectively.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">03</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <h3>Interview with the Company</h3>
+      <p>Only the best profiles advance to a face-to-face or online interview with the company, no time wasted on out-of-profile candidates.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- FUNCIONALIDADES -->
+<section id="features">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="section-tag reveal">Features</div>
+    <div class="features-layout">
+      <div>
+        <h2 class="section-title reveal">Everything you need<br>in one place</h2>
+        <p class="section-desc reveal">From company onboarding to final selection, RHC centralises and automates every step of the recruitment process.</p>
+        <div class="features-list" style="margin-top: 2.5rem;">
+          <div class="feature-item reveal">
+            <div class="feature-icon fi-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg></div>
+            <div>
+              <h4>Personalised AI Tests</h4>
+              <p>AI generates personalised tests based on the profile defined by the recruiter, formulating relevant questions that assess the candidate's technical skills, motivation and cultural fit.</p>
+            </div>
+          </div>
+          <div class="feature-item reveal">
+            <div class="feature-icon fi-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+            <div>
+              <h4>Real-Time Dashboard</h4>
+              <p>Track applications, rankings and progress in real time on an intuitive panel for your HR team.</p>
+            </div>
+          </div>
+          <div class="feature-item reveal">
+            <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+            <div>
+              <h4>HR Systems Integration</h4>
+              <p>Connects to your ATS, LinkedIn or internal systems via API without technical complications.</p>
+            </div>
+          </div>
+          <div class="feature-item reveal">
+            <div class="feature-icon fi-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <div>
+              <h4>Full GDPR Compliance</h4>
+              <p>All data is processed in accordance with GDPR. Full control over data retention and deletion.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="dashboard-mock">
+          <div class="mock-header">
+            <div class="mock-dot" style="background:#ff5f56"></div>
+            <div class="mock-dot" style="background:#ffbd2e"></div>
+            <div class="mock-dot" style="background:#27c93f"></div>
+            <span class="mock-title">RHC · AI Screening in progress</span>
+          </div>
+          <div class="ai-chat-bubble">
+            <div class="bubble-label ai">RHC AI</div>
+            <div class="bubble-text">Hello, welcome to the test! Please answer the questions with what you most identify with. Read each question carefully and answer honestly. There are no right or wrong answers. Good luck! 🍀</div>
+          </div>
+          <div class="ai-chat-bubble user">
+            <div class="bubble-label user-lbl">Candidate</div>
+            <div class="bubble-text">During my final year project, I had to reorganise the entire team when two members left halfway through...</div>
+          </div>
+          <div class="candidates-mini">
+            <div style="font-size:.7rem; font-weight:600; color:rgba(245,243,239,.4); text-transform:uppercase; letter-spacing:.08em; margin-bottom:.6rem;">Top Candidates</div>
+            <div class="cand-row">
+              <div class="cand-info">
+                <div class="cand-avatar">C1</div>
+                <span class="cand-name">Candidate 1</span>
+              </div>
+              <span class="match-badge match-high">98% match</span>
+            </div>
+            <div class="cand-row">
+              <div class="cand-info">
+                <div class="cand-avatar" style="background:linear-gradient(135deg,#e8ff47,#00d4aa)">C2</div>
+                <span class="cand-name">Candidate 2</span>
+              </div>
+              <span class="match-badge match-high">94% match</span>
+            </div>
+            <div class="cand-row">
+              <div class="cand-info">
+                <div class="cand-avatar" style="background:linear-gradient(135deg,#ff6496,#e8ff47)">C3</div>
+                <span class="cand-name">Candidate 3</span>
+              </div>
+              <span class="match-badge match-mid">87% match</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- 24/7 SUPPORT -->
+<section id="support" style="background: var(--ink); color: var(--paper);">
+  <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;">
+    <div>
+      <div class="section-tag reveal" style="color:var(--accent);">Support</div>
+      <h2 class="section-title reveal" style="color:var(--paper);">24h Support<br><span style="color:var(--accent2)">Chatbot</span></h2>
+      <p class="section-desc reveal" style="margin-bottom: 2rem; color:rgba(245,243,239,.6);">During tests and selection processes, candidates always have immediate support available, at any time, without waiting.</p>
+      <ul class="support-list reveal">
+<li>
+          <span class="support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
+          <div>
+            <strong style="color:var(--paper);">Questions about the test</strong>
+            <p style="color:rgba(245,243,239,.55);">Real-time clarifications on instructions, remaining time, platform navigation or any operational queries.</p>
+          </div>
+        </li>
+        <li>
+          <span class="support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13a10 10 0 0 1 14 0"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M2 8.82a15 15 0 0 1 20 0"/><line x1="12" x2="12.01" y1="20" y2="20"/></svg></span>
+          <div>
+            <strong style="color:var(--paper);">Connection or access issues</strong>
+            <p style="color:rgba(245,243,239,.55);">If the candidate loses access or has connectivity problems, the chatbot immediately guides them with practical solutions.</p>
+          </div>
+        </li>
+        <li>
+          <span class="support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+          <div>
+            <strong style="color:var(--paper);">Available 24 hours a day, 7 days a week</strong>
+            <p style="color:rgba(245,243,239,.55);">24h support via chatbot. If the issue is not resolved, a member of the RHC team will get in touch within 24 hours.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- Chat mock -->
+    <div class="reveal">
+      <div style="background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius: 24px; padding: 2rem; box-shadow: 0 30px 80px rgba(0,0,0,.4);">
+        <div style="display:flex; align-items:center; gap:.8rem; margin-bottom:1.5rem;">
+          <div style="width:36px;height:36px;border-radius:50%;flex-shrink:0;background:#000;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:-0.5px;color:#fff;line-height:1;">RH<span style="color:#5DCAA5;">C</span></div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--paper);font-size:.85rem;">RHC Chatbot</div>
+            <div style="display:flex;align-items:center;gap:.35rem;">
+              <div style="width:6px;height:6px;border-radius:50%;background:#27c93f;animation:pulse 2s infinite;"></div>
+              <span style="font-size:.7rem;color:rgba(245,243,239,.45);">Online now</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.8rem;">
+          <div style="background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.2);border-radius:12px 12px 12px 2px;padding:.9rem 1rem;max-width:85%;">
+            <p style="font-size:.82rem;color:rgba(245,243,239,.85);line-height:1.5;font-weight:300;">Hello! 👋 I'm the RHC support assistant. How can I help you today?</p>
+          </div>
+          <div style="background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.15);border-radius:12px 12px 2px 12px;padding:.9rem 1rem;max-width:85%;align-self:flex-end;">
+            <p style="font-size:.82rem;color:rgba(245,243,239,.85);line-height:1.5;font-weight:300;">I'm having trouble accessing the test link...</p>
+          </div>
+          <div style="background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.2);border-radius:12px 12px 12px 2px;padding:.9rem 1rem;max-width:90%;">
+            <p style="font-size:.82rem;color:rgba(245,243,239,.85);line-height:1.5;font-weight:300;">No problem! Let's sort this out. Could you try opening the link in a private/incognito window? Sometimes that clears access issues right away. 🔗</p>
+          </div>
+          <div style="background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.15);border-radius:12px 12px 2px 12px;padding:.9rem 1rem;max-width:75%;align-self:flex-end;">
+            <p style="font-size:.82rem;color:rgba(245,243,239,.85);line-height:1.5;font-weight:300;">It worked! Thank you 🙏</p>
+          </div>
+          <div style="background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.2);border-radius:12px 12px 12px 2px;padding:.9rem 1rem;max-width:85%;">
+            <p style="font-size:.82rem;color:rgba(245,243,239,.85);line-height:1.5;font-weight:300;">Great! Good luck with the test! 🚀 I'm here if you need anything else.</p>
+          </div>
+        </div>
+        <div style="margin-top:1.2rem;display:flex;gap:.6rem;align-items:center;">
+          <div style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:.65rem 1rem;font-size:.8rem;color:rgba(245,243,239,.3);">Type your message...</div>
+          <div style="width:34px;height:34px;border-radius:50%;background:var(--accent2);display:flex;align-items:center;justify-content:center;font-size:.8rem;cursor:pointer;">➤</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" style="background: var(--paper); color: var(--ink);">
+  <div class="section-tag reveal" style="color:var(--accent2);">Success Stories</div>
+  <h2 class="section-title reveal" style="color:var(--ink);">Companies that trust RHC.</h2>
+  <div class="testimonials-grid reveal">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"We reduced screening time from 3 weeks to 4 days. The quality of candidates reaching interview stage is remarkably higher."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background:linear-gradient(135deg,#00d4aa,#00aaff)">CM</div>
+        <div>
+          <div class="author-name">Catarina Moreira</div>
+          <div class="author-company">Head of HR · Intranet</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"The AI asks the right questions. It identifies competencies we would never spot on a CV. Our trainee programme has completely transformed."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background:linear-gradient(135deg,#e8ff47,#00d4aa)">RP</div>
+        <div>
+          <div class="author-name">Ricardo Pinto</div>
+          <div class="author-company">Talent Director · Meridian Group</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"The integration with our ATS was done in under an hour. The support team is exceptional. I recommend it to any company with recruitment programmes."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background:linear-gradient(135deg,#ff6496,#e8ff47)">FS</div>
+        <div>
+          <div class="author-name">Filipa Silva</div>
+          <div class="author-company">People & Culture · Inovare</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" style="background: var(--ink) !important; color: var(--paper);">
+  <div style="position:relative;z-index:1;">
+    <h2 class="section-title reveal">Ready to transform your<br><em>recruitment?</em></h2>
+    <p class="section-desc reveal">Request a free demo and see how RHC can save time and find the best talent.</p>
+    <div class="reveal" style="display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;max-width:480px;margin:0 auto;">
+      <input type="email" placeholder="your@company.com" id="cta-email"
+        style="flex:1;min-width:200px;padding:.9rem 1.4rem;border-radius:100px;border:1px solid rgba(245,243,239,.2);background:rgba(255,255,255,.08);color:var(--paper);font-size:.95rem;font-family:inherit;outline:none;" />
+      <button onclick="submitDemo()" class="btn-primary" style="white-space:nowrap;">Request Free Demo →</button>
+    </div>
+    <div id="cta-success" style="display:none;margin-top:1rem;color:var(--accent2);font-size:.9rem;">✓ Great! We'll be in touch within 24 hours.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#07070d;color:rgba(245,243,239,.4);padding:2.5rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.82rem;border-top:1px solid rgba(255,255,255,.05);">
+  <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--paper);text-decoration:none;letter-spacing:-0.04em;">RH<span style="color:var(--accent2)">C</span></a>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;">
+    <a href="/" style="color:rgba(245,243,239,.4);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Home</a>
+    <a href="/about.html" style="color:rgba(245,243,239,.4);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">About Us</a>
+    <a href="/blog.html" style="color:rgba(245,243,239,.4);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Blog</a>
+    <a href="/cdn-cgi/l/email-protection#d5bdb0b9b9ba95a7bdb6fba5a1" style="color:rgba(245,243,239,.4);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Contact</a>
+  </div>
+  <span>© 2026 RHC. All rights reserved.</span>
+</footer>
+
+<!-- DEMO MODAL -->
+<div class="demo-overlay" id="demo-overlay" role="dialog" aria-modal="true" aria-labelledby="demo-title" aria-hidden="true">
+  <div class="demo-modal">
+    <button class="demo-close" id="demo-close" type="button" aria-label="Close demo form">×</button>
+
+    <div id="demo-form-wrap">
+      <h3 class="demo-title" id="demo-title">Get a <em>demo</em>.</h3>
+      <p class="demo-sub">A 20-min walkthrough tailored to your hiring process. We'll be in touch within 24 hours.</p>
+
+      <form id="demo-form" novalidate>
+        <div class="demo-field" data-field="name">
+          <label for="d-name">Your name</label>
+          <input type="text" id="d-name" name="name" placeholder="Name" autocomplete="name">
+          <span class="demo-field-err">Please enter your name.</span>
+        </div>
+
+        <div class="demo-field" data-field="email">
+          <label for="d-email">Work email</label>
+          <input type="email" id="d-email" name="email" placeholder="example@rhc.com" autocomplete="email">
+          <span class="demo-field-err">Please enter a valid work email.</span>
+        </div>
+
+        <div class="demo-field" data-field="company">
+          <label for="d-company">Company</label>
+          <input type="text" id="d-company" name="company" placeholder="Company name" autocomplete="organization">
+          <span class="demo-field-err">Please enter your company name.</span>
+        </div>
+
+        <button type="submit" class="demo-submit">Request demo →</button>
+      </form>
+
+      <div class="demo-foot">By submitting you agree we may contact you about RHC. GDPR-compliant · No spam.</div>
+    </div>
+
+    <div class="demo-success" id="demo-success">
+      <div class="demo-success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h3>Thanks <span id="demo-success-name"></span>!</h3>
+      <p>We'll email you within 24 hours with 3 proposed times for a 20-minute demo.</p>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Animated counters
+  function animateCounter(el, target, suffix) {
+    const duration = 1800;
+    const start = performance.now();
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target) + suffix;
+      if(progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        animateCounter(el, target, suffix);
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObserver.observe(el));
+
+  // ── DEMO MODAL ──
+  const overlay = document.getElementById('demo-overlay');
+  const closeBtn = document.getElementById('demo-close');
+  const form = document.getElementById('demo-form');
+  const formWrap = document.getElementById('demo-form-wrap');
+  const successEl = document.getElementById('demo-success');
+  const successName = document.getElementById('demo-success-name');
+  let lastFocused = null;
+
+  function openDemo(trigger) {
+    lastFocused = trigger || document.activeElement;
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('demo-locked');
+    formWrap.style.display = '';
+    successEl.classList.remove('show');
+    form.reset();
+    form.querySelectorAll('.demo-field').forEach(f => f.classList.remove('error'));
+    setTimeout(() => document.getElementById('d-name').focus(), 60);
+  }
+  function closeDemo() {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('demo-locked');
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  }
+
+  document.querySelectorAll('[data-open-demo]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      openDemo(el);
+    });
+  });
+  closeBtn.addEventListener('click', closeDemo);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDemo(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeDemo();
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('d-name').value.trim();
+    const email = document.getElementById('d-email').value.trim();
+    const company = document.getElementById('d-company').value.trim();
+
+    form.querySelectorAll('.demo-field').forEach(f => f.classList.remove('error'));
+
+    let firstErr = null;
+    const setErr = (key) => {
+      const f = form.querySelector('[data-field="' + key + '"]');
+      f.classList.add('error');
+      if (!firstErr) firstErr = f.querySelector('input, select');
+    };
+    if (!name) setErr('name');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) setErr('email');
+    if (!company) setErr('company');
+    if (firstErr) { firstErr.focus(); return; }
+
+    successName.textContent = name.split(' ')[0];
+    formWrap.style.display = 'none';
+    successEl.classList.add('show');
+  });
+
+  // CTA email submit
+  function submitDemo() {
+    const email = document.getElementById('cta-email')?.value;
+    if(!email || !email.includes('@')) {
+      document.getElementById('cta-email').style.borderColor = '#ff6496';
+      return;
+    }
+    document.getElementById('cta-success').style.display = 'block';
+    document.getElementById('cta-email').style.display = 'none';
+    document.querySelector('[onclick="submitDemo()"]').style.display = 'none';
+  }
+</script>
+</body>
+</html>
