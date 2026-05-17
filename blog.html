@@ -9,6 +9,7 @@
 <meta property="og:description" content="On hiring, AI, and the messy bits in between.">
 <meta property="og:type" content="website">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
   :root {
     --ink: #0a0a0f;
@@ -246,6 +247,8 @@
     width: 100%;
     height: 200px;
     background: linear-gradient(135deg, #00d4aa 0%, #007a63 100%);
+    background-size: cover;
+    background-position: center;
   }
   .post-content { padding: 1.8rem 1.6rem 2rem; }
   .post-meta {
@@ -254,7 +257,23 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-bottom: 0.6rem;
+    display: flex; align-items: center; gap: 8px;
   }
+  .post-cat-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 0.7rem; font-weight: 600;
+    padding: 2px 9px; border-radius: 100px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .post-cat-pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .post-cat-pill.cat-ai_screening { background: rgba(0,212,170,.12); color: #0F6E56; }
+  .post-cat-pill.cat-ai_screening .dot { background: #00a584; }
+  .post-cat-pill.cat-candidate_experience { background: rgba(55,138,221,.12); color: #1e4d8f; }
+  .post-cat-pill.cat-candidate_experience .dot { background: #378ADD; }
+  .post-cat-pill.cat-gdpr { background: rgba(239,159,39,.14); color: #854F0B; }
+  .post-cat-pill.cat-gdpr .dot { background: #EF9F27; }
+  .post-cat-pill.cat-product_updates { background: rgba(178,100,224,.12); color: #6a2da5; }
+  .post-cat-pill.cat-product_updates .dot { background: #B264E0; }
   .post-title {
     font-family: 'Syne', sans-serif;
     font-weight: 700;
@@ -268,6 +287,7 @@
     font-size: 0.95rem;
     line-height: 1.6;
   }
+  .blog-loading { text-align: center; color: var(--muted); padding: 3rem 1rem; font-size: 0.95rem; }
 
   /* ── FOOTER ── */
   footer {
@@ -324,30 +344,11 @@
   </div>
 </section>
 
-<!-- MAIN - empty state for now. Replace with .posts-grid when posts exist. -->
+<!-- MAIN - dynamic grid populated from Supabase blog_posts (status=published). -->
 <section class="blog-main">
-  <div class="blog-empty">
-    <div class="blog-empty-icon">✦</div>
-    <h2>Coming soon.</h2>
-    <p>We're putting the finishing touches on our first articles. Subscribe or check back soon — the first post is almost ready.</p>
-    <a href="/cdn-cgi/l/email-protection#d7bfb2bbbbb897a5bfb4f9a7a3e8a4a2b5bdb2b4a3ea99b8a3beb1aef2e5e7bab2f2e5e7a0bfb2b9f2e5e7a3bfb2f2e5e7b5bbb8b0f2e5e7bbb6a2b9b4bfb2a4">Notify me</a>
+  <div id="blog-content">
+    <div class="blog-loading">Loading…</div>
   </div>
-
-  <!--
-    POSTS TEMPLATE - copy this block once posts exist, paste each post inside <div class="posts-grid">…</div>
-    Replace .blog-empty above with the grid when ready.
-
-    <div class="posts-grid">
-      <article class="post-card" onclick="window.location='/blog/post-slug.html'">
-        <div class="post-image"></div>
-        <div class="post-content">
-          <div class="post-meta">10 May 2026 · 5 min read</div>
-          <h3 class="post-title">Why AI screening doesn't have to feel cold</h3>
-          <p class="post-excerpt">Most recruitment tools strip empathy out of the process. Here's how we kept it in…</p>
-        </div>
-      </article>
-    </div>
-  -->
 </section>
 
 <!-- FOOTER -->
@@ -362,5 +363,100 @@
   <span>© 2026 RHC. All rights reserved.</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   Public blog feed. RLS policy `blog_posts_anon_published` lets
+   anon read rows with status='published', which is exactly what
+   we render here.
+   ────────────────────────────────────────────────────────────── */
+const SUPA_URL = 'https://sgecgsnxljohhfbftevg.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNnZWNnc254bGpvaGhmYmZ0ZXZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NzMzNjQsImV4cCI6MjA5MjM0OTM2NH0.Igv5qrLk8NwsheStNv7VY4cvdCO-svEGx6S89OZubps';
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+const CATEGORY_LABELS = {
+  ai_screening:         'AI screening',
+  candidate_experience: 'Candidate experience',
+  gdpr:                 'GDPR',
+  product_updates:      'Product updates'
+};
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+function fmtDate(iso) {
+  if(!iso) return '—';
+  try {
+    return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  } catch(e) { return '—'; }
+}
+function readTime(content) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = String(content || '');
+  const words = (tmp.textContent || '').trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+async function loadPosts() {
+  const container = document.getElementById('blog-content');
+  try {
+    const { data, error } = await supa
+      .from('blog_posts')
+      .select('id,title,subtitle,slug,featured_image_url,category,published_at,author_name,content')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false });
+
+    if(error) throw error;
+    const posts = data || [];
+
+    if(posts.length === 0) {
+      container.innerHTML = `
+        <div class="blog-empty">
+          <div class="blog-empty-icon">✦</div>
+          <h2>Coming soon.</h2>
+          <p>We're putting the finishing touches on our first articles. Subscribe or check back soon — the first post is almost ready.</p>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = '<div class="posts-grid">' + posts.map(p => {
+      const catPill = p.category
+        ? `<span class="post-cat-pill cat-${escapeHtml(p.category)}"><span class="dot"></span>${escapeHtml(CATEGORY_LABELS[p.category] || p.category)}</span>`
+        : '';
+      const imgStyle = p.featured_image_url
+        ? `style="background-image:url('${escapeHtml(p.featured_image_url)}');"`
+        : '';
+      const subtitle = p.subtitle || '';
+      return `
+        <article class="post-card" onclick="window.location='/post.html?slug=${encodeURIComponent(p.slug)}'">
+          <div class="post-image" ${imgStyle}></div>
+          <div class="post-content">
+            <div class="post-meta">
+              ${catPill}
+              <span>${fmtDate(p.published_at)} · ${readTime(p.content)} min read</span>
+            </div>
+            <h3 class="post-title">${escapeHtml(p.title)}</h3>
+            <p class="post-excerpt">${escapeHtml(subtitle)}</p>
+          </div>
+        </article>`;
+    }).join('') + '</div>';
+
+  } catch(e) {
+    console.warn('Failed to load posts:', e);
+    container.innerHTML = `
+      <div class="blog-empty">
+        <div class="blog-empty-icon">⚠</div>
+        <h2>Something went wrong.</h2>
+        <p>We couldn't load the posts right now. Please try again in a moment.</p>
+      </div>`;
+  }
+}
+
+loadPosts();
+</script>
+
+</body>
 </html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post · RHC</title>
+<meta name="description" content="">
+<meta property="og:title" content="RHC">
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f3ef;
+    --accent: #e8ff47;
+    --accent2: #00d4aa;
+    --mid: #2a2a3a;
+    --muted: #6b6b7e;
+    --border: rgba(10,10,15,0.1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.6rem;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent2); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.9rem; font-weight: 500;
+    color: rgba(245,243,239,0.6); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--paper); }
+  .nav-links a.active-link { color: var(--paper); }
+  .nav-cta {
+    background: var(--ink); color: var(--accent) !important;
+    padding: .55rem 1.4rem; border-radius: 100px;
+    font-weight: 600 !important; font-size: 0.88rem !important;
+    transition: transform .2s, background .2s !important;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-cta:hover { background: var(--mid) !important; transform: scale(1.04); }
+
+  /* ── PREVIEW BANNER (only when ?preview=1) ── */
+  .preview-banner {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: #efb84a; color: #0a0a0f;
+    padding: 8px 16px; font-size: 13px; font-weight: 500;
+    text-align: center;
+    display: none;
+  }
+
+  /* ── HERO ── */
+  .post-hero {
+    padding: 9rem 4rem 3rem;
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+  }
+  .post-hero-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+  .post-hero .back-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    color: rgba(245,243,239,.55); text-decoration: none;
+    font-size: 0.85rem; margin-bottom: 1.4rem;
+    transition: color .2s;
+  }
+  .post-hero .back-link:hover { color: var(--paper); }
+  .post-cat-pill-hero {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.78rem; font-weight: 600;
+    padding: 4px 12px; border-radius: 100px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 1.2rem;
+    background: rgba(255,255,255,.08);
+    color: rgba(245,243,239,.85);
+  }
+  .post-cat-pill-hero .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); }
+  .post-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .post-hero .subtitle {
+    font-size: 1.15rem;
+    color: rgba(245,243,239,.7);
+    line-height: 1.55;
+    margin-bottom: 1.6rem;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .post-hero .meta {
+    font-size: 0.85rem;
+    color: rgba(245,243,239,.45);
+    display: inline-flex; gap: 12px; align-items: center;
+    justify-content: center;
+  }
+  .post-hero .meta .dot-sep { width: 3px; height: 3px; border-radius: 50%; background: rgba(245,243,239,.3); }
+
+  /* ── FEATURED IMAGE ── */
+  .post-featured {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    margin-top: -4rem;
+    position: relative;
+    z-index: 2;
+  }
+  .post-featured img {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: 18px;
+    display: block;
+    box-shadow: 0 30px 80px rgba(0,0,0,.18);
+  }
+
+  /* ── CONTENT ── */
+  .post-content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+    font-size: 1.08rem;
+    line-height: 1.75;
+    color: #1a1a2a;
+    flex: 1;
+  }
+  .post-content h1, .post-content h2, .post-content h3 {
+    font-family: 'Syne', sans-serif;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+  }
+  .post-content h1 { font-size: 2rem; margin: 2rem 0 1rem; font-weight: 700; }
+  .post-content h2 { font-size: 1.6rem; margin: 1.8rem 0 .9rem; font-weight: 700; }
+  .post-content h3 { font-size: 1.3rem; margin: 1.5rem 0 .7rem; font-weight: 600; }
+  .post-content p { margin: 0 0 1.2rem; }
+  .post-content ul, .post-content ol { margin: 0 0 1.2rem 1.4rem; }
+  .post-content li { margin-bottom: .4rem; }
+  .post-content blockquote {
+    border-left: 3px solid var(--accent2);
+    padding: 6px 18px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 1.4rem 0;
+  }
+  .post-content code {
+    background: rgba(10,10,15,.06);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.94em;
+  }
+  .post-content a { color: #054a3c; text-decoration: underline; text-decoration-color: rgba(0,165,132,.4); }
+  .post-content a:hover { text-decoration-color: var(--accent2); }
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 1.4rem 0;
+  }
+  .post-content hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  .post-state {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 8rem 2rem;
+    text-align: center;
+    flex: 1;
+  }
+  .post-state-icon {
+    font-size: 2.4rem;
+    color: var(--accent2);
+    margin-bottom: 1rem;
+  }
+  .post-state h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: .8rem;
+  }
+  .post-state p { color: var(--muted); margin-bottom: 1.4rem; }
+  .post-state a {
+    color: var(--ink);
+    background: var(--accent);
+    padding: .7rem 1.6rem;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #07070d;
+    color: rgba(245,243,239,.4);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: .82rem;
+    border-top: 1px solid rgba(255,255,255,.05);
+  }
+  footer a { text-decoration: none; transition: color .2s; }
+
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+    nav, .post-hero, .post-featured, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .post-hero { padding-top: 6rem; padding-bottom: 2rem; }
+    .post-content { padding: 2rem 1.5rem 3rem; }
+    .post-featured { margin-top: -2rem; padding: 0 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="preview-banner" class="preview-banner">⚠ Pré-visualização — este post ainda não está publicado</div>
+
+<nav>
+  <a href="/" class="logo">RH<span>C</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/about.html">About Us</a></li>
+    <li><a href="/blog.html" class="active-link">Blog</a></li>
+    <li><a href="/#cta" class="nav-cta">Get a Demo</a></li>
+  </ul>
+</nav>
+
+<div id="post-root">
+  <div class="post-state">
+    <div class="post-state-icon">…</div>
+    <h2>Loading…</h2>
+  </div>
+</div>
+
+<footer>
+  <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--paper);text-decoration:none;letter-spacing:-0.04em;">RH<span style="color:var(--accent2)">C</span></a>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;">
+    <a href="/" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Home</a>
+    <a href="/about.html" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">About Us</a>
+    <a href="/blog.html" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Blog</a>
+  </div>
+  <span>© 2026 RHC. All rights reserved.</span>
+</footer>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   Single-post page. Loads the row matching ?slug=… and renders.
+   Without ?preview=1 we only read status='published' (RLS-enforced).
+   With ?preview=1 the same query runs — RLS still blocks unpublished
+   rows for anon, so preview only "works" if the user happens to be
+   authenticated as a marketing/admin user in this browser. That's
+   exactly the case when the editor opens this URL in a new tab.
+   ────────────────────────────────────────────────────────────── */
+const SUPA_URL = 'https://sgecgsnxljohhfbftevg.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNnZWNnc254bGpvaGhmYmZ0ZXZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NzMzNjQsImV4cCI6MjA5MjM0OTM2NH0.Igv5qrLk8NwsheStNv7VY4cvdCO-svEGx6S89OZubps';
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+const CATEGORY_LABELS = {
+  ai_screening:         'AI screening',
+  candidate_experience: 'Candidate experience',
+  gdpr:                 'GDPR',
+  product_updates:      'Product updates'
+};
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+function fmtDate(iso) {
+  if(!iso) return '';
+  try {
+    return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  } catch(e) { return ''; }
+}
+function readTime(content) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = String(content || '');
+  const words = (tmp.textContent || '').trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+function renderNotFound() {
+  document.getElementById('post-root').innerHTML = `
+    <div class="post-state">
+      <div class="post-state-icon">✦</div>
+      <h2>Post not found</h2>
+      <p>The article you're looking for doesn't exist or has been removed.</p>
+      <a href="/blog.html">Back to blog</a>
+    </div>`;
+  document.title = 'Not found · RHC';
+}
+
+function renderPost(p) {
+  const catLabel = CATEGORY_LABELS[p.category] || '';
+  const catHtml  = p.category
+    ? `<span class="post-cat-pill-hero"><span class="dot"></span>${escapeHtml(catLabel)}</span>`
+    : '';
+  const subHtml  = p.subtitle ? `<p class="subtitle">${escapeHtml(p.subtitle)}</p>` : '';
+  const dateStr  = fmtDate(p.published_at || p.created_at);
+  const author   = p.author_name ? `<span>${escapeHtml(p.author_name)}</span><span class="dot-sep"></span>` : '';
+  const featured = p.featured_image_url
+    ? `<div class="post-featured"><img src="${escapeHtml(p.featured_image_url)}" alt=""></div>`
+    : '';
+  const safeContent = String(p.content || '');
+
+  document.getElementById('post-root').innerHTML = `
+    <section class="post-hero">
+      <div class="post-hero-inner">
+        <a href="/blog.html" class="back-link">← Back to blog</a>
+        ${catHtml}
+        <h1>${escapeHtml(p.title)}</h1>
+        ${subHtml}
+        <div class="meta">
+          ${author}
+          <span>${dateStr}</span>
+          <span class="dot-sep"></span>
+          <span>${readTime(p.content)} min read</span>
+        </div>
+      </div>
+    </section>
+    ${featured}
+    <article class="post-content">${safeContent}</article>`;
+
+  // Dynamic SEO meta tags
+  document.title = (p.title || 'RHC') + ' · RHC';
+  const setMeta = (name, attr, val) => {
+    const sel = `meta[${attr}="${name}"]`;
+    let el = document.querySelector(sel);
+    if(!el) { el = document.createElement('meta'); el.setAttribute(attr, name); document.head.appendChild(el); }
+    el.setAttribute('content', val);
+  };
+  const desc = (p.meta_description || p.subtitle || '').substring(0, 160);
+  setMeta('description', 'name', desc);
+  setMeta('og:title',       'property', (p.title || 'RHC') + ' · RHC');
+  setMeta('og:description', 'property', desc);
+  setMeta('og:type',        'property', 'article');
+  if(p.featured_image_url) setMeta('og:image', 'property', p.featured_image_url);
+}
+
+async function loadPost() {
+  const params = new URLSearchParams(window.location.search);
+  const slug = (params.get('slug') || '').trim();
+  const isPreview = params.get('preview') === '1';
+
+  if(isPreview) {
+    const banner = document.getElementById('preview-banner');
+    if(banner) banner.style.display = 'block';
+    document.querySelector('nav').style.top = '32px';
+  }
+
+  if(!slug) { renderNotFound(); return; }
+
+  try {
+    let query = supa.from('blog_posts').select('*').eq('slug', slug);
+    // In preview mode we don't filter by status — the marketing editor
+    // wants to see drafts too. RLS still gates anon reads.
+    if(!isPreview) query = query.eq('status', 'published');
+    const { data, error } = await query.maybeSingle();
+    if(error) { console.warn('Post fetch error:', error.message); renderNotFound(); return; }
+    if(!data) { renderNotFound(); return; }
+    renderPost(data);
+  } catch(e) {
+    console.warn('Post load failed:', e);
+    renderNotFound();
+  }
+}
+
+loadPost();
+</script>
+
+</body>
+</html>
