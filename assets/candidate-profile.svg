@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620" width="100%" height="auto" style="max-width:760px;">
+  <defs>
+    <filter id="modalShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="20" />
+      <feOffset dx="0" dy="20" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.5"/></feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="initialsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5DCAA5" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#5DCAA5" stop-opacity="0.10"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="760" height="620" fill="#040408" opacity="0.78"/>
+  <g filter="url(#modalShadow)">
+    <rect x="40" y="30" width="680" height="560" rx="14" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1"/>
+  </g>
+  <text x="700" y="58" font-family="DM Sans, sans-serif" font-size="26" fill="#555" text-anchor="middle">×</text>
+  <g transform="translate(68, 50)">
+    <circle cx="44" cy="44" r="44" fill="url(#initialsGrad)" stroke="rgba(93,202,165,0.4)" stroke-width="1.5"/>
+    <text x="44" y="55" text-anchor="middle" font-family="Syne, sans-serif" font-size="28" font-weight="800" fill="#5DCAA5">CA</text>
+    <text x="104" y="32" font-family="Syne, sans-serif" font-size="20" font-weight="700" fill="#f5f3ef">Candidato A</text>
+    <text x="104" y="52" font-family="DM Sans, sans-serif" font-size="12" fill="#828282">Vaga: HR Specialist · candidato@email.com</text>
+    <g transform="translate(104, 62)">
+      <rect x="0" y="0" width="110" height="22" rx="11" fill="rgba(93,202,165,0.10)" stroke="rgba(93,202,165,0.22)" stroke-width="1"/>
+      <circle cx="11" cy="11" r="3" fill="#5DCAA5"/>
+      <text x="20" y="15" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#5DCAA5">Em análise</text>
+    </g>
+  </g>
+  <g transform="translate(68, 160)">
+    <rect x="0" y="0" width="624" height="106" rx="10" fill="rgba(93,202,165,0.06)" stroke="rgba(93,202,165,0.2)" stroke-width="1"/>
+    <text x="20" y="34" font-family="DM Sans" font-size="22">✅</text>
+    <text x="56" y="30" font-family="DM Sans, sans-serif" font-size="13" font-weight="600" fill="#5DCAA5">IA recomenda: Avançar para teste</text>
+    <text x="56" y="48" font-family="DM Sans, sans-serif" font-size="11" fill="#555">Pontuação de compatibilidade: 80%</text>
+    <text x="20" y="74" font-family="DM Sans, sans-serif" font-size="12" fill="#bbb">Candidato com forte experiência em recrutamento e gestão de talento. Demonstra excelente</text>
+    <text x="20" y="90" font-family="DM Sans, sans-serif" font-size="12" fill="#bbb">capacidade comunicativa, pensamento estratégico e alinhamento cultural com a empresa.</text>
+  </g>
+  <g transform="translate(68, 290)">
+    <text x="0" y="0" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#5DCAA5">✓ Liderança · Comunicação · Resolução de conflitos · Empatia · Gestão de equipas</text>
+  </g>
+  <g transform="translate(68, 322)">
+    <text x="0" y="0" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#555" letter-spacing="0.5">PROCESSO</text>
+  </g>
+  <g transform="translate(68, 342)">
+    <rect x="0" y="0" width="200" height="74" rx="10" fill="#0d0d0d" stroke="rgba(93,202,165,0.3)" stroke-width="1"/>
+    <text x="14" y="20" font-family="DM Sans, sans-serif" font-size="10" font-weight="500" fill="#555" letter-spacing="0.4">FASE 1 (CV)</text>
+    <text x="14" y="42" font-family="DM Sans, sans-serif" font-size="13" font-weight="600" fill="#5DCAA5">✓ Aprovado</text>
+    <text x="14" y="60" font-family="DM Sans, sans-serif" font-size="11" fill="#828282">Score AI: 80%</text>
+  </g>
+  <g transform="translate(280, 342)">
+    <rect x="0" y="0" width="200" height="74" rx="10" fill="#0d0d0d" stroke="rgba(239,184,74,0.3)" stroke-width="1"/>
+    <text x="14" y="20" font-family="DM Sans, sans-serif" font-size="10" font-weight="500" fill="#555" letter-spacing="0.4">FASE 2 (TESTE)</text>
+    <text x="14" y="42" font-family="DM Sans, sans-serif" font-size="13" font-weight="600" fill="#efb84a">⏱ Em curso</text>
+    <text x="14" y="60" font-family="DM Sans, sans-serif" font-size="11" fill="#828282">12/20 questões</text>
+  </g>
+  <g transform="translate(492, 342)">
+    <rect x="0" y="0" width="200" height="74" rx="10" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1"/>
+    <text x="14" y="20" font-family="DM Sans, sans-serif" font-size="10" font-weight="500" fill="#555" letter-spacing="0.4">FASE 3 (ENTREVISTA)</text>
+    <text x="14" y="42" font-family="DM Sans, sans-serif" font-size="13" font-weight="600" fill="#666">— Pendente</text>
+    <text x="14" y="60" font-family="DM Sans, sans-serif" font-size="11" fill="#444">A aguardar Fase 2</text>
+  </g>
+  <g transform="translate(68, 440)">
+    <text x="0" y="0" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#555" letter-spacing="0.5">CANDIDATURA</text>
+  </g>
+  <g transform="translate(68, 460)">
+    <rect x="0" y="0" width="150" height="64" rx="8" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1"/>
+    <text x="14" y="20" font-family="DM Sans, sans-serif" font-size="10" fill="#555">Localização</text>
+    <text x="14" y="42" font-family="DM Sans, sans-serif" font-size="12" font-weight="600" fill="#ddd">Lisboa, PT</text>
+    <text x="14" y="56" font-family="DM Sans, sans-serif" font-size="10" fill="#666">28 anos</text>
+    <rect x="158" y="0" width="200" height="64" rx="8" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1"/>
+    <text x="172" y="20" font-family="DM Sans, sans-serif" font-size="10" fill="#555">Formação</text>
+    <text x="172" y="42" font-family="DM Sans, sans-serif" font-size="12" font-weight="600" fill="#ddd">Mestrado</text>
+    <text x="172" y="56" font-family="DM Sans, sans-serif" font-size="10" fill="#666">Gestão de RH · ISCTE</text>
+    <rect x="368" y="0" width="170" height="64" rx="8" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1"/>
+    <text x="382" y="20" font-family="DM Sans, sans-serif" font-size="10" fill="#555">Experiência</text>
+    <text x="382" y="42" font-family="DM Sans, sans-serif" font-size="12" font-weight="600" fill="#ddd">3+ anos</text>
+    <text x="382" y="56" font-family="DM Sans, sans-serif" font-size="10" fill="#666">HR Specialist</text>
+    <rect x="548" y="0" width="76" height="64" rx="8" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1"/>
+    <text x="586" y="32" font-family="DM Sans, sans-serif" font-size="18" font-weight="700" fill="#0a66c2" text-anchor="middle">in</text>
+    <text x="586" y="50" font-family="DM Sans, sans-serif" font-size="9" fill="#555" text-anchor="middle">LinkedIn</text>
+  </g>
+  <g transform="translate(68, 552)">
+    <rect x="0" y="0" width="420" height="38" rx="8" fill="#5DCAA5"/>
+    <text x="210" y="24" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="13" font-weight="600" fill="#0a0a0a">✓ Aprovar candidato</text>
+    <rect x="430" y="0" width="194" height="38" rx="8" fill="transparent" stroke="#2a2a2a" stroke-width="1"/>
+    <text x="527" y="24" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="13" font-weight="500" fill="#888">Fechar</text>
+  </g>
+</svg>
