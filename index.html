@@ -394,21 +394,6 @@
   .author-name { font-weight: 600; font-size: .85rem; color: var(--ink); }
   .author-company { font-size: .75rem; color: var(--muted); }
 
-  /* ── SUPPORT ── */
-  .support-list { list-style: none; display: flex; flex-direction: column; gap: 1.4rem; }
-  .support-list li { display: flex; gap: 1rem; align-items: flex-start; }
-  .support-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: .1rem; }
-  .support-list strong { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; display: block; margin-bottom: .3rem; }
-  .support-list p { font-size: .85rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
-  .support-icon {
-    flex-shrink: 0; margin-top: .15rem;
-    width: 34px; height: 34px; border-radius: 10px;
-    background: rgba(0,212,170,.1); border: 1px solid rgba(0,212,170,.18);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--accent2);
-  }
-  .support-icon svg { width: 18px; height: 18px; }
-
   /* ── CTA ── */
   #cta {
     background: var(--ink); color: var(--paper);
@@ -1069,76 +1054,6 @@
 
 
 
-<!-- 24/7 SUPPORT -->
-<section id="support" style="background: var(--ink); color: var(--paper);">
-  <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;">
-    <div>
-      <div class="section-tag reveal" style="color:var(--accent);" data-i18n="support.tag">Support</div>
-      <h2 class="section-title reveal" style="color:var(--paper);" data-i18n-html="support.title">24h Support<br><span style="color:var(--accent2)">Chatbot</span></h2>
-      <p class="section-desc reveal" style="margin-bottom: 2rem; color:rgba(245,243,239,.6);" data-i18n="support.desc">During tests and selection processes, candidates always have immediate support available, at any time, without waiting.</p>
-      <ul class="support-list reveal">
-<li>
-          <span class="support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
-          <div>
-            <strong style="color:var(--paper);" data-i18n="support.l1t">Questions about the test</strong>
-            <p style="color:rgba(245,243,239,.55);" data-i18n="support.l1d">Real-time clarifications on instructions, remaining time, platform navigation or any operational queries.</p>
-          </div>
-        </li>
-        <li>
-          <span class="support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13a10 10 0 0 1 14 0"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M2 8.82a15 15 0 0 1 20 0"/><line x1="12" x2="12.01" y1="20" y2="20"/></svg></span>
-          <div>
-            <strong style="color:var(--paper);" data-i18n="support.l2t">Connection or access issues</strong>
-            <p style="color:rgba(245,243,239,.55);" data-i18n="support.l2d">If the candidate loses access or has connectivity problems, the chatbot immediately guides them with practical solutions.</p>
-          </div>
-        </li>
-        <li>
-          <span class="support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-          <div>
-            <strong style="color:var(--paper);" data-i18n="support.l3t">Available 24 hours a day, 7 days a week</strong>
-            <p style="color:rgba(245,243,239,.55);" data-i18n="support.l3d">24h support via chatbot. If the issue is not resolved, a member of the RHC team will get in touch within 24 hours.</p>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <!-- Chat mock -->
-    <div class="reveal">
-      <div style="background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius: 24px; padding: 2rem; box-shadow: 0 30px 80px rgba(0,0,0,.4);">
-        <div style="display:flex; align-items:center; gap:.8rem; margin-bottom:1.5rem;">
-          <div style="width:36px;height:36px;border-radius:50%;flex-shrink:0;background:#000;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:-0.5px;color:#fff;line-height:1;">RH<span style="color:#5DCAA5;">C</span></div>
-          <div>
-            <div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--paper);font-size:.85rem;">RHC Chatbot</div>
-            <div style="display:flex;align-items:center;gap:.35rem;">
-              <div style="width:6px;height:6px;border-radius:50%;background:#27c93f;animation:pulse 2s infinite;"></div>
-              <span style="font-size:.7rem;color:rgba(245,243,239,.45);" data-i18n="support.online">Online now</span>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:.8rem;">
-          <div style="background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.2);border-radius:12px 12px 12px 2px;padding:.9rem 1rem;max-width:85%;">
-            <p style="font-size:.82rem;color:rgba(245,243,239,.85);line-height:1.5;font-weight:300;" data-i18n="chat.1">Hello! 👋 I'm the RHC support assistant. How can I help you today?</p>
-          </div>
-          <div style="background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.15);border-radius:12px 12px 2px 12px;padding:.9rem 1rem;max-width:85%;align-self:flex-end;">
-            <p style="font-size:.82rem;color:rgba(245,243,239,.85);line-height:1.5;font-weight:300;" data-i18n="chat.2">I'm having trouble accessing the test link...</p>
-          </div>
-          <div style="background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.2);border-radius:12px 12px 12px 2px;padding:.9rem 1rem;max-width:90%;">
-            <p style="font-size:.82rem;color:rgba(245,243,239,.85);line-height:1.5;font-weight:300;" data-i18n="chat.3">No problem! Let's sort this out. Could you try opening the link in a private/incognito window? Sometimes that clears access issues right away. 🔗</p>
-          </div>
-          <div style="background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.15);border-radius:12px 12px 2px 12px;padding:.9rem 1rem;max-width:75%;align-self:flex-end;">
-            <p style="font-size:.82rem;color:rgba(245,243,239,.85);line-height:1.5;font-weight:300;" data-i18n="chat.4">It worked! Thank you 🙏</p>
-          </div>
-          <div style="background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.2);border-radius:12px 12px 12px 2px;padding:.9rem 1rem;max-width:85%;">
-            <p style="font-size:.82rem;color:rgba(245,243,239,.85);line-height:1.5;font-weight:300;" data-i18n="chat.5">Great! Good luck with the test! 🚀 I'm here if you need anything else.</p>
-          </div>
-        </div>
-        <div style="margin-top:1.2rem;display:flex;gap:.6rem;align-items:center;">
-          <div style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:.65rem 1rem;font-size:.8rem;color:rgba(245,243,239,.3);" data-i18n="chat.placeholder">Type your message...</div>
-          <div style="width:34px;height:34px;border-radius:50%;background:var(--accent2);display:flex;align-items:center;justify-content:center;font-size:.8rem;cursor:pointer;">➤</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- TESTIMONIALS -->
 <section id="testimonials" style="background: var(--paper); color: var(--ink);">
   <div class="section-tag reveal" style="color:var(--accent2);" data-i18n="test.tag">Success Stories</div>
@@ -1318,22 +1233,6 @@
       'features.noteTitle': 'Novo candidato analisado',
       'features.noteTime': 'há 2 minutos',
 
-      'support.tag': 'Apoio',
-      'support.title': 'Apoio 24h por<br><span style="color:var(--accent2)">Chatbot</span>',
-      'support.desc': 'Durante testes e processos de seleção, os candidatos têm sempre apoio imediato disponível, a qualquer hora, sem esperas.',
-      'support.l1t': 'Dúvidas sobre o teste',
-      'support.l1d': 'Esclarecimentos em tempo real sobre instruções, tempo restante, navegação na plataforma ou qualquer questão operacional.',
-      'support.l2t': 'Problemas de ligação ou acesso',
-      'support.l2d': 'Se o candidato perde acesso ou tem problemas de ligação, o chatbot guia-o de imediato com soluções práticas.',
-      'support.l3t': 'Disponível 24 horas por dia, 7 dias por semana',
-      'support.l3d': 'Apoio 24h por chatbot. Se a questão não for resolvida, um membro da equipa RHC entra em contacto em 24 horas.',
-      'support.online': 'Online agora',
-      'chat.1': 'Olá! 👋 Sou o assistente de apoio do RHC. Como te posso ajudar hoje?',
-      'chat.2': 'Estou com dificuldade em aceder ao link do teste...',
-      'chat.3': 'Sem problema! Vamos resolver isto. Podes tentar abrir o link numa janela privada/incógnita? Às vezes resolve logo o problema. 🔗',
-      'chat.4': 'Funcionou! Obrigado 🙏',
-      'chat.5': 'Boa! Boa sorte com o teste! 🚀 Estou aqui se precisares de mais alguma coisa.',
-      'chat.placeholder': 'Escreve a tua mensagem...',
 
       'test.tag': 'Casos de Sucesso',
       'test.title': 'Empresas que confiam no RHC.',
@@ -1423,22 +1322,6 @@
       'features.noteTitle': 'New candidate analyzed',
       'features.noteTime': '2 minutes ago',
 
-      'support.tag': 'Support',
-      'support.title': '24h Support<br><span style="color:var(--accent2)">Chatbot</span>',
-      'support.desc': 'During tests and selection processes, candidates always have immediate support available, at any time, without waiting.',
-      'support.l1t': 'Questions about the test',
-      'support.l1d': 'Real-time clarifications on instructions, remaining time, platform navigation or any operational queries.',
-      'support.l2t': 'Connection or access issues',
-      'support.l2d': 'If the candidate loses access or has connectivity problems, the chatbot immediately guides them with practical solutions.',
-      'support.l3t': 'Available 24 hours a day, 7 days a week',
-      'support.l3d': '24h support via chatbot. If the issue is not resolved, a member of the RHC team will get in touch within 24 hours.',
-      'support.online': 'Online now',
-      'chat.1': "Hello! 👋 I'm the RHC support assistant. How can I help you today?",
-      'chat.2': "I'm having trouble accessing the test link...",
-      'chat.3': "No problem! Let's sort this out. Could you try opening the link in a private/incognito window? Sometimes that clears access issues right away. 🔗",
-      'chat.4': 'It worked! Thank you 🙏',
-      'chat.5': "Great! Good luck with the test! 🚀 I'm here if you need anything else.",
-      'chat.placeholder': 'Type your message...',
 
       'test.tag': 'Success Stories',
       'test.title': 'Companies that trust RHC.',
