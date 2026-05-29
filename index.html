@@ -881,6 +881,173 @@
     #features .frame { width: 100%; max-width: 480px; }
     #features .float-note { right: 0; }
   }
+
+  /* ─────── #hero — laptop preview on the right column
+     All rules scoped under #hero to keep generic class names
+     (.row, .tag, .glow, .who, .scorebar, .laptop, .screen, .base,
+     .dash, .kpi, …) from leaking into the rest of the page. ─────── */
+  #hero .hero-layout {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+    max-width: 1280px; margin: 0 auto;
+  }
+  #hero .rhc-laptop-wrap {
+    --rl-green: #14cf9c;
+    --rl-green-2: #0F6E56;
+    --rl-green-soft: rgba(20,207,156,.12);
+    --rl-green-soft-border: rgba(20,207,156,.28);
+    --rl-d-bg: #0b0b0b;
+    --rl-d-bg-2: #111111;
+    --rl-d-bg-3: #171717;
+    --rl-d-bg-4: #1f1f1f;
+    --rl-d-border: rgba(255,255,255,.08);
+    --rl-d-border-2: rgba(255,255,255,.13);
+    --rl-d-text: #f5f3ef;
+    --rl-d-text-3: #888;
+    --rl-d-text-4: #565656;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    justify-self: center;
+  }
+  #hero .glow {
+    position: absolute;
+    width: 540px; height: 540px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,207,156,.26), transparent 62%);
+    filter: blur(20px);
+    z-index: 0;
+  }
+  #hero .laptop { position: relative; z-index: 1; width: 540px; }
+  #hero .laptop .screen {
+    background: #0a0a0a;
+    border: 8px solid #1a1a1a;
+    border-radius: 14px 14px 0 0;
+    overflow: hidden;
+    height: 345px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.28);
+  }
+  #hero .laptop .base {
+    height: 17px;
+    background: linear-gradient(180deg, #2a2a2a, #161616);
+    border-radius: 0 0 11px 11px;
+    position: relative;
+    margin: 0 auto;
+    width: 614px;
+    box-shadow: 0 14px 24px rgba(0,0,0,.3);
+  }
+  #hero .laptop .base::after {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 92px; height: 6px;
+    background: #0c0c0c;
+    border-radius: 0 0 7px 7px;
+  }
+  #hero .laptop .screen .dash {
+    width: 655px;
+    height: 411px;
+    transform: scale(0.8);
+    transform-origin: top left;
+    background: linear-gradient(180deg, var(--rl-d-bg-2), var(--rl-d-bg));
+    color: var(--rl-d-text);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    display: flex;
+    overflow: hidden;
+  }
+  #hero .dash-side {
+    width: 64px;
+    background: var(--rl-d-bg);
+    border-right: 1px solid var(--rl-d-border);
+    padding: 18px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    flex-shrink: 0;
+  }
+  #hero .dash-side .logo {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px;
+    letter-spacing: -0.05em; color: var(--rl-d-text); margin-bottom: 16px;
+  }
+  #hero .dash-side .logo .c { color: var(--rl-green); }
+  #hero .dash-side .ic {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--rl-d-text-3); font-size: 19px;
+  }
+  #hero .dash-side .ic.active { background: var(--rl-green-soft); color: var(--rl-green); border: 1px solid var(--rl-green-soft-border); }
+  #hero .dash-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  #hero .dash-top {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--rl-d-border);
+  }
+  #hero .dash-top .ttl { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+  #hero .dash-top .search {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 8px;
+    background: var(--rl-d-bg-3); border: 1px solid var(--rl-d-border);
+    border-radius: 9px; padding: 8px 14px;
+    font-size: 12.5px; color: var(--rl-d-text-4);
+    width: 200px;
+  }
+  #hero .dash-top .search i { font-size: 15px; }
+  #hero .dash-top .av {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--rl-green), var(--rl-green-2));
+    color: #050807; display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+  }
+  #hero .dash-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rl-d-border); border-bottom: 1px solid var(--rl-d-border); }
+  #hero .kpi { background: var(--rl-d-bg-2); padding: 16px 22px; }
+  #hero .kpi .k { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rl-d-text-4); margin-bottom: 7px; }
+  #hero .kpi .v { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.02em; }
+  #hero .kpi .v .up { font-size: 12px; color: var(--rl-green); font-weight: 600; margin-left: 6px; font-family: 'DM Sans', system-ui, sans-serif; }
+  #hero .dash-list { padding: 16px 22px; flex: 1; }
+  #hero .dl-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  #hero .dl-head .lbl { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rl-d-text-3); }
+  #hero .dl-head .filter { font-size: 11.5px; color: var(--rl-d-text-4); display: inline-flex; align-items: center; gap: 5px; }
+  #hero .row {
+    display: grid;
+    grid-template-columns: 26px 1fr 88px 70px;
+    align-items: center; gap: 14px;
+    padding: 12px 14px; border-radius: 11px; margin-bottom: 7px;
+    background: var(--rl-d-bg-3); border: 1px solid var(--rl-d-border);
+  }
+  #hero .row.top { border-color: var(--rl-green-soft-border); background: linear-gradient(90deg, var(--rl-green-soft), var(--rl-d-bg-3) 60%); }
+  #hero .row .rank { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: var(--rl-d-text-4); text-align: center; }
+  #hero .row.top .rank { color: var(--rl-green); }
+  #hero .row .who { display: flex; align-items: center; gap: 11px; min-width: 0; }
+  #hero .row .who .a {
+    width: 34px; height: 34px; border-radius: 9px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+    color: #fff; flex-shrink: 0;
+  }
+  #hero .row .who .nm { font-size: 13.5px; font-weight: 500; color: var(--rl-d-text); }
+  #hero .row .who .rl { font-size: 11.5px; color: var(--rl-d-text-3); margin-top: 1px; }
+  #hero .row .scorebar { display: flex; flex-direction: column; gap: 5px; }
+  #hero .row .scorebar .bar { height: 5px; background: var(--rl-d-bg-4); border-radius: 100px; overflow: hidden; }
+  #hero .row .scorebar .bar .fl { height: 100%; background: linear-gradient(90deg, var(--rl-green-2), var(--rl-green)); border-radius: 100px; }
+  #hero .row .scorebar .pct { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--rl-d-text-3); }
+  #hero .row .tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 100px; text-align: center;
+  }
+  #hero .row .tag.test { background: var(--rl-green-soft); color: var(--rl-green); border: 1px solid var(--rl-green-soft-border); }
+  #hero .row .tag.rejected { background: rgba(226,107,107,.12); color: #e26b6b; border: 1px solid rgba(226,107,107,.26); }
+  #hero .row.rejected-row { opacity: .62; }
+  #hero .a.c1 { background: linear-gradient(135deg,#14cf9c,#0F6E56); color:#050807; }
+  #hero .a.c2 { background: linear-gradient(135deg,#6f7bd8,#3a428f); }
+  #hero .a.c3 { background: linear-gradient(135deg,#e0a23c,#9c6510); }
+
+  @media (max-width: 980px) {
+    #hero .hero-layout { grid-template-columns: 1fr; gap: 2rem; }
+    #hero .rhc-laptop-wrap { max-width: 540px; margin: 0 auto; padding: 24px; }
+    #hero .laptop, #hero .laptop .base { width: 100%; max-width: 540px; }
+    #hero .laptop .base { width: 100%; }
+    #hero .glow { width: 360px; height: 360px; }
+  }
 </style>
 </head>
 <body>
@@ -904,22 +1071,78 @@
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="grid-lines"></div>
-  <div class="hero-content">
-    <div class="hero-badge" data-i18n="hero.badge">AI-Powered Recruitment</div>
-    <h1 data-i18n-html="hero.h1">Hire the right people,<br><em>faster</em></h1>
-    <p class="hero-sub" data-i18n="hero.sub">AI candidate screening, personalised tests and real-time ranking, built for HR teams.</p>
-    <div class="hero-actions">
-      <a href="#cta" class="btn-primary" data-open-demo data-i18n="hero.cta">Get a Demo</a>
-      <a href="#how-it-works" class="btn-secondary" data-i18n="hero.cta2">See how it works →</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <span class="stat-num" data-target="10" data-suffix="×">0×</span>
-        <span class="stat-label" data-i18n="hero.stat1">faster than traditional process</span>
+  <div class="hero-layout">
+    <div class="hero-content">
+      <div class="hero-badge" data-i18n="hero.badge">AI-Powered Recruitment</div>
+      <h1 data-i18n-html="hero.h1">Hire the right people,<br><em>faster</em></h1>
+      <p class="hero-sub" data-i18n="hero.sub">AI candidate screening, personalised tests and real-time ranking, built for HR teams.</p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn-primary" data-open-demo data-i18n="hero.cta">Get a Demo</a>
+        <a href="#how-it-works" class="btn-secondary" data-i18n="hero.cta2">See how it works →</a>
       </div>
-      <div class="stat-item">
-        <span class="stat-num" data-target="95" data-suffix="%">0%</span>
-        <span class="stat-label" data-i18n="hero.stat2">accuracy in candidate-company match</span>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num" data-target="10" data-suffix="×">0×</span>
+          <span class="stat-label" data-i18n="hero.stat1">faster than traditional process</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" data-target="95" data-suffix="%">0%</span>
+          <span class="stat-label" data-i18n="hero.stat2">accuracy in candidate-company match</span>
+        </div>
+      </div>
+    </div>
+    <div class="rhc-laptop-wrap" aria-hidden="true">
+      <div class="glow"></div>
+      <div class="laptop">
+        <div class="screen">
+          <div class="dash">
+            <div class="dash-side">
+              <div class="logo">RH<span class="c">C</span></div>
+              <div class="ic active"><i class="ti ti-layout-dashboard"></i></div>
+              <div class="ic"><i class="ti ti-users"></i></div>
+              <div class="ic"><i class="ti ti-briefcase"></i></div>
+              <div class="ic"><i class="ti ti-chart-bar"></i></div>
+            </div>
+            <div class="dash-main">
+              <div class="dash-top">
+                <div class="ttl" data-i18n="hero.dash.title">Candidatos · Marketing</div>
+                <div class="search"><i class="ti ti-search"></i> <span data-i18n="hero.dash.search">Procurar…</span></div>
+                <div class="av">RC</div>
+              </div>
+              <div class="dash-kpis">
+                <div class="kpi"><div class="k" data-i18n="hero.dash.kpi1">Candidaturas</div><div class="v">128 <span class="up">↑ 12</span></div></div>
+                <div class="kpi"><div class="k" data-i18n="hero.dash.kpi2">Em teste</div><div class="v">24</div></div>
+                <div class="kpi"><div class="k" data-i18n="hero.dash.kpi3">Match médio</div><div class="v">90%</div></div>
+              </div>
+              <div class="dash-list">
+                <div class="dl-head">
+                  <span class="lbl" data-i18n="hero.dash.ranking">Ranking por IA · tempo real</span>
+                  <span class="filter"><i class="ti ti-arrows-sort"></i> <span data-i18n="hero.dash.sort">Score</span></span>
+                </div>
+
+                <div class="row top">
+                  <div class="rank">1</div>
+                  <div class="who"><div class="a c1">CA</div><div><div class="nm" data-i18n="hero.dash.cand1Name">Candidato A</div><div class="rl" data-i18n="hero.dash.cand1Role">5 anos · Marketing</div></div></div>
+                  <div class="scorebar"><div class="bar"><div class="fl" style="width:94%"></div></div><div class="pct">94%</div></div>
+                  <div class="tag test" data-i18n="hero.dash.tagPass">Avançar</div>
+                </div>
+                <div class="row">
+                  <div class="rank">2</div>
+                  <div class="who"><div class="a c2">CB</div><div><div class="nm" data-i18n="hero.dash.cand2Name">Candidato B</div><div class="rl" data-i18n="hero.dash.cand2Role">3 anos · Comunicação</div></div></div>
+                  <div class="scorebar"><div class="bar"><div class="fl" style="width:88%"></div></div><div class="pct">88%</div></div>
+                  <div class="tag test" data-i18n="hero.dash.tagPass">Avançar</div>
+                </div>
+                <div class="row rejected-row">
+                  <div class="rank">3</div>
+                  <div class="who"><div class="a c3">CC</div><div><div class="nm" data-i18n="hero.dash.cand3Name">Candidato C</div><div class="rl" data-i18n="hero.dash.cand3Role">2 anos · Digital</div></div></div>
+                  <div class="scorebar"><div class="bar"><div class="fl" style="width:50%"></div></div><div class="pct">50%</div></div>
+                  <div class="tag rejected" data-i18n="hero.dash.tagReject">Reprovado</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="base"></div>
       </div>
     </div>
   </div>
@@ -1194,6 +1417,21 @@
       'hero.cta2': 'Ver como funciona →',
       'hero.stat1': 'mais rápido que o processo tradicional',
       'hero.stat2': 'de precisão na compatibilidade candidato-empresa',
+      'hero.dash.title': 'Candidatos · Marketing',
+      'hero.dash.search': 'Procurar…',
+      'hero.dash.kpi1': 'Candidaturas',
+      'hero.dash.kpi2': 'Em teste',
+      'hero.dash.kpi3': 'Match médio',
+      'hero.dash.ranking': 'Ranking por IA · tempo real',
+      'hero.dash.sort': 'Score',
+      'hero.dash.cand1Name': 'Candidato A',
+      'hero.dash.cand1Role': '5 anos · Marketing',
+      'hero.dash.cand2Name': 'Candidato B',
+      'hero.dash.cand2Role': '3 anos · Comunicação',
+      'hero.dash.cand3Name': 'Candidato C',
+      'hero.dash.cand3Role': '2 anos · Digital',
+      'hero.dash.tagPass': 'Avançar',
+      'hero.dash.tagReject': 'Reprovado',
 
       'process.tag': 'Processo',
       'process.title': 'Módulos',
@@ -1283,6 +1521,21 @@
       'hero.cta2': 'See how it works →',
       'hero.stat1': 'faster than traditional process',
       'hero.stat2': 'accuracy in candidate-company match',
+      'hero.dash.title': 'Candidates · Marketing',
+      'hero.dash.search': 'Search…',
+      'hero.dash.kpi1': 'Applications',
+      'hero.dash.kpi2': 'In test',
+      'hero.dash.kpi3': 'Average match',
+      'hero.dash.ranking': 'AI ranking · real-time',
+      'hero.dash.sort': 'Score',
+      'hero.dash.cand1Name': 'Candidate A',
+      'hero.dash.cand1Role': '5 years · Marketing',
+      'hero.dash.cand2Name': 'Candidate B',
+      'hero.dash.cand2Role': '3 years · Communications',
+      'hero.dash.cand3Name': 'Candidate C',
+      'hero.dash.cand3Role': '2 years · Digital',
+      'hero.dash.tagPass': 'Advance',
+      'hero.dash.tagReject': 'Rejected',
 
       'process.tag': 'Process',
       'process.title': 'Modules',
