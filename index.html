@@ -8,7 +8,8 @@
 <meta property="og:title" content="RHC · AI-powered recruitment for HR teams">
 <meta property="og:description" content="AI candidate screening, personalised tests, and real-time ranking — built for HR teams that want to hire the right people, faster.">
 <meta property="og:type" content="website">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
 <style>
   :root {
     --ink: #0a0a0f;
@@ -595,6 +596,306 @@
   .lang-flag:hover { opacity: 1; }
   .lang-flag.active { opacity: 1; border-color: var(--accent2); }
   @media (max-width: 768px) { .lang-flag { font-size: 20px; } }
+
+  /* ─────── #features section reskin — all rules scoped to #features
+     so generic class names (.feature, .card, .frame, .bar, etc.) don't
+     leak into the rest of the marketing page. ─────── */
+  #features {
+    --ft-bg: #0a0a0a;
+    --ft-bg-2: #101010;
+    --ft-bg-3: #161616;
+    --ft-bg-4: #1e1e1e;
+    --ft-border: rgba(255,255,255,.08);
+    --ft-border-2: rgba(255,255,255,.13);
+    --ft-text: #f5f3ef;
+    --ft-text-2: #c4c4c4;
+    --ft-text-3: #8a8a8a;
+    --ft-text-4: #565656;
+    --ft-accent: #5DCAA5;
+    --ft-accent-2: #0F6E56;
+    --ft-accent-soft: rgba(93,202,165,.12);
+    --ft-accent-soft-border: rgba(93,202,165,.26);
+    --ft-warn: #efb84a;
+    --ft-ink-2: #6f6e69;
+    --ft-font-mono: 'JetBrains Mono', monospace;
+  }
+  #features.section,
+  #features {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 110px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: center;
+  }
+
+  /* Left column */
+  #features .lead .eyebrow {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-family: var(--ft-font-mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ft-accent-2);
+    margin-bottom: 22px;
+  }
+  #features .lead .eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--ft-accent-2); }
+  #features .lead h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 62px;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  #features .lead .sub {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ft-ink-2);
+    max-width: 420px;
+    margin-bottom: 44px;
+  }
+
+  #features .features { display: flex; flex-direction: column; gap: 28px; }
+  #features .feature { display: flex; gap: 18px; }
+  #features .feature .tile {
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  #features .feature .tile.green { background: rgba(93,202,165,.16); color: #0F6E56; }
+  #features .feature .tile.yellow { background: rgba(225,200,80,.20); color: #8a7410; }
+  #features .feature .tile.blue { background: rgba(90,140,225,.16); color: #2f5bc4; }
+  #features .feature .tile.pink { background: rgba(225,110,150,.16); color: #c2386c; }
+  #features .feature .ft { flex: 1; }
+  #features .feature .ft h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  #features .feature .ft p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ft-ink-2);
+    max-width: 440px;
+  }
+
+  /* Right column · preview */
+  #features .showcase {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #features .showcase::before {
+    content: '';
+    position: absolute;
+    width: 520px; height: 520px;
+    background: radial-gradient(circle, rgba(93,202,165,.32), transparent 62%);
+    filter: blur(18px);
+    z-index: 0;
+  }
+  #features .showcase::after {
+    content: '';
+    position: absolute; inset: -40px;
+    background-image:
+      linear-gradient(rgba(14,14,12,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(14,14,12,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask: radial-gradient(ellipse 70% 70% at 50% 50%, #000, transparent 75%);
+    -webkit-mask: radial-gradient(ellipse 70% 70% at 50% 50%, #000, transparent 75%);
+    z-index: 0;
+  }
+  #features .frame {
+    position: relative;
+    z-index: 1;
+    width: 540px;
+    background: #050505;
+    border: 1px solid rgba(0,0,0,.4);
+    border-radius: 22px;
+    padding: 12px;
+    box-shadow:
+      0 2px 4px rgba(0,0,0,.08),
+      0 30px 70px rgba(0,0,0,.22),
+      0 10px 28px rgba(0,0,0,.14);
+  }
+  #features .card {
+    position: relative;
+    background: linear-gradient(180deg, var(--ft-bg-2), var(--ft-bg));
+    border: 1px solid var(--ft-border);
+    border-radius: 14px;
+    overflow: hidden;
+    color: var(--ft-text);
+    height: 520px;
+  }
+  #features .card-inner { padding: 24px 24px 0; }
+
+  #features .c-head {
+    display: flex; align-items: center; gap: 14px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--ft-border);
+    margin-bottom: 20px;
+  }
+  #features .c-head .av {
+    width: 50px; height: 50px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, var(--ft-accent), var(--ft-accent-2));
+    color: #050807;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 19px;
+    flex-shrink: 0;
+  }
+  #features .c-head .meta { flex: 1; }
+  #features .c-head .nm {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  #features .c-head .role {
+    font-size: 13px;
+    color: var(--ft-text-3);
+    display: flex; align-items: center; gap: 8px;
+  }
+  #features .c-head .role .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ft-text-4); }
+  #features .status-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    background: var(--ft-accent-soft);
+    border: 1px solid var(--ft-accent-soft-border);
+    color: var(--ft-accent);
+    font-family: var(--ft-font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  #features .status-pill .dt {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ft-accent);
+    box-shadow: 0 0 0 3px rgba(93,202,165,.18);
+  }
+
+  #features .ai-banner {
+    background: linear-gradient(180deg, rgba(93,202,165,.07), rgba(93,202,165,.02)), var(--ft-bg-3);
+    border: 1px solid var(--ft-accent-soft-border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+  }
+  #features .ai-banner .top { display: flex; align-items: center; gap: 11px; margin-bottom: 11px; }
+  #features .ai-banner .ic {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--ft-accent);
+    color: #050807;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 17px; flex-shrink: 0;
+  }
+  #features .ai-banner .ttl { font-weight: 600; font-size: 14px; color: var(--ft-text); flex: 1; }
+  #features .ai-banner .compat {
+    font-family: var(--ft-font-mono);
+    font-size: 11px;
+    color: var(--ft-accent);
+    background: var(--ft-accent-soft);
+    border: 1px solid var(--ft-accent-soft-border);
+    padding: 4px 9px;
+    border-radius: 100px;
+  }
+  #features .ai-banner .desc { font-size: 13px; color: var(--ft-text-2); line-height: 1.55; margin-bottom: 13px; }
+  #features .ai-banner .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  #features .ai-banner .chip {
+    font-family: var(--ft-font-mono);
+    font-size: 10.5px;
+    color: var(--ft-text-3);
+    background: var(--ft-bg-4);
+    border: 1px solid var(--ft-border);
+    padding: 5px 9px;
+    border-radius: 6px;
+  }
+
+  #features .sec-label {
+    font-family: var(--ft-font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ft-text-3);
+    margin-bottom: 15px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  #features .sec-label i { color: var(--ft-accent); font-size: 13px; }
+  #features .bar-row { margin-bottom: 14px; }
+  #features .bar-row .bl { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  #features .bar-row .bl .k { font-size: 13px; color: var(--ft-text-2); }
+  #features .bar-row .bl .v { font-family: var(--ft-font-mono); font-size: 12px; color: var(--ft-text); font-weight: 500; }
+  #features .bar { height: 7px; background: var(--ft-bg-4); border-radius: 100px; overflow: hidden; }
+  #features .bar .fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--ft-accent-2), var(--ft-accent)); }
+  #features .bar .fill.warn { background: linear-gradient(90deg, #b8893a, var(--ft-warn)); }
+
+  #features .fade {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 120px;
+    background: linear-gradient(180deg, transparent, var(--ft-bg) 82%);
+    pointer-events: none;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 16px;
+  }
+  #features .fade .more {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--ft-font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ft-text-3);
+    background: var(--ft-bg-3);
+    border: 1px solid var(--ft-border-2);
+    padding: 7px 13px;
+    border-radius: 100px;
+  }
+  #features .fade .more i { color: var(--ft-accent); font-size: 13px; }
+
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  #features .float-note {
+    position: absolute;
+    z-index: 2;
+    right: -26px; top: 40px;
+    background: #0e0e0c;
+    color: #fff;
+    border-radius: 12px;
+    padding: 12px 15px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.22);
+    display: flex; align-items: center; gap: 10px;
+    animation: floaty 6s ease-in-out infinite;
+  }
+  #features .float-note i { color: var(--ft-accent); font-size: 18px; }
+  #features .float-note .fn-txt .n1 { font-size: 12.5px; font-weight: 600; line-height: 1.2; }
+  #features .float-note .fn-txt .n2 {
+    font-family: var(--ft-font-mono);
+    font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(255,255,255,.5); margin-top: 2px;
+  }
+
+  @media (max-width: 980px) {
+    #features.section,
+    #features { grid-template-columns: 1fr; gap: 56px; padding: 64px 28px; }
+    #features .lead h2 { font-size: 46px; }
+    #features .showcase { order: -1; }
+    #features .frame { width: 100%; max-width: 480px; }
+    #features .float-note { right: 0; }
+  }
 </style>
 </head>
 <body>
@@ -669,49 +970,98 @@
 </section>
 
 <!-- FUNCIONALIDADES -->
-<section id="features">
-  <div style="max-width: 1200px; margin: 0 auto;">
-    <div class="section-tag reveal" data-i18n="features.tag">Features</div>
-    <div class="features-layout">
-      <div>
-        <h2 class="section-title reveal" data-i18n-html="features.title">Everything you need<br>in one place</h2>
-        <p class="section-desc reveal" data-i18n="features.desc">From company onboarding to final selection, RHC centralises and automates every step of the recruitment process.</p>
-        <div class="features-list" style="margin-top: 2.5rem;">
-          <div class="feature-item reveal">
-            <div class="feature-icon fi-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg></div>
-            <div>
-              <h4 data-i18n="features.f1t">Personalised AI Tests</h4>
-              <p data-i18n="features.f1d">AI generates personalised tests based on the profile defined by the recruiter, formulating relevant questions that assess the candidate's technical skills, motivation and cultural fit.</p>
-            </div>
-          </div>
-          <div class="feature-item reveal">
-            <div class="feature-icon fi-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
-            <div>
-              <h4 data-i18n="features.f2t">Real-Time Dashboard</h4>
-              <p data-i18n="features.f2d">Track applications, rankings and progress in real time on an intuitive panel for your HR team.</p>
-            </div>
-          </div>
-          <div class="feature-item reveal">
-            <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-            <div>
-              <h4 data-i18n="features.f3t">HR Systems Integration</h4>
-              <p data-i18n="features.f3d">Connects to your ATS, LinkedIn or internal systems via API without technical complications.</p>
-            </div>
-          </div>
-          <div class="feature-item reveal">
-            <div class="feature-icon fi-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>
-            <div>
-              <h4 data-i18n="features.f4t">Full GDPR Compliance</h4>
-              <p data-i18n="features.f4d">All data is processed in accordance with GDPR. Full control over data retention and deletion.</p>
-            </div>
-          </div>
+<section id="features" class="reveal">
+  <div class="lead">
+    <div class="eyebrow" data-i18n="features.eyebrow">Platform</div>
+    <h2 data-i18n="features.title">Everything you need in one place</h2>
+    <p class="sub" data-i18n="features.sub">From company onboarding to final selection, RHC centralizes and automates every step.</p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="tile green"><i class="ti ti-sparkles"></i></div>
+        <div class="ft">
+          <h3 data-i18n="features.f1t">Personalized AI tests</h3>
+          <p data-i18n="features.f1d">AI generates personalized tests based on the profile defined by the recruiter, with questions that assess technical skills, motivation and cultural fit.</p>
         </div>
       </div>
-      <div class="reveal">
-        <img src="/assets/candidate-profile.svg"
-             alt="RHC candidate profile preview"
-             loading="lazy"
-             style="display:block;width:100%;height:auto;max-width:1100px;margin:0 auto;" />
+      <div class="feature">
+        <div class="tile yellow"><i class="ti ti-chart-line"></i></div>
+        <div class="ft">
+          <h3 data-i18n="features.f2t">Real-time dashboard</h3>
+          <p data-i18n="features.f2d">Track applications, rankings and progress in real time through an intuitive dashboard for your HR team.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="tile blue"><i class="ti ti-link"></i></div>
+        <div class="ft">
+          <h3 data-i18n="features.f3t">HR systems integration</h3>
+          <p data-i18n="features.f3d">Connects to your ATS, LinkedIn or internal systems via API, without technical complications.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="tile pink"><i class="ti ti-shield-check"></i></div>
+        <div class="ft">
+          <h3 data-i18n="features.f4t">Full GDPR compliance</h3>
+          <p data-i18n="features.f4d">All data is handled according to GDPR. Full control over data retention and deletion.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="showcase">
+    <div class="frame">
+      <div class="card">
+        <div class="card-inner">
+          <div class="c-head">
+            <div class="av">CA</div>
+            <div class="meta">
+              <div class="nm" data-i18n="features.cardName">Candidate A</div>
+              <div class="role"><span data-i18n="features.cardRole">HR Specialist · Lisbon, Portugal</span></div>
+            </div>
+            <span class="status-pill"><span class="dt"></span><span data-i18n="features.cardStatus">Under review</span></span>
+          </div>
+
+          <div class="ai-banner">
+            <div class="top">
+              <div class="ic"><i class="ti ti-check"></i></div>
+              <div class="ttl" data-i18n="features.aiTitle">AI recommends: proceed to test</div>
+              <span class="compat">80%</span>
+            </div>
+            <div class="desc" data-i18n="features.aiDesc">Strong experience in recruitment and talent management. Excellent communication skills and cultural alignment with the company.</div>
+            <div class="chips">
+              <span class="chip" data-i18n="features.chip1">Leadership</span>
+              <span class="chip" data-i18n="features.chip2">Communication</span>
+              <span class="chip" data-i18n="features.chip3">Empathy</span>
+              <span class="chip" data-i18n="features.chip4">Team management</span>
+            </div>
+          </div>
+
+          <div class="sec-label"><i class="ti ti-chart-bar"></i><span data-i18n="features.breakdownLabel">AI analysis · breakdown</span></div>
+          <div class="bar-row">
+            <div class="bl"><span class="k" data-i18n="features.metric1">Relevant experience</span><span class="v">85%</span></div>
+            <div class="bar"><div class="fill" style="width:85%"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bl"><span class="k" data-i18n="features.metric2">Academic background</span><span class="v">90%</span></div>
+            <div class="bar"><div class="fill" style="width:90%"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bl"><span class="k" data-i18n="features.metric3">Behavioral skills</span><span class="v">72%</span></div>
+            <div class="bar"><div class="fill warn" style="width:72%"></div></div>
+          </div>
+        </div>
+
+        <div class="fade">
+          <span class="more"><i class="ti ti-lock"></i><span data-i18n="features.lockMsg">Full view on the portal</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="float-note">
+      <i class="ti ti-sparkles"></i>
+      <div class="fn-txt">
+        <div class="n1" data-i18n="features.noteTitle">New candidate analyzed</div>
+        <div class="n2" data-i18n="features.noteTime">2 minutes ago</div>
       </div>
     </div>
   </div>
@@ -940,17 +1290,33 @@
       'process.s3t': 'Entrevista com a Empresa',
       'process.s3d': 'Apenas os melhores perfis avançam para uma entrevista presencial ou online com a empresa, sem perder tempo com candidatos fora do perfil.',
 
-      'features.tag': 'Funcionalidades',
-      'features.title': 'Tudo o que precisas<br>num só lugar',
-      'features.desc': 'Do onboarding da empresa à seleção final, o RHC centraliza e automatiza cada passo.',
+      'features.eyebrow': 'Plataforma',
+      'features.title': 'Tudo o que precisas num só lugar',
+      'features.sub': 'Do onboarding da empresa à seleção final, o RHC centraliza e automatiza cada passo.',
       'features.f1t': 'Testes AI personalizados',
-      'features.f1d': 'A IA gera testes personalizados com base no perfil definido pelo recrutador, formulando perguntas relevantes que avaliam as competências técnicas, motivação e fit cultural do candidato.',
+      'features.f1d': 'A IA gera testes personalizados com base no perfil definido pelo recrutador, com perguntas que avaliam competências técnicas, motivação e fit cultural.',
       'features.f2t': 'Dashboard em tempo real',
       'features.f2d': 'Acompanha candidaturas, rankings e progresso em tempo real num painel intuitivo para a tua equipa de RH.',
       'features.f3t': 'Integração com sistemas de RH',
       'features.f3d': 'Liga-se ao teu ATS, LinkedIn ou sistemas internos via API, sem complicações técnicas.',
       'features.f4t': 'Total conformidade com RGPD',
       'features.f4d': 'Todos os dados são tratados de acordo com o RGPD. Controlo total sobre retenção e eliminação de dados.',
+      'features.cardName': 'Candidato A',
+      'features.cardRole': 'HR Specialist · Lisboa, Portugal',
+      'features.cardStatus': 'Em análise',
+      'features.aiTitle': 'A IA recomenda: avançar para teste',
+      'features.aiDesc': 'Forte experiência em recrutamento e gestão de talento. Excelente capacidade comunicativa e alinhamento cultural com a empresa.',
+      'features.chip1': 'Liderança',
+      'features.chip2': 'Comunicação',
+      'features.chip3': 'Empatia',
+      'features.chip4': 'Gestão de equipas',
+      'features.breakdownLabel': 'Análise IA · breakdown',
+      'features.metric1': 'Experiência relevante',
+      'features.metric2': 'Formação académica',
+      'features.metric3': 'Competências comportamentais',
+      'features.lockMsg': 'Vista completa no portal',
+      'features.noteTitle': 'Novo candidato analisado',
+      'features.noteTime': 'há 2 minutos',
 
       'support.tag': 'Apoio',
       'support.title': 'Apoio 24h por<br><span style="color:var(--accent2)">Chatbot</span>',
@@ -1029,17 +1395,33 @@
       'process.s3t': 'Interview with the Company',
       'process.s3d': 'Only the best profiles advance to a face-to-face or online interview with the company, no time wasted on out-of-profile candidates.',
 
-      'features.tag': 'Features',
-      'features.title': 'Everything you need<br>in one place',
-      'features.desc': 'From company onboarding to final selection, RHC centralises and automates every step of the recruitment process.',
-      'features.f1t': 'Personalised AI Tests',
-      'features.f1d': "AI generates personalised tests based on the profile defined by the recruiter, formulating relevant questions that assess the candidate's technical skills, motivation and cultural fit.",
-      'features.f2t': 'Real-Time Dashboard',
-      'features.f2d': 'Track applications, rankings and progress in real time on an intuitive panel for your HR team.',
-      'features.f3t': 'HR Systems Integration',
-      'features.f3d': 'Connects to your ATS, LinkedIn or internal systems via API without technical complications.',
-      'features.f4t': 'Full GDPR Compliance',
-      'features.f4d': 'All data is processed in accordance with GDPR. Full control over data retention and deletion.',
+      'features.eyebrow': 'Platform',
+      'features.title': 'Everything you need in one place',
+      'features.sub': 'From company onboarding to final selection, RHC centralizes and automates every step.',
+      'features.f1t': 'Personalized AI tests',
+      'features.f1d': 'AI generates personalized tests based on the profile defined by the recruiter, with questions that assess technical skills, motivation and cultural fit.',
+      'features.f2t': 'Real-time dashboard',
+      'features.f2d': 'Track applications, rankings and progress in real time through an intuitive dashboard for your HR team.',
+      'features.f3t': 'HR systems integration',
+      'features.f3d': 'Connects to your ATS, LinkedIn or internal systems via API, without technical complications.',
+      'features.f4t': 'Full GDPR compliance',
+      'features.f4d': 'All data is handled according to GDPR. Full control over data retention and deletion.',
+      'features.cardName': 'Candidate A',
+      'features.cardRole': 'HR Specialist · Lisbon, Portugal',
+      'features.cardStatus': 'Under review',
+      'features.aiTitle': 'AI recommends: proceed to test',
+      'features.aiDesc': 'Strong experience in recruitment and talent management. Excellent communication skills and cultural alignment with the company.',
+      'features.chip1': 'Leadership',
+      'features.chip2': 'Communication',
+      'features.chip3': 'Empathy',
+      'features.chip4': 'Team management',
+      'features.breakdownLabel': 'AI analysis · breakdown',
+      'features.metric1': 'Relevant experience',
+      'features.metric2': 'Academic background',
+      'features.metric3': 'Behavioral skills',
+      'features.lockMsg': 'Full view on the portal',
+      'features.noteTitle': 'New candidate analyzed',
+      'features.noteTime': '2 minutes ago',
 
       'support.tag': 'Support',
       'support.title': '24h Support<br><span style="color:var(--accent2)">Chatbot</span>',
