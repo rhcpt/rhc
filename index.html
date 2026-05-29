@@ -841,6 +841,7 @@
       <button onclick="submitDemo()" class="btn-primary" style="white-space:nowrap;" data-i18n="cta.btn">Request Free Demo →</button>
     </div>
     <div id="cta-success" style="display:none;margin-top:1rem;color:var(--accent2);font-size:.9rem;" data-i18n="cta.success">✓ Great! We'll be in touch within 24 hours.</div>
+    <div id="cta-error" style="display:none;margin-top:1rem;color:#ff6496;font-size:.85rem;"></div>
   </div>
 </section>
 
@@ -883,6 +884,8 @@
           <input type="text" id="d-company" name="company" placeholder="Company name" autocomplete="organization" data-i18n-placeholder="demo.p3">
           <span class="demo-field-err" data-i18n="demo.e3">Please enter your company name.</span>
         </div>
+
+        <div id="demo-net-err" style="display:none;font-size:.85rem;color:#ff6496;margin-bottom:.8rem;"></div>
 
         <button type="submit" class="demo-submit" data-i18n="demo.submit">Request demo →</button>
       </form>
@@ -1202,7 +1205,7 @@
     if (e.key === 'Escape' && overlay.classList.contains('open')) closeDemo();
   });
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = document.getElementById('d-name').value.trim();
     const email = document.getElementById('d-email').value.trim();
@@ -1221,21 +1224,67 @@
     if (!company) setErr('company');
     if (firstErr) { firstErr.focus(); return; }
 
-    successName.textContent = name.split(' ')[0];
-    formWrap.style.display = 'none';
-    successEl.classList.add('show');
+    const submitBtn = form.querySelector('.demo-submit');
+    const originalLabel = submitBtn ? submitBtn.textContent : '';
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'A enviar…'; }
+    const errBox = document.getElementById('demo-net-err');
+    if (errBox) { errBox.style.display = 'none'; errBox.textContent = ''; }
+
+    try {
+      const r = await fetch('/api/demo-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, company })
+      });
+      if (!r.ok) throw new Error((await r.json().catch(()=>({}))).error || 'send_failed');
+      successName.textContent = name.split(' ')[0];
+      formWrap.style.display = 'none';
+      successEl.classList.add('show');
+    } catch (err) {
+      if (errBox) {
+        errBox.textContent = err && err.message === 'rate_limited'
+          ? 'Demasiados pedidos. Tenta novamente daqui a um minuto.'
+          : 'Erro ao enviar. Tenta novamente.';
+        errBox.style.display = 'block';
+      }
+    } finally {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
+    }
   });
 
   // CTA email submit
-  function submitDemo() {
-    const email = document.getElementById('cta-email')?.value;
-    if(!email || !email.includes('@')) {
-      document.getElementById('cta-email').style.borderColor = '#ff6496';
+  async function submitDemo() {
+    const input = document.getElementById('cta-email');
+    const email = input?.value?.trim() || '';
+    const btn   = document.querySelector('[onclick="submitDemo()"]');
+    const errEl = document.getElementById('cta-error');
+    if(errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+    if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if(input) input.style.borderColor = '#ff6496';
       return;
     }
-    document.getElementById('cta-success').style.display = 'block';
-    document.getElementById('cta-email').style.display = 'none';
-    document.querySelector('[onclick="submitDemo()"]').style.display = 'none';
+    if(input) input.style.borderColor = '';
+    const originalLabel = btn ? btn.textContent : '';
+    if(btn) { btn.disabled = true; btn.textContent = 'A enviar…'; }
+    try {
+      const r = await fetch('/api/demo-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name: '', company: '' })
+      });
+      if(!r.ok) throw new Error((await r.json().catch(()=>({}))).error || 'send_failed');
+      document.getElementById('cta-success').style.display = 'block';
+      if(input) input.style.display = 'none';
+      if(btn)   btn.style.display = 'none';
+    } catch(err) {
+      if(errEl) {
+        errEl.textContent = err && err.message === 'rate_limited'
+          ? 'Demasiados pedidos. Tenta novamente daqui a um minuto.'
+          : 'Erro ao enviar. Tenta novamente.';
+        errEl.style.display = 'block';
+      }
+      if(btn) { btn.disabled = false; btn.textContent = originalLabel; }
+    }
   }
 </script>
 </body>
