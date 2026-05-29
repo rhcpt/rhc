@@ -243,6 +243,24 @@
     .post-content { padding: 2rem 1.5rem 3rem; }
     .post-featured { margin-top: -2rem; padding: 0 1.5rem; }
   }
+
+  /* ── Language toggle (PT / EN) — mirrors index.html ── */
+  .lang-toggle { display: flex; align-items: center; gap: 6px; list-style: none; }
+  .lang-flag {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 2px 4px;
+    font-size: 22px;
+    line-height: 1;
+    opacity: .5;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity .15s ease, border-color .15s ease;
+  }
+  .lang-flag:hover { opacity: 1; }
+  .lang-flag.active { opacity: 1; border-color: var(--accent2); }
+  @media (max-width: 768px) { .lang-flag { font-size: 20px; } }
 </style>
 </head>
 <body>
@@ -252,28 +270,32 @@
 <nav>
   <a href="/" class="logo">RH<span>C</span></a>
   <ul class="nav-links">
-    <li><a href="/">Home</a></li>
-    <li><a href="/about.html">About Us</a></li>
-    <li><a href="/blog.html" class="active-link">Blog</a></li>
-    <li><a href="/#cta" class="nav-cta">Get a Demo</a></li>
+    <li><a href="/" data-i18n="nav.home">Home</a></li>
+    <li><a href="/about.html" data-i18n="nav.about">About Us</a></li>
+    <li><a href="/blog.html" class="active-link" data-i18n="nav.blog">Blog</a></li>
+    <li class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" class="lang-flag" data-lang="pt" aria-label="Português">🇵🇹</button>
+      <button type="button" class="lang-flag" data-lang="en" aria-label="English">🇬🇧</button>
+    </li>
+    <li><a href="/#cta" class="nav-cta" data-i18n="nav.cta">Get a Demo</a></li>
   </ul>
 </nav>
 
 <div id="post-root">
   <div class="post-state">
     <div class="post-state-icon">…</div>
-    <h2>Loading…</h2>
+    <h2 data-i18n="post.loading">Loading…</h2>
   </div>
 </div>
 
 <footer>
   <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--paper);text-decoration:none;letter-spacing:-0.04em;">RH<span style="color:var(--accent2)">C</span></a>
   <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;">
-    <a href="/" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Home</a>
-    <a href="/about.html" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">About Us</a>
-    <a href="/blog.html" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Blog</a>
+    <a href="/" data-i18n="nav.home" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Home</a>
+    <a href="/about.html" data-i18n="nav.about" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">About Us</a>
+    <a href="/blog.html" data-i18n="nav.blog" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Blog</a>
   </div>
-  <span>© 2026 RHC. All rights reserved.</span>
+  <span data-i18n="footer.copyright">© 2026 RHC. All rights reserved.</span>
 </footer>
 
 <script>
@@ -289,12 +311,52 @@ const SUPA_URL = 'https://sgecgsnxljohhfbftevg.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNnZWNnc254bGpvaGhmYmZ0ZXZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NzMzNjQsImV4cCI6MjA5MjM0OTM2NH0.Igv5qrLk8NwsheStNv7VY4cvdCO-svEGx6S89OZubps';
 const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
 
-const CATEGORY_LABELS = {
-  ai_screening:         'AI screening',
-  candidate_experience: 'Candidate experience',
-  gdpr:                 'GDPR',
-  product_updates:      'Product updates'
+/* ─────────────────────────────────────────────────────────────
+   i18n (PT / EN) — same model as index.html / blog.html. The
+   post body (title / subtitle / content) stays in its original
+   language; the chrome (nav, footer, loading/not-found states,
+   'back to blog', date locale, category label, 'min read') is
+   translated. localStorage('rhc_lang') is shared across the
+   marketing site so the user's choice persists.
+   ───────────────────────────────────────────────────────────── */
+const T = {
+  pt: {
+    'nav.home': 'Home',
+    'nav.about': 'Sobre Nós',
+    'nav.blog': 'Blog',
+    'nav.cta': 'Pedir Demo',
+    'footer.copyright': '© 2026 RHC. Todos os direitos reservados.',
+    'footer.contact': 'Contacto',
+    'blog.cat.ai_screening': 'Triagem com IA',
+    'blog.cat.candidate_experience': 'Experiência do candidato',
+    'blog.cat.gdpr': 'RGPD',
+    'blog.cat.product_updates': 'Atualizações do produto',
+    'post.loading': 'A carregar…',
+    'post.notfound.title': 'Post não encontrado.',
+    'post.notfound.desc': 'O artigo que procuras não está disponível ou foi removido.',
+    'post.backToBlog': '← Voltar ao blog',
+    'post.minRead': 'min de leitura'
+  },
+  en: {
+    'nav.home': 'Home',
+    'nav.about': 'About Us',
+    'nav.blog': 'Blog',
+    'nav.cta': 'Get a Demo',
+    'footer.copyright': '© 2026 RHC. All rights reserved.',
+    'footer.contact': 'Contact',
+    'blog.cat.ai_screening': 'AI screening',
+    'blog.cat.candidate_experience': 'Candidate experience',
+    'blog.cat.gdpr': 'GDPR',
+    'blog.cat.product_updates': 'Product updates',
+    'post.loading': 'Loading…',
+    'post.notfound.title': 'Post not found.',
+    'post.notfound.desc': "The article you're looking for isn't available or has been removed.",
+    'post.backToBlog': '← Back to blog',
+    'post.minRead': 'min read'
+  }
 };
+
+let LANG = 'en';
 
 function escapeHtml(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
@@ -304,7 +366,8 @@ function escapeHtml(s) {
 function fmtDate(iso) {
   if(!iso) return '';
   try {
-    return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+    const locale = LANG === 'pt' ? 'pt-PT' : 'en-GB';
+    return new Date(iso).toLocaleDateString(locale, { day:'numeric', month:'short', year:'numeric' });
   } catch(e) { return ''; }
 }
 function readTime(content) {
@@ -313,22 +376,40 @@ function readTime(content) {
   const words = (tmp.textContent || '').trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
 }
-
-function renderNotFound() {
-  document.getElementById('post-root').innerHTML = `
-    <div class="post-state">
-      <div class="post-state-icon">✦</div>
-      <h2>Post not found</h2>
-      <p>The article you're looking for doesn't exist or has been removed.</p>
-      <a href="/blog.html">Back to blog</a>
-    </div>`;
-  document.title = 'Not found · RHC';
+function catLabel(slug) {
+  return T[LANG]['blog.cat.' + slug] || slug;
 }
 
-function renderPost(p) {
-  const catLabel = CATEGORY_LABELS[p.category] || '';
+// Cache the loaded post so language toggles can re-render without
+// re-querying Supabase (and without losing the user's scroll spot).
+let _postCache = null; // null = loading, 'notfound' = error/missing, object = post row
+
+function renderState() {
+  const dict = T[LANG];
+  const root = document.getElementById('post-root');
+  if(!root) return;
+  if(_postCache === null) {
+    root.innerHTML = `
+      <div class="post-state">
+        <div class="post-state-icon">…</div>
+        <h2>${escapeHtml(dict['post.loading'])}</h2>
+      </div>`;
+    return;
+  }
+  if(_postCache === 'notfound') {
+    root.innerHTML = `
+      <div class="post-state">
+        <div class="post-state-icon">✦</div>
+        <h2>${escapeHtml(dict['post.notfound.title'])}</h2>
+        <p>${escapeHtml(dict['post.notfound.desc'])}</p>
+        <a href="/blog.html">${escapeHtml(dict['post.backToBlog'])}</a>
+      </div>`;
+    document.title = dict['post.notfound.title'] + ' · RHC';
+    return;
+  }
+  const p = _postCache;
   const catHtml  = p.category
-    ? `<span class="post-cat-pill-hero"><span class="dot"></span>${escapeHtml(catLabel)}</span>`
+    ? `<span class="post-cat-pill-hero"><span class="dot"></span>${escapeHtml(catLabel(p.category))}</span>`
     : '';
   const subHtml  = p.subtitle ? `<p class="subtitle">${escapeHtml(p.subtitle)}</p>` : '';
   const dateStr  = fmtDate(p.published_at || p.created_at);
@@ -338,10 +419,10 @@ function renderPost(p) {
     : '';
   const safeContent = String(p.content || '');
 
-  document.getElementById('post-root').innerHTML = `
+  root.innerHTML = `
     <section class="post-hero">
       <div class="post-hero-inner">
-        <a href="/blog.html" class="back-link">← Back to blog</a>
+        <a href="/blog.html" class="back-link">${escapeHtml(dict['post.backToBlog'])}</a>
         ${catHtml}
         <h1>${escapeHtml(p.title)}</h1>
         ${subHtml}
@@ -349,14 +430,15 @@ function renderPost(p) {
           ${author}
           <span>${dateStr}</span>
           <span class="dot-sep"></span>
-          <span>${readTime(p.content)} min read</span>
+          <span>${readTime(p.content)} ${escapeHtml(dict['post.minRead'])}</span>
         </div>
       </div>
     </section>
     ${featured}
     <article class="post-content">${safeContent}</article>`;
 
-  // Dynamic SEO meta tags
+  // Dynamic SEO meta tags. Title keeps the post's own (single-language)
+  // string so the rendered <title> matches the rendered <h1>.
   document.title = (p.title || 'RHC') + ' · RHC';
   const setMeta = (name, attr, val) => {
     const sel = `meta[${attr}="${name}"]`;
@@ -383,23 +465,57 @@ async function loadPost() {
     document.querySelector('nav').style.top = '32px';
   }
 
-  if(!slug) { renderNotFound(); return; }
+  if(!slug) { _postCache = 'notfound'; renderState(); return; }
 
   try {
     let query = supa.from('blog_posts').select('*').eq('slug', slug);
-    // In preview mode we don't filter by status — the marketing editor
-    // wants to see drafts too. RLS still gates anon reads.
     if(!isPreview) query = query.eq('status', 'published');
     const { data, error } = await query.maybeSingle();
-    if(error) { console.warn('Post fetch error:', error.message); renderNotFound(); return; }
-    if(!data) { renderNotFound(); return; }
-    renderPost(data);
+    if(error) { console.warn('Post fetch error:', error.message); _postCache = 'notfound'; renderState(); return; }
+    if(!data)  { _postCache = 'notfound'; renderState(); return; }
+    _postCache = data;
+    renderState();
   } catch(e) {
     console.warn('Post load failed:', e);
-    renderNotFound();
+    _postCache = 'notfound';
+    renderState();
   }
 }
 
+function applyLang(lang) {
+  if(lang !== 'pt' && lang !== 'en') lang = 'en';
+  LANG = lang;
+  const dict = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = dict[el.dataset.i18n]; if(v != null) el.textContent = v;
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const v = dict[el.dataset.i18nHtml]; if(v != null) el.innerHTML = v;
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const v = dict[el.dataset.i18nPlaceholder]; if(v != null) el.placeholder = v;
+  });
+  document.documentElement.lang = lang;
+  try { localStorage.setItem('rhc_lang', lang); } catch(e) {}
+  document.querySelectorAll('.lang-flag').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  // Re-render the dynamic post body so fmtDate / category label /
+  // 'min read' / back-to-blog reflect the new language.
+  renderState();
+}
+
+const _initialLang = (() => {
+  let stored = null;
+  try { stored = localStorage.getItem('rhc_lang'); } catch(e) {}
+  if(stored === 'pt' || stored === 'en') return stored;
+  const browserLang = ((navigator.language || '') + '').toLowerCase();
+  return browserLang.startsWith('pt') ? 'pt' : 'en';
+})();
+document.querySelectorAll('.lang-flag').forEach(b => {
+  b.addEventListener('click', () => applyLang(b.dataset.lang));
+});
+applyLang(_initialLang);
 loadPost();
 </script>
 
