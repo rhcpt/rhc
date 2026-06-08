@@ -408,47 +408,60 @@ function renderState() {
     return;
   }
   const p = _postCache;
+  // Pick the language-specific column when LANG=en AND it has content,
+  // otherwise fall back to the mono column (PT canonical). Mirrors the
+  // picker used by the blog feed (Phase 2 step 4a): pre-Phase-2 rows
+  // only have mono and render as before; partially-translated rows
+  // fall back per-field so an untranslated subtitle alone never
+  // blanks the page.
+  const isEN = LANG === 'en';
+  const title    = (isEN && p.title_en)            ? p.title_en            : (p.title            || '');
+  const subtitle = (isEN && p.subtitle_en)         ? p.subtitle_en         : (p.subtitle         || '');
+  const content  = (isEN && p.content_en)          ? p.content_en          : (p.content          || '');
+  const metaDesc = (isEN && p.meta_description_en) ? p.meta_description_en : (p.meta_description || '');
+
   const catHtml  = p.category
     ? `<span class="post-cat-pill-hero"><span class="dot"></span>${escapeHtml(catLabel(p.category))}</span>`
     : '';
-  const subHtml  = p.subtitle ? `<p class="subtitle">${escapeHtml(p.subtitle)}</p>` : '';
+  const subHtml  = subtitle ? `<p class="subtitle">${escapeHtml(subtitle)}</p>` : '';
   const dateStr  = fmtDate(p.published_at || p.created_at);
   const author   = p.author_name ? `<span>${escapeHtml(p.author_name)}</span><span class="dot-sep"></span>` : '';
   const featured = p.featured_image_url
     ? `<div class="post-featured"><img src="${escapeHtml(p.featured_image_url)}" alt=""></div>`
     : '';
-  const safeContent = String(p.content || '');
+  const safeContent = String(content);
 
   root.innerHTML = `
     <section class="post-hero">
       <div class="post-hero-inner">
         <a href="/blog.html" class="back-link">${escapeHtml(dict['post.backToBlog'])}</a>
         ${catHtml}
-        <h1>${escapeHtml(p.title)}</h1>
+        <h1>${escapeHtml(title)}</h1>
         ${subHtml}
         <div class="meta">
           ${author}
           <span>${dateStr}</span>
           <span class="dot-sep"></span>
-          <span>${readTime(p.content)} ${escapeHtml(dict['post.minRead'])}</span>
+          <span>${readTime(content)} ${escapeHtml(dict['post.minRead'])}</span>
         </div>
       </div>
     </section>
     ${featured}
     <article class="post-content">${safeContent}</article>`;
 
-  // Dynamic SEO meta tags. Title keeps the post's own (single-language)
-  // string so the rendered <title> matches the rendered <h1>.
-  document.title = (p.title || 'RHC') + ' · RHC';
+  // Dynamic SEO meta tags. Title and description follow the picked
+  // language so the rendered <title>, og:title and og:description
+  // always match the rendered <h1> / body.
+  document.title = (title || 'RHC') + ' · RHC';
   const setMeta = (name, attr, val) => {
     const sel = `meta[${attr}="${name}"]`;
     let el = document.querySelector(sel);
     if(!el) { el = document.createElement('meta'); el.setAttribute(attr, name); document.head.appendChild(el); }
     el.setAttribute('content', val);
   };
-  const desc = (p.meta_description || p.subtitle || '').substring(0, 160);
+  const desc = (metaDesc || subtitle || '').substring(0, 160);
   setMeta('description', 'name', desc);
-  setMeta('og:title',       'property', (p.title || 'RHC') + ' · RHC');
+  setMeta('og:title',       'property', (title || 'RHC') + ' · RHC');
   setMeta('og:description', 'property', desc);
   setMeta('og:type',        'property', 'article');
   if(p.featured_image_url) setMeta('og:image', 'property', p.featured_image_url);
