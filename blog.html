@@ -514,23 +514,31 @@ function renderPosts() {
       </div>`;
     return;
   }
+  const isEN = LANG === 'en';
   container.innerHTML = '<div class="posts-grid">' + _postsCache.map(p => {
+    // Pick the language-specific column when LANG=en AND it has content,
+    // otherwise fall back to the mono column (PT canonical). Posts written
+    // before Phase 2 only have the mono columns; posts written after have
+    // both but may not have been translated yet — both cases land on PT
+    // gracefully so the public feed never goes blank.
+    const title    = (isEN && p.title_en)    ? p.title_en    : (p.title    || '');
+    const subtitle = (isEN && p.subtitle_en) ? p.subtitle_en : (p.subtitle || '');
+    const content  = (isEN && p.content_en)  ? p.content_en  : (p.content  || '');
     const catPill = p.category
       ? `<span class="post-cat-pill cat-${escapeHtml(p.category)}"><span class="dot"></span>${escapeHtml(catLabel(p.category))}</span>`
       : '';
     const imgStyle = p.featured_image_url
       ? `style="background-image:url('${escapeHtml(p.featured_image_url)}');"`
       : '';
-    const subtitle = p.subtitle || '';
     return `
       <article class="post-card" onclick="window.location='/post.html?slug=${encodeURIComponent(p.slug)}'">
         <div class="post-image" ${imgStyle}></div>
         <div class="post-content">
           <div class="post-meta">
             ${catPill}
-            <span>${fmtDate(p.published_at)} · ${readTime(p.content)} ${escapeHtml(dict['blog.minRead'])}</span>
+            <span>${fmtDate(p.published_at)} · ${readTime(content)} ${escapeHtml(dict['blog.minRead'])}</span>
           </div>
-          <h3 class="post-title">${escapeHtml(p.title)}</h3>
+          <h3 class="post-title">${escapeHtml(title)}</h3>
           <p class="post-excerpt">${escapeHtml(subtitle)}</p>
         </div>
       </article>`;
@@ -541,7 +549,7 @@ async function loadPosts() {
   try {
     const { data, error } = await supa
       .from('blog_posts')
-      .select('id,title,subtitle,slug,featured_image_url,category,published_at,author_name,content')
+      .select('id,title,subtitle,slug,featured_image_url,category,published_at,author_name,content,title_en,subtitle_en,content_en')
       .eq('status', 'published')
       .order('published_at', { ascending: false });
     if(error) throw error;
