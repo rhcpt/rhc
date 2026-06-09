@@ -131,43 +131,6 @@
     margin-bottom: 2.5rem;
   }
 
-  /* Topics chips inside hero */
-  .topics-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    align-items: center;
-    max-width: 720px;
-  }
-  .topics-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(245,243,239,0.4);
-    margin-right: 0.4rem;
-  }
-  .topic-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.45rem 0.95rem;
-    border-radius: 100px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: rgba(245,243,239,0.85);
-  }
-  .topic-chip .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-  }
-  .topic-chip .dot.c1 { background: #00d4aa; }
-  .topic-chip .dot.c2 { background: #e8ff47; }
-  .topic-chip .dot.c3 { background: #00aaff; }
-  .topic-chip .dot.c4 { background: #ff6496; }
-
   /* ── MAIN AREA ── */
   .blog-main {
     flex: 1;
@@ -310,7 +273,6 @@
       padding-left: 1.5rem; padding-right: 1.5rem;
     }
     .blog-hero { padding-top: 7rem; padding-bottom: 4rem; }
-    .topics-label { width: 100%; margin-bottom: 0.2rem; }
   }
 
   /* ── Language toggle (PT / EN) — mirrors index.html ── */
@@ -356,13 +318,6 @@
     <span class="blog-tag" data-i18n="blog.tag">Blog</span>
     <h1 data-i18n-html="blog.hero.title">All about <em>RHC</em></h1>
     <p class="lead" data-i18n="blog.hero.lead">Insights, playbooks and product updates from the team building RHC.</p>
-
-    <div class="topics-row">
-      <span class="topics-label" data-i18n="blog.topics.label">We'll be writing about:</span>
-      <span class="topic-chip"><span class="dot c1"></span><span data-i18n="blog.topics.chip1">AI screening</span></span>
-      <span class="topic-chip"><span class="dot c2"></span><span data-i18n="blog.topics.chip2">Candidate experience</span></span>
-      <span class="topic-chip"><span class="dot c3"></span><span data-i18n="blog.topics.chip3">GDPR &amp; candidates</span></span>
-    </div>
   </div>
 </section>
 
@@ -417,10 +372,6 @@ const T = {
     'blog.tag': 'Blog',
     'blog.hero.title': 'Tudo sobre <em>RHC</em>',
     'blog.hero.lead': 'Insights, playbooks e novidades da equipa que constrói o RHC.',
-    'blog.topics.label': 'Vamos escrever sobre:',
-    'blog.topics.chip1': 'Triagem com IA',
-    'blog.topics.chip2': 'Experiência do candidato',
-    'blog.topics.chip3': 'RGPD e candidatos',
     'blog.cat.ai_screening': 'Triagem com IA',
     'blog.cat.candidate_experience': 'Experiência do candidato',
     'blog.cat.gdpr': 'RGPD',
@@ -443,10 +394,6 @@ const T = {
     'blog.tag': 'Blog',
     'blog.hero.title': 'All about <em>RHC</em>',
     'blog.hero.lead': 'Insights, playbooks and product updates from the team building RHC.',
-    'blog.topics.label': "We'll be writing about:",
-    'blog.topics.chip1': 'AI screening',
-    'blog.topics.chip2': 'Candidate experience',
-    'blog.topics.chip3': 'GDPR & candidates',
     'blog.cat.ai_screening': 'AI screening',
     'blog.cat.candidate_experience': 'Candidate experience',
     'blog.cat.gdpr': 'GDPR',
