@@ -330,10 +330,16 @@
   .post-title {
     font-family: 'Syne', sans-serif;
     font-weight: 700;
-    font-size: 1.3rem;
+    /* Sized so the longer PT title ("Lançamento da RHC") fits on a single
+       line inside .post-content at the 320px grid minimum; nowrap + ellipsis
+       guard against any future longer title without breaking layout. */
+    font-size: 1.05rem;
     line-height: 1.25;
     margin-bottom: 0.8rem;
     letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .post-excerpt {
     color: var(--muted);
