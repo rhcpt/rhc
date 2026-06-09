@@ -150,6 +150,38 @@
     max-width: 1200px;
     margin: 0 auto 2.5rem;
   }
+  .blog-search {
+    position: relative;
+    max-width: 520px;
+    margin: 0 auto 1.25rem;
+  }
+  .blog-search-icon {
+    position: absolute;
+    left: 16px; top: 50%;
+    transform: translateY(-50%);
+    width: 18px; height: 18px;
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .blog-search input {
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 12px 18px 12px 44px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .blog-search input::placeholder { color: var(--muted); }
+  .blog-search input:focus {
+    outline: none;
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(0,0,0,.05);
+  }
+  /* Native clear button styling for type=search — paper/ink instead of OS default. */
+  .blog-search input::-webkit-search-cancel-button { cursor: pointer; }
   .blog-cat-chips {
     display: flex; flex-wrap: wrap; gap: 8px;
     justify-content: center;
@@ -377,6 +409,10 @@
 <!-- MAIN - dynamic grid populated from Supabase blog_posts (status=published). -->
 <section class="blog-main">
   <div class="blog-controls">
+    <div class="blog-search">
+      <svg class="blog-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="search" id="blog-search-input" autocomplete="off" data-i18n-placeholder="blog.search.placeholder" placeholder="Search articles…">
+    </div>
     <div class="blog-cat-chips" role="group" aria-label="Filter by category">
       <button type="button" class="blog-chip active" data-cat="all"><span data-i18n="blog.filter.all">All</span></button>
       <button type="button" class="blog-chip" data-cat="ai_screening"><span class="dot"></span><span data-i18n="blog.cat.ai_screening">AI screening</span></button>
@@ -447,7 +483,8 @@ const T = {
     'blog.filter.all': 'Todas',
     'blog.filter.empty.title': 'Nenhum resultado',
     'blog.filter.empty.desc': 'Não há posts nesta categoria.',
-    'blog.filter.clear': 'Limpar filtros'
+    'blog.filter.clear': 'Limpar filtros',
+    'blog.search.placeholder': 'Procurar artigos…'
   },
   en: {
     'nav.home': 'Home',
@@ -473,7 +510,8 @@ const T = {
     'blog.filter.all': 'All',
     'blog.filter.empty.title': 'No results',
     'blog.filter.empty.desc': 'No posts in this category.',
-    'blog.filter.clear': 'Clear filters'
+    'blog.filter.clear': 'Clear filters',
+    'blog.search.placeholder': 'Search articles…'
   }
 };
 
@@ -510,10 +548,32 @@ let _postsCache = null;
 // picker for free: applyLang re-translates chip labels but does not touch
 // the filter state.
 let _catFilt = 'all';
+let _searchQ = '';
+
+// Strip HTML for the search haystack so queries don't match raw tag names
+// like "h2" or "strong" that live inside the contenteditable HTML.
+function _stripHtml(html) {
+  if(!html) return '';
+  try {
+    return (new DOMParser()).parseFromString(String(html), 'text/html').body.textContent || '';
+  } catch(e) { return String(html); }
+}
 
 function _applyFilters(posts) {
-  if(_catFilt === 'all') return posts;
-  return posts.filter(p => p.category === _catFilt);
+  const q = _searchQ.trim().toLowerCase();
+  const isEN = LANG === 'en';
+  return posts.filter(p => {
+    if(_catFilt !== 'all' && p.category !== _catFilt) return false;
+    if(!q) return true;
+    // Same PT/EN fallback chain renderPosts uses for cards — search hits
+    // whatever the visitor is actually reading.
+    const title    = (isEN && p.title_en)    ? p.title_en    : (p.title    || '');
+    const subtitle = (isEN && p.subtitle_en) ? p.subtitle_en : (p.subtitle || '');
+    const content  = (isEN && p.content_en)  ? p.content_en  : (p.content  || '');
+    const catLbl   = p.category ? catLabel(p.category) : '';
+    const hay = (title + ' ' + subtitle + ' ' + _stripHtml(content) + ' ' + catLbl).toLowerCase();
+    return hay.includes(q);
+  });
 }
 
 function _setCatFilter(slug) {
@@ -524,8 +584,15 @@ function _setCatFilter(slug) {
   renderPosts();
 }
 // Exposed for the inline onclick on the "Clear filters" button rendered
-// inside the filtered-empty state HTML.
-window._blogClearFilters = () => _setCatFilter('all');
+// inside the filtered-empty state HTML. Resets BOTH dimensions of the
+// filter (category and search) and empties the visible input so the user
+// sees a clean slate.
+window._blogClearFilters = () => {
+  _searchQ = '';
+  const _si = document.getElementById('blog-search-input');
+  if(_si) _si.value = '';
+  _setCatFilter('all');
+};
 
 function renderPosts() {
   const container = document.getElementById('blog-content');
@@ -650,6 +717,15 @@ document.querySelectorAll('.lang-flag').forEach(b => {
 document.querySelectorAll('.blog-chip').forEach(b => {
   b.addEventListener('click', () => _setCatFilter(b.dataset.cat));
 });
+(() => {
+  const _si = document.getElementById('blog-search-input');
+  if(!_si) return;
+  let _t = null;
+  _si.addEventListener('input', () => {
+    if(_t) clearTimeout(_t);
+    _t = setTimeout(() => { _searchQ = _si.value; renderPosts(); }, 150);
+  });
+})();
 applyLang(_initialLang);
 loadPosts();
 </script>
