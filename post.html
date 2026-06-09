@@ -130,7 +130,7 @@
     max-width: 1000px;
     margin: 0 auto;
     padding: 0 4rem;
-    margin-top: -3rem;
+    margin-top: 0;
     position: relative;
     z-index: 2;
   }
@@ -140,7 +140,7 @@
     object-fit: cover;
     border-radius: 18px;
     display: block;
-    box-shadow: 0 30px 80px rgba(0,0,0,.18);
+    box-shadow: 0 15px 40px rgba(0,0,0,.1);
   }
 
   /* ── CONTENT ── */
@@ -241,7 +241,7 @@
     nav, .post-hero, .post-featured, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
     .post-hero { padding-top: 6rem; padding-bottom: 2rem; }
     .post-content { padding: 2rem 1.5rem 3rem; }
-    .post-featured { margin-top: -2rem; padding: 0 1.5rem; }
+    .post-featured { margin-top: 0; padding: 0 1.5rem; }
     .post-featured img { max-height: 220px; }
   }
 
@@ -316,7 +316,7 @@ const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
    i18n (PT / EN) — same model as index.html / blog.html. The
    post body (title / subtitle / content) stays in its original
    language; the chrome (nav, footer, loading/not-found states,
-   'back to blog', date locale, category label, 'min read') is
+   'back to blog', date locale, category label) is
    translated. localStorage('rhc_lang') is shared across the
    marketing site so the user's choice persists.
    ───────────────────────────────────────────────────────────── */
@@ -335,8 +335,7 @@ const T = {
     'post.loading': 'A carregar…',
     'post.notfound.title': 'Post não encontrado.',
     'post.notfound.desc': 'O artigo que procuras não está disponível ou foi removido.',
-    'post.backToBlog': '← Voltar ao blog',
-    'post.minRead': 'min de leitura'
+    'post.backToBlog': '← Voltar ao blog'
   },
   en: {
     'nav.home': 'Home',
@@ -352,8 +351,7 @@ const T = {
     'post.loading': 'Loading…',
     'post.notfound.title': 'Post not found.',
     'post.notfound.desc': "The article you're looking for isn't available or has been removed.",
-    'post.backToBlog': '← Back to blog',
-    'post.minRead': 'min read'
+    'post.backToBlog': '← Back to blog'
   }
 };
 
@@ -370,12 +368,6 @@ function fmtDate(iso) {
     const locale = LANG === 'pt' ? 'pt-PT' : 'en-GB';
     return new Date(iso).toLocaleDateString(locale, { day:'numeric', month:'short', year:'numeric' });
   } catch(e) { return ''; }
-}
-function readTime(content) {
-  const tmp = document.createElement('div');
-  tmp.innerHTML = String(content || '');
-  const words = (tmp.textContent || '').trim().split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.round(words / 200));
 }
 function catLabel(slug) {
   return T[LANG]['blog.cat.' + slug] || slug;
@@ -426,7 +418,6 @@ function renderState() {
     : '';
   const subHtml  = subtitle ? `<p class="subtitle">${escapeHtml(subtitle)}</p>` : '';
   const dateStr  = fmtDate(p.published_at || p.created_at);
-  const author   = p.author_name ? `<span>${escapeHtml(p.author_name)}</span><span class="dot-sep"></span>` : '';
   const featured = p.featured_image_url
     ? `<div class="post-featured"><img src="${escapeHtml(p.featured_image_url)}" alt=""></div>`
     : '';
@@ -440,10 +431,7 @@ function renderState() {
         <h1>${escapeHtml(title)}</h1>
         ${subHtml}
         <div class="meta">
-          ${author}
           <span>${dateStr}</span>
-          <span class="dot-sep"></span>
-          <span>${readTime(content)} ${escapeHtml(dict['post.minRead'])}</span>
         </div>
       </div>
     </section>
@@ -515,7 +503,7 @@ function applyLang(lang) {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
   // Re-render the dynamic post body so fmtDate / category label /
-  // 'min read' / back-to-blog reflect the new language.
+  // back-to-blog reflect the new language.
   renderState();
 }
 
