@@ -137,9 +137,62 @@
     padding: 6rem 4rem;
     background: var(--paper);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
   }
+
+  /* Category-filter chips — sit ABOVE #blog-content so they survive
+     the renderPosts() innerHTML wipe. Width and centering mirror the
+     posts-grid so chips and cards line up. */
+  .blog-controls {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 2.5rem;
+  }
+  .blog-cat-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center;
+  }
+  .blog-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .blog-chip:hover { border-color: var(--ink); }
+  .blog-chip .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .blog-chip[data-cat="ai_screening"] .dot       { background: #00a584; }
+  .blog-chip[data-cat="candidate_experience"] .dot { background: #378ADD; }
+  .blog-chip[data-cat="gdpr"] .dot               { background: #EF9F27; }
+  .blog-chip[data-cat="product_updates"] .dot    { background: #B264E0; }
+  .blog-chip.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .blog-chip.active .dot { background: var(--accent2); }
+  .blog-empty .blog-clear-btn {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 100px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform .2s, background .2s;
+  }
+  .blog-empty .blog-clear-btn:hover { background: var(--mid); transform: scale(1.03); }
 
   .blog-empty {
     max-width: 580px;
@@ -323,6 +376,15 @@
 
 <!-- MAIN - dynamic grid populated from Supabase blog_posts (status=published). -->
 <section class="blog-main">
+  <div class="blog-controls">
+    <div class="blog-cat-chips" role="group" aria-label="Filter by category">
+      <button type="button" class="blog-chip active" data-cat="all"><span data-i18n="blog.filter.all">All</span></button>
+      <button type="button" class="blog-chip" data-cat="ai_screening"><span class="dot"></span><span data-i18n="blog.cat.ai_screening">AI screening</span></button>
+      <button type="button" class="blog-chip" data-cat="candidate_experience"><span class="dot"></span><span data-i18n="blog.cat.candidate_experience">Candidate experience</span></button>
+      <button type="button" class="blog-chip" data-cat="gdpr"><span class="dot"></span><span data-i18n="blog.cat.gdpr">GDPR</span></button>
+      <button type="button" class="blog-chip" data-cat="product_updates"><span class="dot"></span><span data-i18n="blog.cat.product_updates">Product updates</span></button>
+    </div>
+  </div>
   <div id="blog-content">
     <div class="blog-loading" data-i18n="blog.loading">Loading…</div>
   </div>
@@ -381,7 +443,11 @@ const T = {
     'blog.empty.title': 'Em breve.',
     'blog.empty.desc': 'Estamos a afinar os primeiros artigos. Subscreve ou volta em breve — o primeiro post está quase pronto.',
     'blog.error.title': 'Algo correu mal.',
-    'blog.error.desc': 'Não foi possível carregar os posts agora. Tenta novamente daqui a um momento.'
+    'blog.error.desc': 'Não foi possível carregar os posts agora. Tenta novamente daqui a um momento.',
+    'blog.filter.all': 'Todas',
+    'blog.filter.empty.title': 'Nenhum resultado',
+    'blog.filter.empty.desc': 'Não há posts nesta categoria.',
+    'blog.filter.clear': 'Limpar filtros'
   },
   en: {
     'nav.home': 'Home',
@@ -403,7 +469,11 @@ const T = {
     'blog.empty.title': 'Coming soon.',
     'blog.empty.desc': "We're putting the finishing touches on our first articles. Subscribe or check back soon — the first post is almost ready.",
     'blog.error.title': 'Something went wrong.',
-    'blog.error.desc': "We couldn't load the posts right now. Please try again in a moment."
+    'blog.error.desc': "We couldn't load the posts right now. Please try again in a moment.",
+    'blog.filter.all': 'All',
+    'blog.filter.empty.title': 'No results',
+    'blog.filter.empty.desc': 'No posts in this category.',
+    'blog.filter.clear': 'Clear filters'
   }
 };
 
@@ -435,6 +505,28 @@ function catLabel(slug) {
 // Supabase (and without flashing the loading state).
 let _postsCache = null;
 
+// Active category filter — 'all' or one of the BD category slugs. Slug is
+// language-independent (mono column), so this filter respects the bilingual
+// picker for free: applyLang re-translates chip labels but does not touch
+// the filter state.
+let _catFilt = 'all';
+
+function _applyFilters(posts) {
+  if(_catFilt === 'all') return posts;
+  return posts.filter(p => p.category === _catFilt);
+}
+
+function _setCatFilter(slug) {
+  _catFilt = slug;
+  document.querySelectorAll('.blog-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.cat === slug);
+  });
+  renderPosts();
+}
+// Exposed for the inline onclick on the "Clear filters" button rendered
+// inside the filtered-empty state HTML.
+window._blogClearFilters = () => _setCatFilter('all');
+
 function renderPosts() {
   const container = document.getElementById('blog-content');
   if(!container) return;
@@ -461,8 +553,21 @@ function renderPosts() {
       </div>`;
     return;
   }
+  // Cache has posts; apply the active filter. If the filter wiped them
+  // all, show the 4th state with a Clear button that drops back to 'all'.
+  const _filtered = _applyFilters(_postsCache);
+  if(_filtered.length === 0) {
+    container.innerHTML = `
+      <div class="blog-empty">
+        <div class="blog-empty-icon">✦</div>
+        <h2>${escapeHtml(dict['blog.filter.empty.title'])}</h2>
+        <p>${escapeHtml(dict['blog.filter.empty.desc'])}</p>
+        <button type="button" class="blog-clear-btn" onclick="_blogClearFilters()">${escapeHtml(dict['blog.filter.clear'])}</button>
+      </div>`;
+    return;
+  }
   const isEN = LANG === 'en';
-  container.innerHTML = '<div class="posts-grid">' + _postsCache.map(p => {
+  container.innerHTML = '<div class="posts-grid">' + _filtered.map(p => {
     // Pick the language-specific column when LANG=en AND it has content,
     // otherwise fall back to the mono column (PT canonical). Posts written
     // before Phase 2 only have the mono columns; posts written after have
@@ -541,6 +646,9 @@ const _initialLang = (() => {
 })();
 document.querySelectorAll('.lang-flag').forEach(b => {
   b.addEventListener('click', () => applyLang(b.dataset.lang));
+});
+document.querySelectorAll('.blog-chip').forEach(b => {
+  b.addEventListener('click', () => _setCatFilter(b.dataset.cat));
 });
 applyLang(_initialLang);
 loadPosts();
