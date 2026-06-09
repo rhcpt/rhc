@@ -491,7 +491,7 @@ const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
    i18n (PT / EN) — mirrors index.html. Posts themselves stay in
    their original language (single-language schema in Supabase);
    only the chrome (nav, hero, labels, loading/empty/error states,
-   date locale, category labels, 'min read') is translated.
+   date locale, category labels) is translated.
    localStorage('rhc_lang') is shared with index.html / post.html
    so the user's choice persists across the marketing site.
    ───────────────────────────────────────────────────────────── */
@@ -512,7 +512,6 @@ const T = {
     'blog.cat.gdpr': 'RGPD',
     'blog.cat.product_updates': 'Atualizações do produto',
     'blog.loading': 'A carregar…',
-    'blog.minRead': 'min de leitura',
     'blog.empty.title': 'Em breve.',
     'blog.empty.desc': 'Estamos a afinar os primeiros artigos. Subscreve ou volta em breve — o primeiro post está quase pronto.',
     'blog.error.title': 'Algo correu mal.',
@@ -539,7 +538,6 @@ const T = {
     'blog.cat.gdpr': 'GDPR',
     'blog.cat.product_updates': 'Product updates',
     'blog.loading': 'Loading…',
-    'blog.minRead': 'min read',
     'blog.empty.title': 'Coming soon.',
     'blog.empty.desc': "We're putting the finishing touches on our first articles. Subscribe or check back soon — the first post is almost ready.",
     'blog.error.title': 'Something went wrong.',
@@ -565,12 +563,6 @@ function fmtDate(iso) {
     const locale = LANG === 'pt' ? 'pt-PT' : 'en-GB';
     return new Date(iso).toLocaleDateString(locale, { day:'numeric', month:'short', year:'numeric' });
   } catch(e) { return '—'; }
-}
-function readTime(content) {
-  const tmp = document.createElement('div');
-  tmp.innerHTML = String(content || '');
-  const words = (tmp.textContent || '').trim().split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.round(words / 200));
 }
 function catLabel(slug) {
   return T[LANG]['blog.cat.' + slug] || slug;
@@ -679,7 +671,6 @@ function renderPosts() {
     // gracefully so the public feed never goes blank.
     const title    = (isEN && p.title_en)    ? p.title_en    : (p.title    || '');
     const subtitle = (isEN && p.subtitle_en) ? p.subtitle_en : (p.subtitle || '');
-    const content  = (isEN && p.content_en)  ? p.content_en  : (p.content  || '');
     const catPill = p.category
       ? `<span class="post-cat-pill cat-${escapeHtml(p.category)}"><span class="dot"></span>${escapeHtml(catLabel(p.category))}</span>`
       : '';
@@ -692,7 +683,7 @@ function renderPosts() {
         <div class="post-content">
           <div class="post-meta">
             ${catPill}
-            <span>${fmtDate(p.published_at)} · ${readTime(content)} ${escapeHtml(dict['blog.minRead'])}</span>
+            <span>${fmtDate(p.published_at)}</span>
           </div>
           <h3 class="post-title">${escapeHtml(title)}</h3>
           <p class="post-excerpt">${escapeHtml(subtitle)}</p>
@@ -737,7 +728,7 @@ function applyLang(lang) {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
   // Re-render the dynamically built post grid so fmtDate / category
-  // labels / 'min read' reflect the new language.
+  // labels reflect the new language.
   renderPosts();
 }
 
