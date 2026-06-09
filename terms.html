@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About · RHC</title>
-<meta name="description" content="RHC is a Portuguese team building the recruitment platform we always wished existed — AI-powered screening, personalised tests, and respect for everyone's time.">
-<meta property="og:title" content="About · RHC">
-<meta property="og:description" content="A Portuguese team using AI to help companies hire the right people, faster.">
+<meta name="robots" content="noindex">
+<title>Terms &amp; Conditions · RHC</title>
+<meta name="description" content="Terms &amp; Conditions for RHC.">
+<meta property="og:title" content="Terms &amp; Conditions · RHC">
+<meta property="og:description" content="Terms &amp; Conditions for RHC.">
 <meta property="og:type" content="website">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
@@ -474,6 +475,52 @@
   .lang-flag:hover { opacity: 1; }
   .lang-flag.active { opacity: 1; border-color: var(--accent2); }
   @media (max-width: 768px) { .lang-flag { font-size: 20px; } }
+
+  /* ── LEGAL PAGE (placeholder) ── */
+  .legal-page {
+    padding: 8rem 4rem 6rem;
+    background: var(--paper);
+    min-height: 60vh;
+  }
+  .legal-wrap { max-width: 720px; margin: 0 auto; }
+  .legal-tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    padding: 0.4rem 0.95rem;
+    border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+  .legal-page h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 1.8rem;
+    color: var(--ink);
+  }
+  .legal-body p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 1.4rem;
+  }
+  .legal-back a {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    transition: opacity .2s;
+  }
+  .legal-back a:hover { opacity: 0.65; }
+  @media (max-width: 760px) { .legal-page { padding: 7rem 1.5rem 4rem; } }
 </style>
 </head>
 <body>
@@ -483,7 +530,7 @@
   <a href="/" class="logo">RH<span>C</span></a>
   <ul class="nav-links">
     <li><a href="/" data-i18n="nav.home">Home</a></li>
-    <li><a href="/about.html" class="active-link" data-i18n="nav.about">About Us</a></li>
+    <li><a href="/about.html" data-i18n="nav.about">About Us</a></li>
     <li><a href="/blog.html" data-i18n="nav.blog">Blog</a></li>
     <li class="lang-toggle" aria-label="Language">
       <button type="button" class="lang-flag" data-lang="pt" aria-label="Português">🇵🇹</button>
@@ -494,105 +541,14 @@
 </nav>
 
 <!-- HERO -->
-<section class="about-hero">
-  <div class="about-hero-grid"></div>
-  <div class="about-hero-content">
-    <span class="about-tag" data-i18n="ab.tag">About RHC</span>
-    <h1 data-i18n-html="ab.h1">Building the <em>recruitment platform</em></h1>
-    <p class="lead" data-i18n="ab.lead">A team using AI to help companies hire the right people.</p>
-  </div>
-</section>
-
-<!-- STORY -->
-<section class="story-section">
-  <div class="story-wrap">
-
-    <div class="story-block reveal">
-      <div class="story-head">
-        <div class="story-num">01</div>
-        <div class="story-eyebrow" data-i18n="ab.s1.eye">The problem</div>
-        <h2 data-i18n="ab.s1.h2">Hiring is slow, expensive, and disconnected from what really matters.</h2>
-      </div>
-      <div class="story-body">
-        <p data-i18n="ab.s1.p">Traditional recruitment hasn't changed in decades. Hiring teams drown in CVs, candidates get lost in inboxes, and the best people slip through the cracks because no one had time to read past the first 30 résumés.</p>
-      </div>
-    </div>
-
-    <div class="story-block reveal">
-      <div class="story-head">
-        <div class="story-num">02</div>
-        <div class="story-eyebrow" data-i18n="ab.s2.eye">What we build</div>
-        <h2 data-i18n="ab.s2.h2">An end-to-end platform that lets HR teams focus on people, not paperwork.</h2>
-      </div>
-      <div class="story-body">
-        <p data-i18n="ab.s2.p">RHC combines AI-powered CV screening, personalised psychometric and technical assessment, and a clean, modern experience for both recruiters and candidates. Every part of the product is designed to remove friction and let people make better hiring decisions.</p>
-      </div>
-    </div>
-
-    <div class="story-block reveal">
-      <div class="story-head">
-        <div class="story-num">03</div>
-        <div class="story-eyebrow" data-i18n="ab.s3.eye">How we work</div>
-        <h2 data-i18n="ab.s3.h2">Close to the people who'll actually use the product.</h2>
-      </div>
-      <div class="story-body">
-        <p data-i18n="ab.s3.p">We work directly with HR teams, founders and recruitment specialists to shape RHC around real workflows, not assumptions. We believe great hiring shouldn't be a privilege of large enterprises, it should be accessible, transparent, and powered by the best technology available today.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- TEAM -->
-<section class="team-section">
-  <div class="team-wrap">
-    <div class="story-eyebrow reveal" data-i18n="ab.team.eye">The Team</div>
-    <h2 class="reveal" data-i18n="ab.team.h2">The people behind RHC</h2>
-    <p class="section-desc reveal" data-i18n="ab.team.desc">Small team, big plans. We're hiring soon, follow along.</p>
-
-    <!--
-      Drop a photo named "francisco-cameira.jpg" next to this file
-      (e.g. in the same /assets folder you serve about.html from) and
-      the avatar will swap from initials to the real photo automatically.
-    -->
-    <div class="founder-card reveal">
-      <div class="founder-avatar">
-        <span class="founder-initials">FC</span>
-        <img src="francisco-cameira.jpg" alt="Francisco Cameira" onerror="this.remove()">
-      </div>
-      <div class="founder-info">
-        <div class="founder-name">Francisco Cameira</div>
-        <div class="founder-role" data-i18n="ab.team.role">Founder</div>
-      </div>
-      <a class="founder-link" href="https://www.linkedin.com/in/francisco-cameira-1a355026b/" target="_blank" rel="noopener" aria-label="Francisco Cameira on LinkedIn">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT — dual path -->
-<section class="contact-band">
-  <div class="contact-wrap">
-    <div class="contact-head">
-      <h2 class="reveal" data-i18n="ab.contact.h2">Want to talk?</h2>
-      <p class="reveal" data-i18n="ab.contact.sub">Whichever route makes sense for you, we'll be in touch.</p>
-    </div>
-
-    <div class="contact-grid">
-      <a href="/#cta" class="contact-card dark reveal">
-        <div class="contact-card-tag" data-i18n="ab.c1.tag">For HR teams</div>
-        <h3 data-i18n="ab.c1.h3">Hiring? See it in action.</h3>
-        <p data-i18n="ab.c1.p">Book a 20-minute demo. We'll show you how RHC fits into your hiring workflow.</p>
-        <span class="contact-card-cta" data-i18n="ab.c1.cta">Get a demo</span>
-      </a>
-
-      <a href="/cdn-cgi/l/email-protection#b5ddd0d9d9daf5c7ddd69bc5c1" class="contact-card reveal">
-        <div class="contact-card-tag" data-i18n="ab.c2.tag">For everyone else</div>
-        <h3 data-i18n="ab.c2.h3">Want to partner or just chat?</h3>
-        <p><span data-i18n="ab.c2.p">Press, partnership, feedback, or just curious, drop us a line at</span> <span class="__cf_email__" data-cfemail="a4ccc1c8c8cbe4d6ccc78ad4d0">[email&#160;protected]</span>.</p>
-        <span class="contact-card-cta"><span class="__cf_email__" data-cfemail="b7dfd2dbdbd8f7c5dfd499c7c3">[email&#160;protected]</span></span>
-      </a>
+<!-- LEGAL PAGE (placeholder — real legal text to come) -->
+<section class="legal-page">
+  <div class="legal-wrap">
+    <span class="legal-tag" data-i18n="legal.tag">Legal</span>
+    <h1 data-i18n="legal.h1">Terms &amp; Conditions</h1>
+    <div class="legal-body">
+      <p data-i18n="legal.placeholder">This page is being finalised. For questions about the service, contact us at [contact email].</p>
+      <p class="legal-back"><a href="/" data-i18n="legal.back">← Back to home</a></p>
     </div>
   </div>
 </section>
@@ -626,37 +582,11 @@
       'nav.blog': 'Blog',
       'nav.cta': 'Pedir Demo',
 
-      'ab.title': 'Sobre · RHC',
-      'ab.tag': 'Sobre o RHC',
-      'ab.h1': 'A construir a <em>plataforma de recrutamento</em>',
-      'ab.lead': 'Uma equipa que usa IA para ajudar empresas a contratar as pessoas certas.',
-
-      'ab.s1.eye': 'O problema',
-      'ab.s1.h2': 'Contratar é lento, caro e desligado do que realmente importa.',
-      'ab.s1.p': 'O recrutamento tradicional não mudou em décadas. As equipas de contratação afogam-se em CVs, candidatos perdem-se em caixas de email, e as melhores pessoas escapam por entre as malhas porque ninguém teve tempo de ler além dos primeiros 30 currículos.',
-
-      'ab.s2.eye': 'O que construímos',
-      'ab.s2.h2': 'Uma plataforma de ponta-a-ponta que permite às equipas de RH focarem-se em pessoas, não em burocracia.',
-      'ab.s2.p': 'O RHC combina triagem de CVs com IA, avaliação psicométrica e técnica personalizada, e uma experiência limpa e moderna tanto para recrutadores como para candidatos. Cada parte do produto foi desenhada para remover atrito e permitir que as pessoas tomem melhores decisões de contratação.',
-
-      'ab.s3.eye': 'Como trabalhamos',
-      'ab.s3.h2': 'Próximos das pessoas que realmente vão usar o produto.',
-      'ab.s3.p': 'Trabalhamos directamente com equipas de RH, fundadores e especialistas em recrutamento para moldar o RHC em torno de fluxos de trabalho reais, não suposições. Acreditamos que contratar bem não deve ser um privilégio das grandes empresas — deve ser acessível, transparente e impulsionado pela melhor tecnologia disponível hoje.',
-
-      'ab.team.eye': 'A Equipa',
-      'ab.team.h2': 'As pessoas por trás do RHC',
-      'ab.team.desc': 'Equipa pequena, planos grandes. Vamos contratar em breve — acompanha-nos.',
-      'ab.team.role': 'Fundador',
-
-      'ab.contact.h2': 'Queres falar connosco?',
-      'ab.contact.sub': 'Seja qual for o caminho que faz sentido para ti, entraremos em contacto.',
-      'ab.c1.tag': 'Para equipas de RH',
-      'ab.c1.h3': 'A contratar? Vê-o em acção.',
-      'ab.c1.p': 'Marca uma demo de 20 minutos. Mostramos-te como o RHC se encaixa no teu processo de contratação.',
-      'ab.c1.cta': 'Pedir demo',
-      'ab.c2.tag': 'Para todos os outros',
-      'ab.c2.h3': 'Queres fazer parceria ou só conversar?',
-      'ab.c2.p': 'Imprensa, parcerias, feedback, ou só curiosidade — escreve-nos para',
+      'legal.title': 'Termos & Condições · RHC',
+      'legal.tag': 'Legal',
+      'legal.h1': 'Termos & Condições',
+      'legal.placeholder': 'Esta página está a ser finalizada. Para questões sobre o serviço, contacta-nos em [email de contacto].',
+      'legal.back': '← Voltar à página inicial',
 
       'foot.home': 'Home',
       'foot.about': 'Sobre Nós',
@@ -672,37 +602,11 @@
       'nav.blog': 'Blog',
       'nav.cta': 'Get a Demo',
 
-      'ab.title': 'About · RHC',
-      'ab.tag': 'About RHC',
-      'ab.h1': 'Building the <em>recruitment platform</em>',
-      'ab.lead': 'A team using AI to help companies hire the right people.',
-
-      'ab.s1.eye': 'The problem',
-      'ab.s1.h2': 'Hiring is slow, expensive, and disconnected from what really matters.',
-      'ab.s1.p': "Traditional recruitment hasn't changed in decades. Hiring teams drown in CVs, candidates get lost in inboxes, and the best people slip through the cracks because no one had time to read past the first 30 résumés.",
-
-      'ab.s2.eye': 'What we build',
-      'ab.s2.h2': 'An end-to-end platform that lets HR teams focus on people, not paperwork.',
-      'ab.s2.p': 'RHC combines AI-powered CV screening, personalised psychometric and technical assessment, and a clean, modern experience for both recruiters and candidates. Every part of the product is designed to remove friction and let people make better hiring decisions.',
-
-      'ab.s3.eye': 'How we work',
-      'ab.s3.h2': "Close to the people who'll actually use the product.",
-      'ab.s3.p': "We work directly with HR teams, founders and recruitment specialists to shape RHC around real workflows, not assumptions. We believe great hiring shouldn't be a privilege of large enterprises, it should be accessible, transparent, and powered by the best technology available today.",
-
-      'ab.team.eye': 'The Team',
-      'ab.team.h2': 'The people behind RHC',
-      'ab.team.desc': "Small team, big plans. We're hiring soon, follow along.",
-      'ab.team.role': 'Founder',
-
-      'ab.contact.h2': 'Want to talk?',
-      'ab.contact.sub': "Whichever route makes sense for you, we'll be in touch.",
-      'ab.c1.tag': 'For HR teams',
-      'ab.c1.h3': 'Hiring? See it in action.',
-      'ab.c1.p': "Book a 20-minute demo. We'll show you how RHC fits into your hiring workflow.",
-      'ab.c1.cta': 'Get a demo',
-      'ab.c2.tag': 'For everyone else',
-      'ab.c2.h3': 'Want to partner or just chat?',
-      'ab.c2.p': 'Press, partnership, feedback, or just curious, drop us a line at',
+      'legal.title': 'Terms & Conditions · RHC',
+      'legal.tag': 'Legal',
+      'legal.h1': 'Terms & Conditions',
+      'legal.placeholder': 'This page is being finalised. For questions about the service, contact us at [contact email].',
+      'legal.back': '← Back to home',
 
       'foot.home': 'Home',
       'foot.about': 'About Us',
@@ -726,7 +630,7 @@
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
       const v = dict[el.dataset.i18nPlaceholder]; if(v != null) el.placeholder = v;
     });
-    if(dict['ab.title']) document.title = dict['ab.title'];
+    if(dict['legal.title']) document.title = dict['legal.title'];
     document.documentElement.lang = lang;
     try { localStorage.setItem('rhc_lang', lang); } catch(e) {}
     document.querySelectorAll('.lang-flag').forEach(b => {
