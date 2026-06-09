@@ -112,10 +112,15 @@
   .blog-hero h1 {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: clamp(1.8rem, 3.6vw, 3.2rem);
+    /* Lower max so the longer PT title ("Tudo sobre RHC") fits on a single
+       line within .blog-hero-content's 950px width. The vw-based middle
+       lets the size scale down on narrower viewports so nowrap never
+       pushes the text past the hero edge. */
+    font-size: clamp(1.5rem, 4.5vw, 2.8rem);
     line-height: 1.08;
     letter-spacing: -0.03em;
     margin-bottom: 1.5rem;
+    white-space: nowrap;
   }
   .blog-hero h1 em {
     font-style: normal;
@@ -358,6 +363,10 @@
       padding-left: 1.5rem; padding-right: 1.5rem;
     }
     .blog-hero { padding-top: 7rem; padding-bottom: 4rem; }
+    /* Narrow viewports get a tighter clamp so nowrap PT title still fits
+       — content area shrinks to ~272px at 320px viewport, well above the
+       title's rendered width at this size. */
+    .blog-hero h1 { font-size: clamp(1.2rem, 5.5vw, 1.9rem); }
   }
 
   /* ── Language toggle (PT / EN) — mirrors index.html ── */
