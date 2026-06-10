@@ -265,8 +265,8 @@
   <a href="/" class="logo">RH<span>C</span></a>
   <ul class="nav-links">
     <li><a href="/" data-i18n="nav.home">Home</a></li>
-    <li><a href="/about.html" data-i18n="nav.about">About Us</a></li>
-    <li><a href="/blog.html" class="active-link" data-i18n="nav.blog">Blog</a></li>
+    <li><a href="/about" data-i18n="nav.about">About Us</a></li>
+    <li><a href="/blog" class="active-link" data-i18n="nav.blog">Blog</a></li>
     <li class="lang-toggle" role="group" aria-label="Language">
       <button type="button" class="lang-flag" data-lang="pt" aria-label="Português">🇵🇹</button>
       <button type="button" class="lang-flag" data-lang="en" aria-label="English">🇬🇧</button>
@@ -286,11 +286,11 @@
   <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--paper);text-decoration:none;letter-spacing:-0.04em;">RH<span style="color:var(--accent2)">C</span></a>
   <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;">
     <a href="/" data-i18n="nav.home" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Home</a>
-    <a href="/about.html" data-i18n="nav.about" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">About Us</a>
-    <a href="/blog.html" data-i18n="nav.blog" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Blog</a>
+    <a href="/about" data-i18n="nav.about" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">About Us</a>
+    <a href="/blog" data-i18n="nav.blog" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Blog</a>
     <a href="mailto:hello@rhc.pt" data-i18n="footer.contact" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Contact</a>
-    <a href="/privacy.html" data-i18n="footer.privacy" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Privacy</a>
-    <a href="/terms.html" data-i18n="footer.terms" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Terms</a>
+    <a href="/privacy" data-i18n="footer.privacy" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Privacy</a>
+    <a href="/terms" data-i18n="footer.terms" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'">Terms</a>
   </div>
   <span data-i18n="footer.copyright">© 2026 RHC. All rights reserved.</span>
 </footer>
@@ -395,7 +395,7 @@ function renderState() {
         <div class="post-state-icon">✦</div>
         <h2>${escapeHtml(dict['post.notfound.title'])}</h2>
         <p>${escapeHtml(dict['post.notfound.desc'])}</p>
-        <a href="/blog.html">${escapeHtml(dict['post.backToBlog'])}</a>
+        <a href="/blog">${escapeHtml(dict['post.backToBlog'])}</a>
       </div>`;
     document.title = dict['post.notfound.title'] + ' · RHC';
     return;
