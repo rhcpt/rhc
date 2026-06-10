@@ -83,13 +83,6 @@
     position: relative;
   }
   .post-hero-inner { max-width: 720px; margin: 0 auto; text-align: left; }
-  .post-hero .back-link {
-    display: inline-flex; align-items: center; gap: 5px;
-    color: rgba(245,243,239,.55); text-decoration: none;
-    font-size: 0.85rem; margin-bottom: 1.4rem;
-    transition: color .2s;
-  }
-  .post-hero .back-link:hover { color: var(--paper); }
   .post-cat-pill-hero {
     display: inline-flex; align-items: center; gap: 5px;
     font-size: 0.78rem; font-weight: 600;
@@ -433,7 +426,6 @@ function renderState() {
   root.innerHTML = `
     <section class="post-hero">
       <div class="post-hero-inner">
-        <a href="/blog.html" class="back-link">${escapeHtml(dict['post.backToBlog'])}</a>
         ${catHtml}
         <h1>${escapeHtml(title)}</h1>
         ${subHtml}
