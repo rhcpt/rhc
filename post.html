@@ -66,6 +66,36 @@
   }
   .nav-cta:hover { background: var(--mid) !important; transform: scale(1.04); }
 
+  /* ── Mobile nav toggle (checkbox-CSS, no JS) ── */
+  .nav-toggle {
+    position: absolute;
+    width: 1px; height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .nav-right { display: flex; align-items: center; gap: 2rem; }
+  .nav-burger {
+    display: none;          /* shown only ≤760px */
+    width: 44px; height: 44px;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 5px;
+    background: transparent; border: 0;
+  }
+  .nav-burger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--paper);
+    border-radius: 2px;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+  .nav-backdrop { display: none; }
+  /* Mobile drawer — sibling of <nav>, hidden by default; shown only
+     ≤760px. Lives outside <nav> so position:fixed escapes the nav's
+     backdrop-filter containing block. */
+  .nav-drawer { display: none; }
+
   /* ── PREVIEW BANNER (only when ?preview=1) ── */
   .preview-banner {
     position: fixed; top: 0; left: 0; right: 0; z-index: 200;
@@ -230,7 +260,61 @@
   footer a { text-decoration: none; transition: color .2s; }
 
   @media (max-width: 760px) {
+    /* Hide the desktop inline link list — the mobile drawer takes over. */
     .nav-links { display: none; }
+
+    /* Show hamburger. */
+    .nav-burger { display: flex; }
+
+    /* Slide-in drawer from the right. Body-level sibling of <nav>, so
+       top/right/bottom are relative to the viewport — not the nav's
+       backdrop-filter containing block. */
+    .nav-drawer {
+      display: flex;
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: min(82vw, 320px);
+      background: rgba(10,10,15,0.98);
+      backdrop-filter: blur(14px);
+      border-left: 1px solid rgba(255,255,255,0.08);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.4rem;
+      padding: 5.5rem 2rem 2rem;
+      transform: translateX(100%);
+      transition: transform .25s ease;
+      z-index: 99;
+    }
+    #nav-toggle:checked ~ .nav-drawer { transform: translateX(0); }
+
+    /* Link styling inside the drawer — mirrors .nav-links a. */
+    .nav-drawer a {
+      font-size: 0.9rem; font-weight: 500;
+      color: rgba(245,243,239,0.6); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-drawer a:hover { color: var(--paper); }
+
+    /* Full-screen backdrop behind the drawer — tap to close. */
+    .nav-backdrop {
+      display: block;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      z-index: 98;
+    }
+    #nav-toggle:checked ~ .nav-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Hamburger morphs into ✕ when the menu is open. */
+    #nav-toggle:checked ~ nav .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #nav-toggle:checked ~ nav .nav-burger span:nth-child(2) { opacity: 0; }
+    #nav-toggle:checked ~ nav .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
     nav, .post-hero, .post-featured, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
     .post-hero { padding-top: 6rem; padding-bottom: 2rem; }
     .post-content { padding: 2rem 1.5rem 3rem; }
@@ -261,19 +345,35 @@
 
 <div id="preview-banner" class="preview-banner">⚠ Pré-visualização — este post ainda não está publicado</div>
 
+<input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" tabindex="-1">
 <nav>
   <a href="/" class="logo">RH<span>C</span></a>
-  <ul class="nav-links">
-    <li><a href="/" data-i18n="nav.home">Home</a></li>
-    <li><a href="/about" data-i18n="nav.about">About Us</a></li>
-    <li><a href="/blog" class="active-link" data-i18n="nav.blog">Blog</a></li>
-    <li class="lang-toggle" role="group" aria-label="Language">
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="/" data-i18n="nav.home">Home</a></li>
+      <li><a href="/about" data-i18n="nav.about">About Us</a></li>
+      <li><a href="/blog" class="active-link" data-i18n="nav.blog">Blog</a></li>
+      <li><a href="/#cta" class="nav-cta" data-i18n="nav.cta">Get a Demo</a></li>
+    </ul>
+    <div class="lang-toggle" role="group" aria-label="Language">
       <button type="button" class="lang-flag" data-lang="pt" aria-label="Português">🇵🇹</button>
       <button type="button" class="lang-flag" data-lang="en" aria-label="English">🇬🇧</button>
-    </li>
-    <li><a href="/#cta" class="nav-cta" data-i18n="nav.cta">Get a Demo</a></li>
-  </ul>
+    </div>
+    <label for="nav-toggle" class="nav-burger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </label>
+  </div>
 </nav>
+<!-- Mobile drawer — body-level sibling of <nav>. Lives outside nav so
+     position:fixed lands on the viewport, not on the nav's
+     backdrop-filter containing block. Mirrors the inline desktop links. -->
+<div class="nav-drawer" aria-hidden="true">
+  <a href="/" data-i18n="nav.home">Home</a>
+  <a href="/about" data-i18n="nav.about">About Us</a>
+  <a href="/blog" class="active-link" data-i18n="nav.blog">Blog</a>
+  <a href="/#cta" class="nav-cta" data-i18n="nav.cta">Get a Demo</a>
+</div>
+<label for="nav-toggle" class="nav-backdrop" aria-hidden="true"></label>
 
 <div id="post-root">
   <div class="post-state">
