@@ -195,7 +195,7 @@
   .btn-secondary:hover { border-color: var(--ink); background: rgba(10,10,15,.04); }
 
   .hero-stats {
-    display: flex; gap: 3rem; margin-top: 5rem;
+    display: flex; flex-wrap: wrap; gap: 3rem; margin-top: 5rem;
     animation: fadeUp .7s .4s ease both;
   }
   .stat-item { display: flex; flex-direction: column; gap: .2rem; }
@@ -1138,11 +1138,29 @@
 
   @media (max-width: 980px) {
     #hero .hero-layout { grid-template-columns: 1fr; gap: 2rem; }
-    #hero .rhc-laptop-wrap { max-width: 540px; margin: 0 auto; padding: 24px; }
-    #hero .laptop, #hero .laptop .base { width: 100%; max-width: 540px; }
-    #hero .laptop .base { width: 100%; }
-    #hero .laptop .screen { width: 100%; max-width: 100%; }
-    #hero .glow { width: 360px; height: 360px; }
+    /* Switch to block flex + width:100% + min-width:0 so the wrapper
+       follows the viewport instead of anchoring at its max-width:540px.
+       With display:inline-flex (base) the box is atomic-inline-sized and
+       keeps the hero column ~540px wide even on 320-360px phones,
+       clipping hero content on the right via body's overflow-x:hidden. */
+    #hero .rhc-laptop-wrap {
+      display: flex;
+      width: 100%;
+      max-width: 540px;
+      min-width: 0;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    #hero .laptop, #hero .laptop .base { width: 100%; max-width: 540px; min-width: 0; }
+    #hero .laptop .screen { width: 100%; max-width: 100%; min-width: 0; }
+    /* .dash had width:655px hardcoded with no mobile override — that's
+       the px-rigid layer that was forcing the laptop column to claim
+       too much width. Now it follows the screen; the scale(0.8) +
+       overflow:hidden on .screen keep the mock look together. */
+    #hero .laptop .screen .dash { width: 100%; max-width: 100%; min-width: 0; }
+    /* Glow scales with viewport so very narrow phones aren't pushed
+       by its absolute box during the parent's content-size calc. */
+    #hero .glow { width: min(360px, 80vw); height: min(360px, 80vw); }
   }
 </style>
 </head>
