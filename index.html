@@ -69,6 +69,36 @@
   }
   .nav-cta:hover { background: var(--mid) !important; transform: scale(1.04); }
 
+  /* ── Mobile nav toggle (checkbox-CSS, no JS) ── */
+  /* The checkbox is visually hidden but reachable via label[for]; it sits
+     as DOM sibling of .nav-right and .nav-backdrop so the
+     #nav-toggle:checked ~ X pattern hits both. Position absolute keeps it
+     out of flex layout. */
+  .nav-toggle {
+    position: absolute;
+    width: 1px; height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .nav-right { display: flex; align-items: center; gap: 2rem; }
+  .nav-burger {
+    display: none;          /* shown only ≤900px */
+    width: 44px; height: 44px;   /* 44×44 touch target per WCAG */
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 5px;
+    background: transparent; border: 0;
+  }
+  .nav-burger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--paper);
+    border-radius: 2px;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+  .nav-backdrop { display: none; }
+
   /* ── HERO ── */
   #hero {
     min-height: 85vh;
@@ -557,7 +587,49 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
+
+    /* Show hamburger. */
+    .nav-burger { display: flex; }
+
+    /* Slide-in drawer from the right; hidden by default, shown when
+       #nav-toggle is checked. */
+    .nav-links {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: min(82vw, 320px);
+      background: rgba(10,10,15,0.98);
+      backdrop-filter: blur(14px);
+      border-left: 1px solid rgba(255,255,255,0.08);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.4rem;
+      padding: 5.5rem 2rem 2rem;
+      transform: translateX(100%);
+      transition: transform .25s ease;
+      z-index: 99;
+    }
+    #nav-toggle:checked ~ .nav-right .nav-links { transform: translateX(0); }
+
+    /* Full-screen backdrop behind the drawer — tap to close. */
+    .nav-backdrop {
+      display: block;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      z-index: 98;
+    }
+    #nav-toggle:checked ~ .nav-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Hamburger morphs into ✕ when the menu is open. */
+    #nav-toggle:checked ~ .nav-right .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #nav-toggle:checked ~ .nav-right .nav-burger span:nth-child(2) { opacity: 0; }
+    #nav-toggle:checked ~ .nav-right .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
     section, #hero { padding: 5rem 1.5rem; }
     .features-layout { grid-template-columns: 1fr; }
     .hero-stats { gap: 1.5rem; }
@@ -1057,16 +1129,23 @@
 <!-- NAV -->
 <nav>
   <a href="/" class="logo" style="color:#ffffff;">RH<span style="color:var(--accent2)">C</span></a>
-  <ul class="nav-links">
-    <li><a href="/" class="active-link" data-i18n="nav.home">Home</a></li>
-    <li><a href="/about" data-i18n="nav.about">About Us</a></li>
-    <li><a href="/blog" data-i18n="nav.blog">Blog</a></li>
-    <li class="lang-toggle" aria-label="Language">
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" tabindex="-1">
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="/" class="active-link" data-i18n="nav.home">Home</a></li>
+      <li><a href="/about" data-i18n="nav.about">About Us</a></li>
+      <li><a href="/blog" data-i18n="nav.blog">Blog</a></li>
+      <li><a href="#" class="nav-cta" data-open-demo data-i18n="nav.cta" onclick="document.getElementById('nav-toggle').checked=false">Get a Demo</a></li>
+    </ul>
+    <div class="lang-toggle" aria-label="Language">
       <button type="button" class="lang-flag" data-lang="pt" aria-label="Português">🇵🇹</button>
       <button type="button" class="lang-flag" data-lang="en" aria-label="English">🇬🇧</button>
-    </li>
-    <li><a href="#" class="nav-cta" data-open-demo data-i18n="nav.cta">Get a Demo</a></li>
-  </ul>
+    </div>
+    <label for="nav-toggle" class="nav-burger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </label>
+  </div>
+  <label for="nav-toggle" class="nav-backdrop" aria-hidden="true"></label>
 </nav>
 
 <!-- HERO -->
