@@ -99,6 +99,12 @@
   }
   .nav-backdrop { display: none; }
 
+  /* Mobile drawer — sibling of <nav>, hidden by default; shown only
+     ≤900px. Lives outside <nav> so position:fixed (in the media query
+     below) lands on the viewport instead of the nav's clipped
+     containing block. */
+  .nav-drawer { display: none; }
+
   /* ── HERO ── */
   #hero {
     min-height: 85vh;
@@ -588,12 +594,17 @@
   @media (max-width: 900px) {
     nav { padding: 1rem 1.5rem; }
 
+    /* Hide the desktop inline link list — the mobile drawer takes over. */
+    .nav-links { display: none; }
+
     /* Show hamburger. */
     .nav-burger { display: flex; }
 
-    /* Slide-in drawer from the right; hidden by default, shown when
-       #nav-toggle is checked. */
-    .nav-links {
+    /* Slide-in drawer from the right. Body-level sibling of <nav>, so
+       top/right/bottom are relative to the viewport — not the nav's
+       backdrop-filter containing block. */
+    .nav-drawer {
+      display: flex;
       position: fixed;
       top: 0; right: 0; bottom: 0;
       width: min(82vw, 320px);
@@ -608,7 +619,16 @@
       transition: transform .25s ease;
       z-index: 99;
     }
-    #nav-toggle:checked ~ .nav-right .nav-links { transform: translateX(0); }
+    #nav-toggle:checked ~ .nav-drawer { transform: translateX(0); }
+
+    /* Link styling inside the drawer — mirrors .nav-links a so the
+       visual is identical to what the inline list shows in desktop. */
+    .nav-drawer a {
+      font-size: 0.9rem; font-weight: 500;
+      color: rgba(245,243,239,0.6); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-drawer a:hover { color: var(--paper); }
 
     /* Full-screen backdrop behind the drawer — tap to close. */
     .nav-backdrop {
@@ -625,10 +645,12 @@
       pointer-events: auto;
     }
 
-    /* Hamburger morphs into ✕ when the menu is open. */
-    #nav-toggle:checked ~ .nav-right .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    #nav-toggle:checked ~ .nav-right .nav-burger span:nth-child(2) { opacity: 0; }
-    #nav-toggle:checked ~ .nav-right .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* Hamburger morphs into ✕ when the menu is open. The checkbox is
+       now a sibling of <nav>, so the burger (inside nav) is reached via
+       descendant selector on the nav sibling. */
+    #nav-toggle:checked ~ nav .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #nav-toggle:checked ~ nav .nav-burger span:nth-child(2) { opacity: 0; }
+    #nav-toggle:checked ~ nav .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     section, #hero { padding: 5rem 1.5rem; }
     .features-layout { grid-template-columns: 1fr; }
@@ -1127,9 +1149,9 @@
 <body>
 
 <!-- NAV -->
+<input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" tabindex="-1">
 <nav>
   <a href="/" class="logo" style="color:#ffffff;">RH<span style="color:var(--accent2)">C</span></a>
-  <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" tabindex="-1">
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="/" class="active-link" data-i18n="nav.home">Home</a></li>
@@ -1145,8 +1167,19 @@
       <span></span><span></span><span></span>
     </label>
   </div>
-  <label for="nav-toggle" class="nav-backdrop" aria-hidden="true"></label>
 </nav>
+<!-- Mobile drawer — body-level sibling of <nav>. Lives outside nav so
+     its position:fixed lands on the viewport, not on the nav's
+     containing block (the nav has backdrop-filter, which would
+     otherwise clip fixed-positioned descendants to the nav's ~60px
+     area). Mirrors the inline desktop links. -->
+<div class="nav-drawer" aria-hidden="true">
+  <a href="/" data-i18n="nav.home">Home</a>
+  <a href="/about" data-i18n="nav.about">About Us</a>
+  <a href="/blog" data-i18n="nav.blog">Blog</a>
+  <a href="#" class="nav-cta" data-open-demo data-i18n="nav.cta" onclick="document.getElementById('nav-toggle').checked=false">Get a Demo</a>
+</div>
+<label for="nav-toggle" class="nav-backdrop" aria-hidden="true"></label>
 
 <!-- HERO -->
 <section id="hero">
