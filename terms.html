@@ -618,6 +618,7 @@
     line-height: 1.15;
     margin-bottom: 1.8rem;
     color: var(--ink);
+    white-space: nowrap;
   }
   .legal-body p {
     font-size: 1.05rem;
@@ -677,7 +678,13 @@
     transition: opacity .2s;
   }
   .legal-body a:hover { opacity: 0.7; }
-  @media (max-width: 760px) { .legal-page { padding: 7rem 1.5rem 4rem; } }
+  @media (max-width: 760px) {
+    .legal-page { padding: 7rem 1.5rem 4rem; }
+    /* Mobile: the title is too long to fit one line in narrow viewports;
+       drop the desktop nowrap so it wraps naturally and never spills
+       outside the screen. */
+    .legal-page h1 { white-space: normal; }
+  }
 </style>
 </head>
 <body>
@@ -816,7 +823,7 @@
       'legal.h1': 'Termos & Condições',
       'legal.back': '← Voltar à página inicial',
 
-      'terms.updated': 'Última atualização: [DATA]',
+      'terms.updated': 'Última atualização: 29/06/2026',
 
       'terms.s1.h2': '1. Identificação e objeto',
       'terms.s1.p1': 'Estes Termos e Condições regulam o acesso e a utilização da plataforma RHC, disponível em rhc.pt (o "Serviço"), uma ferramenta de recrutamento assistido por inteligência artificial. O Serviço é fornecido por [NOME LEGAL DA EMPRESA], com sede em [MORADA], titular do número de identificação fiscal [NIF] ("RHC", "nós"). Ao subscrever ou utilizar o Serviço, o cliente aceita estes Termos na íntegra.',
@@ -890,7 +897,7 @@
       'legal.h1': 'Terms & Conditions',
       'legal.back': '← Back to home',
 
-      'terms.updated': 'Last updated: [DATE]',
+      'terms.updated': 'Last updated: 29 June 2026',
 
       'terms.s1.h2': '1. Identification and purpose',
       'terms.s1.p1': 'These Terms and Conditions govern access to and use of the RHC platform, available at rhc.pt (the "Service"), an AI-assisted recruitment tool. The Service is provided by [LEGAL COMPANY NAME], with registered office at [ADDRESS], holder of VAT number [VAT NUMBER] ("RHC", "we"). By subscribing to or using the Service, the customer accepts these Terms in full.',
