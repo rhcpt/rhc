@@ -634,6 +634,49 @@
     transition: opacity .2s;
   }
   .legal-back a:hover { opacity: 0.65; }
+  /* — Last updated line — discreet, monospace-ish, between H1 and first section. */
+  .legal-updated {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    display: block;
+    opacity: 0.85;
+  }
+  /* — Section headings inside the legal body. */
+  .legal-body h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-top: 2.4rem;
+    margin-bottom: 1rem;
+    scroll-margin-top: 100px;
+  }
+  .legal-body h2:first-of-type { margin-top: 1.4rem; }
+  /* — Lists inside the legal body (acceptable-use bullet list, etc.). */
+  .legal-body ul {
+    margin: 0 0 1.4rem 0;
+    padding-left: 1.25rem;
+    list-style: disc outside;
+  }
+  .legal-body ul li {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  /* — Emphasis inside the legal body. */
+  .legal-body strong { color: var(--ink); font-weight: 600; }
+  .legal-body em { font-style: italic; }
+  /* — Inline links inside the legal body (e.g. link to the Privacy Policy). */
+  .legal-body a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--accent2);
+    text-decoration: none;
+    transition: opacity .2s;
+  }
+  .legal-body a:hover { opacity: 0.7; }
   @media (max-width: 760px) { .legal-page { padding: 7rem 1.5rem 4rem; } }
 </style>
 </head>
@@ -677,7 +720,63 @@
     <span class="legal-tag" data-i18n="legal.tag">Legal</span>
     <h1 data-i18n="legal.h1">Terms &amp; Conditions</h1>
     <div class="legal-body">
-      <p data-i18n="legal.placeholder">This page is being finalised. For questions about the service, contact us at [contact email].</p>
+      <p class="legal-updated" data-i18n="terms.updated">Last updated: [DATE]</p>
+
+      <h2 id="s1" data-i18n="terms.s1.h2">1. Identification and purpose</h2>
+      <p data-i18n="terms.s1.p1">These Terms and Conditions govern access to and use of the RHC platform, available at rhc.pt (the "Service"), an AI-assisted recruitment tool. The Service is provided by [LEGAL COMPANY NAME], with registered office at [ADDRESS], holder of VAT number [VAT NUMBER] ("RHC", "we"). By subscribing to or using the Service, the customer accepts these Terms in full.</p>
+
+      <h2 id="s2" data-i18n="terms.s2.h2">2. Definitions</h2>
+      <p data-i18n="terms.s2.p1">"Service" means the RHC platform and all its features. "Customer" or "Recruiter" means the company or professional who subscribes to the Service to manage recruitment processes. "Candidate" means the person who applies for jobs through the platform. "Account" means the individual access record for the Service.</p>
+
+      <h2 id="s3" data-i18n="terms.s3.h2">3. Acceptance of Terms</h2>
+      <p data-i18n="terms.s3.p1">Use of the Service presupposes acceptance of these Terms. Those who do not agree with the Terms must not use the Service. These Terms may be supplemented by specific conditions applicable to particular plans or features.</p>
+
+      <h2 id="s4" data-i18n="terms.s4.h2">4. Service description</h2>
+      <p data-i18n="terms.s4.p1">RHC provides AI-assisted candidate screening tools, job creation and management, assessment tests, and tracking of recruitment processes. Available features depend on the subscribed plan. RHC reserves the right to improve, change or discontinue features, communicating material changes with reasonable advance notice.</p>
+
+      <h2 id="s5" data-i18n="terms.s5.h2">5. Account and access</h2>
+      <p data-i18n="terms.s5.p1">To use the Service, the Customer creates an account and is responsible for maintaining the confidentiality of their access credentials, as well as for all activity carried out through their account. The Customer undertakes to provide truthful and up-to-date information. RHC may suspend accounts that violate these Terms.</p>
+
+      <h2 id="s6" data-i18n="terms.s6.h2">6. Plans and payment</h2>
+      <p data-i18n="terms.s6.p1">The Service is provided through paid subscription, in the Starter, Growth and Pro plans, with different limits and features. Subscriptions are billed monthly, in advance. Current prices are available on the website and may be changed, with changes communicated to the Customer in advance. Failure to pay may result in suspension or cancellation of access to the Service. Unless otherwise required by law, amounts paid are non-refundable for periods already elapsed.</p>
+
+      <h2 id="s7" data-i18n="terms.s7.h2">7. Acceptable use</h2>
+      <p data-i18n="terms.s7.p1">The Customer undertakes to use the Service lawfully and in accordance with these Terms, and may not, in particular:</p>
+      <ul>
+        <li data-i18n="terms.s7.li1">use the Service for illegal or discriminatory purposes;</li>
+        <li data-i18n="terms.s7.li2">attempt to access systems or data without authorization;</li>
+        <li data-i18n="terms.s7.li3">overload or compromise the security of the platform;</li>
+        <li data-i18n="terms.s7.li4">use the Service in a way that violates third-party rights.</li>
+      </ul>
+      <p data-i18n="terms.s7.p2">The Customer is responsible for the content of the jobs they publish and for the way they handle candidate data in the context of their recruitment processes.</p>
+
+      <h2 id="s8" data-i18n="terms.s8.h2">8. Candidates</h2>
+      <p data-i18n-html="terms.s8.p1">Candidates may use the platform to apply for jobs and take assessment tests. Candidates' use of the platform is governed by these Terms, where applicable, and by the <a href="/privacy">Privacy Policy</a>, which describes how personal data is handled. RHC acts as a tool serving the Recruiter; recruitment decisions are the Recruiter's responsibility.</p>
+
+      <h2 id="s9" data-i18n="terms.s9.h2">9. Artificial intelligence</h2>
+      <p data-i18n="terms.s9.p1">The Service uses artificial intelligence to support the screening and evaluation of applications. The results produced by artificial intelligence are indicative in nature and are intended to support the Recruiter's decision, not to replace their judgment. RHC does not guarantee the absence of errors in automated analyses and recommends that the Recruiter use them as decision support, not as a final automatic decision.</p>
+
+      <h2 id="s10" data-i18n="terms.s10.h2">10. Intellectual property</h2>
+      <p data-i18n="terms.s10.p1">The RHC platform, including its software, design, brand and content, is the property of RHC and is protected by intellectual property rights. Subscribing to the Service grants the Customer a limited, non-exclusive and non-transferable right of use, with no transfer of ownership rights. Content entered by the Customer (jobs, descriptions) remains their property.</p>
+
+      <h2 id="s11" data-i18n="terms.s11.h2">11. Service availability</h2>
+      <p data-i18n="terms.s11.p1">RHC makes reasonable efforts to keep the Service available and functional, but does not guarantee uninterrupted availability. The Service may be temporarily unavailable due to maintenance, updates or external factors. RHC is not responsible for unavailability caused by third parties or by circumstances beyond its reasonable control.</p>
+
+      <h2 id="s12" data-i18n="terms.s12.h2">12. Limitation of liability</h2>
+      <p data-i18n="terms.s12.p1">To the maximum extent permitted by law, RHC is not liable for indirect damages, loss of profits, loss of opportunities or recruitment decisions made by the Customer based on use of the Service. The Service is provided as a support tool, with hiring decisions being the sole responsibility of the Customer.</p>
+
+      <h2 id="s13" data-i18n="terms.s13.h2">13. Cancellation</h2>
+      <p data-i18n="terms.s13.p1">The Customer may cancel their subscription at any time, with cancellation taking effect at the end of the current billing period. RHC may suspend or cancel access in case of violation of these Terms or failure to pay. After cancellation, access to the Service ceases, without prejudice to the Privacy Policy regarding data retention and deletion.</p>
+
+      <h2 id="s14" data-i18n="terms.s14.h2">14. Changes to Terms</h2>
+      <p data-i18n="terms.s14.p1">RHC may amend these Terms. Material changes will be communicated to the Customer through the Service or by email, with reasonable advance notice. Continued use of the Service after the changes take effect constitutes acceptance of those changes.</p>
+
+      <h2 id="s15" data-i18n="terms.s15.h2">15. Applicable law and jurisdiction</h2>
+      <p data-i18n="terms.s15.p1">These Terms are governed by Portuguese law. The courts of [JURISDICTION] shall have jurisdiction over any disputes arising from these Terms, without prejudice to mandatory consumer protection rules that may apply.</p>
+
+      <h2 id="s16" data-i18n="terms.s16.h2">16. Contact</h2>
+      <p data-i18n="terms.s16.p1">For any question regarding these Terms or the Service, contact us at hello@rhc.pt.</p>
+
       <p class="legal-back"><a href="/" data-i18n="legal.back">← Back to home</a></p>
     </div>
   </div>
@@ -715,8 +814,62 @@
       'legal.title': 'Termos & Condições · RHC',
       'legal.tag': 'Legal',
       'legal.h1': 'Termos & Condições',
-      'legal.placeholder': 'Esta página está a ser finalizada. Para questões sobre o serviço, contacta-nos em [email de contacto].',
       'legal.back': '← Voltar à página inicial',
+
+      'terms.updated': 'Última atualização: [DATA]',
+
+      'terms.s1.h2': '1. Identificação e objeto',
+      'terms.s1.p1': 'Estes Termos e Condições regulam o acesso e a utilização da plataforma RHC, disponível em rhc.pt (o "Serviço"), uma ferramenta de recrutamento assistido por inteligência artificial. O Serviço é fornecido por [NOME LEGAL DA EMPRESA], com sede em [MORADA], titular do número de identificação fiscal [NIF] ("RHC", "nós"). Ao subscrever ou utilizar o Serviço, o cliente aceita estes Termos na íntegra.',
+
+      'terms.s2.h2': '2. Definições',
+      'terms.s2.p1': '"Serviço" designa a plataforma RHC e todas as suas funcionalidades. "Cliente" ou "Recrutador" designa a empresa ou profissional que subscreve o Serviço para gerir processos de recrutamento. "Candidato" designa a pessoa que se candidata a vagas através da plataforma. "Conta" designa o registo individual de acesso ao Serviço.',
+
+      'terms.s3.h2': '3. Aceitação dos Termos',
+      'terms.s3.p1': 'A utilização do Serviço pressupõe a aceitação destes Termos. Quem não concordar com os Termos não deve utilizar o Serviço. Estes Termos podem ser complementados por condições específicas aplicáveis a determinados planos ou funcionalidades.',
+
+      'terms.s4.h2': '4. Descrição do Serviço',
+      'terms.s4.p1': 'O RHC disponibiliza ferramentas de triagem de candidatos assistida por inteligência artificial, criação e gestão de vagas, testes de avaliação, e acompanhamento de processos de recrutamento. As funcionalidades disponíveis dependem do plano subscrito. O RHC reserva-se o direito de melhorar, alterar ou descontinuar funcionalidades, comunicando alterações relevantes com antecedência razoável.',
+
+      'terms.s5.h2': '5. Conta e acesso',
+      'terms.s5.p1': 'Para utilizar o Serviço, o Cliente cria uma conta e é responsável por manter a confidencialidade das suas credenciais de acesso, bem como por toda a atividade realizada através da sua conta. O Cliente compromete-se a fornecer informação verdadeira e atualizada. O RHC pode suspender contas que violem estes Termos.',
+
+      'terms.s6.h2': '6. Planos e pagamento',
+      'terms.s6.p1': 'O Serviço é disponibilizado mediante subscrição paga, nos planos Starter, Growth e Pro, com diferentes limites e funcionalidades. As subscrições são cobradas mensalmente, de forma antecipada. Os preços em vigor estão disponíveis no site e podem ser alterados, sendo as alterações comunicadas ao Cliente com antecedência. A falta de pagamento pode resultar na suspensão ou cancelamento do acesso ao Serviço. Salvo disposição legal em contrário, os valores pagos não são reembolsáveis relativamente a períodos já decorridos.',
+
+      'terms.s7.h2': '7. Utilização aceitável',
+      'terms.s7.p1': 'O Cliente compromete-se a utilizar o Serviço de forma lícita e de acordo com estes Termos, não podendo, nomeadamente:',
+      'terms.s7.li1': 'utilizar o Serviço para fins ilegais ou discriminatórios;',
+      'terms.s7.li2': 'tentar aceder indevidamente a sistemas ou dados;',
+      'terms.s7.li3': 'sobrecarregar ou comprometer a segurança da plataforma;',
+      'terms.s7.li4': 'utilizar o Serviço de forma que viole direitos de terceiros.',
+      'terms.s7.p2': 'O Cliente é responsável pelo conteúdo das vagas que publica e pelo tratamento que dá aos dados dos candidatos no âmbito dos seus processos de recrutamento.',
+
+      'terms.s8.h2': '8. Candidatos',
+      'terms.s8.p1': 'Os Candidatos podem utilizar a plataforma para se candidatar a vagas e realizar testes de avaliação. A utilização da plataforma pelos Candidatos rege-se por estes Termos, na parte aplicável, e pela <a href="/privacy">Política de Privacidade</a>, que descreve como os dados pessoais são tratados. O RHC atua como ferramenta ao serviço do Recrutador; as decisões de recrutamento são da responsabilidade do Recrutador.',
+
+      'terms.s9.h2': '9. Inteligência artificial',
+      'terms.s9.p1': 'O Serviço utiliza inteligência artificial para apoiar a triagem e avaliação de candidaturas. Os resultados produzidos pela inteligência artificial têm natureza indicativa e destinam-se a apoiar a decisão do Recrutador, não substituindo o seu juízo. O RHC não garante a ausência de erros nas análises automatizadas e recomenda que o Recrutador as utilize como apoio à decisão, e não como decisão automática final.',
+
+      'terms.s10.h2': '10. Propriedade intelectual',
+      'terms.s10.p1': 'A plataforma RHC, incluindo o seu software, design, marca e conteúdos, é propriedade do RHC e está protegida por direitos de propriedade intelectual. A subscrição do Serviço confere ao Cliente um direito de utilização limitado, não exclusivo e não transferível, não implicando qualquer transmissão de direitos de propriedade. Os conteúdos introduzidos pelo Cliente (vagas, descrições) permanecem da sua titularidade.',
+
+      'terms.s11.h2': '11. Disponibilidade do Serviço',
+      'terms.s11.p1': 'O RHC envida esforços razoáveis para manter o Serviço disponível e funcional, mas não garante disponibilidade ininterrupta. O Serviço pode estar temporariamente indisponível por motivos de manutenção, atualizações ou fatores externos. O RHC não é responsável por indisponibilidades causadas por terceiros ou por circunstâncias fora do seu controlo razoável.',
+
+      'terms.s12.h2': '12. Limitação de responsabilidade',
+      'terms.s12.p1': 'Na medida máxima permitida por lei, o RHC não é responsável por danos indiretos, lucros cessantes, perda de oportunidades ou decisões de recrutamento tomadas pelo Cliente com base na utilização do Serviço. O Serviço é fornecido como ferramenta de apoio, sendo as decisões de contratação da exclusiva responsabilidade do Cliente.',
+
+      'terms.s13.h2': '13. Cancelamento',
+      'terms.s13.p1': 'O Cliente pode cancelar a sua subscrição a qualquer momento, produzindo o cancelamento efeitos no final do período de faturação em curso. O RHC pode suspender ou cancelar o acesso em caso de violação destes Termos ou de falta de pagamento. Após o cancelamento, o acesso ao Serviço cessa, sem prejuízo do disposto na Política de Privacidade quanto à conservação e eliminação de dados.',
+
+      'terms.s14.h2': '14. Alterações aos Termos',
+      'terms.s14.p1': 'O RHC pode alterar estes Termos. As alterações relevantes serão comunicadas ao Cliente através do Serviço ou por email, com antecedência razoável. A continuação da utilização do Serviço após a entrada em vigor das alterações constitui aceitação das mesmas.',
+
+      'terms.s15.h2': '15. Lei aplicável e foro',
+      'terms.s15.p1': 'Estes Termos regem-se pela lei portuguesa. Para a resolução de quaisquer litígios emergentes destes Termos, é competente o foro de [COMARCA], sem prejuízo das regras imperativas de proteção do consumidor que sejam aplicáveis.',
+
+      'terms.s16.h2': '16. Contacto',
+      'terms.s16.p1': 'Para qualquer questão relativa a estes Termos ou ao Serviço, contacta-nos através de hello@rhc.pt.',
 
       'foot.home': 'Home',
       'foot.about': 'Sobre Nós',
@@ -735,8 +888,62 @@
       'legal.title': 'Terms & Conditions · RHC',
       'legal.tag': 'Legal',
       'legal.h1': 'Terms & Conditions',
-      'legal.placeholder': 'This page is being finalised. For questions about the service, contact us at [contact email].',
       'legal.back': '← Back to home',
+
+      'terms.updated': 'Last updated: [DATE]',
+
+      'terms.s1.h2': '1. Identification and purpose',
+      'terms.s1.p1': 'These Terms and Conditions govern access to and use of the RHC platform, available at rhc.pt (the "Service"), an AI-assisted recruitment tool. The Service is provided by [LEGAL COMPANY NAME], with registered office at [ADDRESS], holder of VAT number [VAT NUMBER] ("RHC", "we"). By subscribing to or using the Service, the customer accepts these Terms in full.',
+
+      'terms.s2.h2': '2. Definitions',
+      'terms.s2.p1': '"Service" means the RHC platform and all its features. "Customer" or "Recruiter" means the company or professional who subscribes to the Service to manage recruitment processes. "Candidate" means the person who applies for jobs through the platform. "Account" means the individual access record for the Service.',
+
+      'terms.s3.h2': '3. Acceptance of Terms',
+      'terms.s3.p1': 'Use of the Service presupposes acceptance of these Terms. Those who do not agree with the Terms must not use the Service. These Terms may be supplemented by specific conditions applicable to particular plans or features.',
+
+      'terms.s4.h2': '4. Service description',
+      'terms.s4.p1': 'RHC provides AI-assisted candidate screening tools, job creation and management, assessment tests, and tracking of recruitment processes. Available features depend on the subscribed plan. RHC reserves the right to improve, change or discontinue features, communicating material changes with reasonable advance notice.',
+
+      'terms.s5.h2': '5. Account and access',
+      'terms.s5.p1': 'To use the Service, the Customer creates an account and is responsible for maintaining the confidentiality of their access credentials, as well as for all activity carried out through their account. The Customer undertakes to provide truthful and up-to-date information. RHC may suspend accounts that violate these Terms.',
+
+      'terms.s6.h2': '6. Plans and payment',
+      'terms.s6.p1': 'The Service is provided through paid subscription, in the Starter, Growth and Pro plans, with different limits and features. Subscriptions are billed monthly, in advance. Current prices are available on the website and may be changed, with changes communicated to the Customer in advance. Failure to pay may result in suspension or cancellation of access to the Service. Unless otherwise required by law, amounts paid are non-refundable for periods already elapsed.',
+
+      'terms.s7.h2': '7. Acceptable use',
+      'terms.s7.p1': 'The Customer undertakes to use the Service lawfully and in accordance with these Terms, and may not, in particular:',
+      'terms.s7.li1': 'use the Service for illegal or discriminatory purposes;',
+      'terms.s7.li2': 'attempt to access systems or data without authorization;',
+      'terms.s7.li3': 'overload or compromise the security of the platform;',
+      'terms.s7.li4': 'use the Service in a way that violates third-party rights.',
+      'terms.s7.p2': 'The Customer is responsible for the content of the jobs they publish and for the way they handle candidate data in the context of their recruitment processes.',
+
+      'terms.s8.h2': '8. Candidates',
+      "terms.s8.p1": "Candidates may use the platform to apply for jobs and take assessment tests. Candidates' use of the platform is governed by these Terms, where applicable, and by the <a href=\"/privacy\">Privacy Policy</a>, which describes how personal data is handled. RHC acts as a tool serving the Recruiter; recruitment decisions are the Recruiter's responsibility.",
+
+      'terms.s9.h2': '9. Artificial intelligence',
+      "terms.s9.p1": "The Service uses artificial intelligence to support the screening and evaluation of applications. The results produced by artificial intelligence are indicative in nature and are intended to support the Recruiter's decision, not to replace their judgment. RHC does not guarantee the absence of errors in automated analyses and recommends that the Recruiter use them as decision support, not as a final automatic decision.",
+
+      'terms.s10.h2': '10. Intellectual property',
+      'terms.s10.p1': 'The RHC platform, including its software, design, brand and content, is the property of RHC and is protected by intellectual property rights. Subscribing to the Service grants the Customer a limited, non-exclusive and non-transferable right of use, with no transfer of ownership rights. Content entered by the Customer (jobs, descriptions) remains their property.',
+
+      'terms.s11.h2': '11. Service availability',
+      'terms.s11.p1': 'RHC makes reasonable efforts to keep the Service available and functional, but does not guarantee uninterrupted availability. The Service may be temporarily unavailable due to maintenance, updates or external factors. RHC is not responsible for unavailability caused by third parties or by circumstances beyond its reasonable control.',
+
+      'terms.s12.h2': '12. Limitation of liability',
+      'terms.s12.p1': 'To the maximum extent permitted by law, RHC is not liable for indirect damages, loss of profits, loss of opportunities or recruitment decisions made by the Customer based on use of the Service. The Service is provided as a support tool, with hiring decisions being the sole responsibility of the Customer.',
+
+      'terms.s13.h2': '13. Cancellation',
+      'terms.s13.p1': 'The Customer may cancel their subscription at any time, with cancellation taking effect at the end of the current billing period. RHC may suspend or cancel access in case of violation of these Terms or failure to pay. After cancellation, access to the Service ceases, without prejudice to the Privacy Policy regarding data retention and deletion.',
+
+      'terms.s14.h2': '14. Changes to Terms',
+      'terms.s14.p1': 'RHC may amend these Terms. Material changes will be communicated to the Customer through the Service or by email, with reasonable advance notice. Continued use of the Service after the changes take effect constitutes acceptance of those changes.',
+
+      'terms.s15.h2': '15. Applicable law and jurisdiction',
+      'terms.s15.p1': 'These Terms are governed by Portuguese law. The courts of [JURISDICTION] shall have jurisdiction over any disputes arising from these Terms, without prejudice to mandatory consumer protection rules that may apply.',
+
+      'terms.s16.h2': '16. Contact',
+      'terms.s16.p1': 'For any question regarding these Terms or the Service, contact us at hello@rhc.pt.',
 
       'foot.home': 'Home',
       'foot.about': 'About Us',
