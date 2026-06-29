@@ -659,6 +659,14 @@
       transition: color .2s;
     }
     .nav-drawer a:hover { color: var(--paper); }
+    /* The .nav-cta keeps its desktop pill padding (.55rem 1.4rem) so it
+       reads as a button inside the drawer. That padding pushes the text
+       1.4rem inside the pill's left edge, leaving the "Pedir Demo" label
+       visually indented relative to the three plain-text links above.
+       Pull the whole pill 1.4rem to the left so its text lines up with
+       the others; the pill's shape, background, hover and transform
+       stay untouched. */
+    .nav-drawer .nav-cta { margin-left: -1.4rem; }
 
     /* Full-screen backdrop behind the drawer — tap to close. */
     .nav-backdrop {
