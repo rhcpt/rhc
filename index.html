@@ -1152,12 +1152,24 @@
       padding: 24px;
     }
     #hero .laptop, #hero .laptop .base { width: 100%; max-width: 540px; min-width: 0; }
-    #hero .laptop .screen { width: 100%; max-width: 100%; min-width: 0; }
-    /* .dash had width:655px hardcoded with no mobile override — that's
-       the px-rigid layer that was forcing the laptop column to claim
-       too much width. Now it follows the screen; the scale(0.8) +
-       overflow:hidden on .screen keep the mock look together. */
-    #hero .laptop .screen .dash { width: 100%; max-width: 100%; min-width: 0; }
+    /* Scale the whole mock as a proportional block instead of shrinking
+       its container alone. The previous mobile override forced .dash to
+       width:100% which kept the px-rigid internal layout (designed for
+       655px) cramped inside 280-320px — search bar, avatar, KPIs and
+       rows all overlapped. Now .dash keeps its native 655x411 canvas
+       (defined in the base scope above) and only the scale factor
+       changes. transform-origin:top left (also from base) ensures the
+       scaled dash anchors at the screen's top-left corner. */
+    #hero .laptop .screen {
+      width: 100%;
+      max-width: 540px;
+      height: auto;
+      aspect-ratio: 540 / 345;
+      container-type: inline-size;
+    }
+    #hero .laptop .screen .dash {
+      transform: scale(calc(100cqw / 655));
+    }
     /* Glow scales with viewport so very narrow phones aren't pushed
        by its absolute box during the parent's content-size calc. */
     #hero .glow { width: min(360px, 80vw); height: min(360px, 80vw); }
