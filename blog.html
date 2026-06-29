@@ -3,6 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  /* Language gate — runs in <head> before the body paints. Decides
+     the language with the same precedence used by _initialLang at the
+     bottom of the body (localStorage('rhc_lang') → navigator.language
+     → 'en') and pins it to <html> so the visibility-hidden rule below
+     can react immediately. The safety timer flips data-lang-ready
+     after 2s so the page never stays invisible if the bottom-of-body
+     applyLang() never runs (script blocked, fetch error, etc.). */
+  (function(){
+    var lang = null;
+    try { lang = localStorage.getItem('rhc_lang'); } catch(e) {}
+    if(lang !== 'pt' && lang !== 'en') {
+      var nav = ((navigator.language || '') + '').toLowerCase();
+      lang = nav.indexOf('pt') === 0 ? 'pt' : 'en';
+    }
+    document.documentElement.lang = lang;
+    document.documentElement.dataset.lang = lang;
+    setTimeout(function(){
+      if(!document.documentElement.hasAttribute('data-lang-ready')) {
+        document.documentElement.setAttribute('data-lang-ready', '1');
+      }
+    }, 2000);
+  })();
+</script>
+<noscript><style>html body { visibility: visible !important; }</style></noscript>
 <title>Blog · RHC</title>
 <meta name="description" content="On hiring, AI, GDPR and building RHC — insights and product updates from the RHC team.">
 <meta property="og:title" content="Blog · RHC">
@@ -11,6 +36,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
+  /* Hide the body until the bottom-of-body applyLang() has translated
+     the DOM (or the head safety timer has fired). The fallback inline
+     content is in EN; without this rule, PT users see a brief EN flash
+     before applyLang swaps the text. */
+  html:not([data-lang-ready]) body { visibility: hidden; }
   :root {
     --ink: #0a0a0f;
     --paper: #f5f3ef;
@@ -836,6 +866,7 @@ function applyLang(lang) {
   // Re-render the dynamically built post grid so fmtDate / category
   // labels reflect the new language.
   renderPosts();
+  document.documentElement.setAttribute('data-lang-ready', '1');
 }
 
 const _initialLang = (() => {
