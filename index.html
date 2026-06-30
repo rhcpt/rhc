@@ -1216,6 +1216,18 @@
        the original 16px/14px values. */
     #hero .kpi { padding: 10px 22px; }
     #hero .dl-head { margin-bottom: 8px; }
+    /* Free another ~30px of canvas (≈15px on screen) by tightening the
+       header's vertical padding and the ranking rows' padding. Header
+       height is driven by the 34px avatar, not the title font — so
+       reducing the padding is what actually shrinks .dash-top; the
+       16px font is cosmetic, matching the more compact header. Row
+       padding 12→9 trims ~6px per row × 3 rows. Combined with the
+       earlier kpi/dl-head trims and the scale tweak above, this gives
+       comfortable headroom for all 3 ranking rows across phone sizes.
+       Desktop scope keeps 18px header padding, 18px title, 12px rows. */
+    #hero .dash-top { padding: 12px 22px; }
+    #hero .dash-top .ttl { font-size: 16px; }
+    #hero .row { padding: 9px 14px; }
     /* Glow scales with viewport so very narrow phones aren't pushed
        by its absolute box during the parent's content-size calc. */
     #hero .glow { width: min(360px, 80vw); height: min(360px, 80vw); }
