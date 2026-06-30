@@ -1206,11 +1206,11 @@
       container-type: inline-size;
     }
     #hero .laptop .screen .dash {
-      transform: scale(calc(100cqw / 670));
+      transform: scale(calc(100cqw / 640));
     }
     /* Tighten KPI vertical padding and ranking header gap so the canvas
        (655x411) leaves room for at least the first ranking row. Canvas
-       pixels here get scaled by 100cqw/670 above; saved ~18px of canvas
+       pixels here get scaled by 100cqw/640 above; saved ~18px of canvas
        becomes ~10px on screen, which combined with the scale tweak
        clears the ~6px clip on the first row. Desktop scope above keeps
        the original 16px/14px values. */
@@ -1228,6 +1228,15 @@
     #hero .dash-top { padding: 12px 22px; }
     #hero .dash-top .ttl { font-size: 16px; }
     #hero .row { padding: 9px 14px; }
+    /* Right-side ranking elements survive the mobile scale: at base
+       10px/9.5px they'd render at ~4px on screen — present but
+       illegible. Bumping pct→16, tag→14, bar→9 yields ~6-8px after
+       scale (clearly readable). Grid uses align-items:center with the
+       .who text column (~38px) being the tallest cell, so these bumps
+       don't increase row height. Desktop scope keeps 10px/5px/9.5px. */
+    #hero .row .scorebar .pct { font-size: 16px; }
+    #hero .row .scorebar .bar { height: 9px; }
+    #hero .row .tag { font-size: 14px; padding: 7px 12px; }
     /* Glow scales with viewport so very narrow phones aren't pushed
        by its absolute box during the parent's content-size calc. */
     #hero .glow { width: min(360px, 80vw); height: min(360px, 80vw); }
