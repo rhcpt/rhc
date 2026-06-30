@@ -685,6 +685,41 @@
        outside the screen. */
     .legal-page h1 { white-space: normal; }
   }
+
+  /* — Cookie consent banner. Shared markup/CSS/JS across all public
+     pages so the consent choice is honoured everywhere. Banner only
+     renders when window.rhcReopenCookieBanner() is called explicitly
+     OR when localStorage('rhc_cookie_consent') is empty on first
+     visit. localStorage choice is essential (allowed without consent). */
+  .cookie-banner {
+    position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 200;
+    display: none;
+    background: rgba(7,7,13,0.97); backdrop-filter: blur(14px);
+    color: var(--paper);
+    border: 1px solid rgba(245,243,239,.08); border-radius: 14px;
+    padding: 1.1rem 1.4rem;
+    box-shadow: 0 18px 50px rgba(0,0,0,.4);
+    font-size: .92rem; line-height: 1.55;
+  }
+  .cookie-banner.visible { display: block; animation: cookie-in .25s ease-out; }
+  @keyframes cookie-in { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .cookie-banner-inner { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+  .cookie-banner-text { flex: 1; min-width: 240px; }
+  .cookie-banner-text strong { font-family: 'Syne', sans-serif; font-weight: 700; display: block; margin-bottom: .25rem; font-size: 1rem; color: var(--paper); }
+  .cookie-banner-text p { color: rgba(245,243,239,.75); margin: 0 0 .35rem 0; font-size: .88rem; }
+  .cookie-banner-link { color: var(--accent2); text-decoration: none; font-size: .85rem; border-bottom: 1px solid rgba(0,212,170,.35); }
+  .cookie-banner-link:hover { opacity: .8; }
+  .cookie-banner-actions { display: flex; gap: .6rem; flex-shrink: 0; }
+  .cookie-btn { font-family: inherit; font-size: .85rem; font-weight: 600; padding: .55rem 1.1rem; border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: opacity .15s, background .15s; }
+  .cookie-btn-secondary { background: transparent; color: rgba(245,243,239,.85); border-color: rgba(245,243,239,.18); }
+  .cookie-btn-secondary:hover { background: rgba(245,243,239,.06); color: var(--paper); }
+  .cookie-btn-primary { background: var(--accent2); color: var(--ink); }
+  .cookie-btn-primary:hover { opacity: .85; }
+  @media (max-width: 640px) {
+    .cookie-banner { left: .6rem; right: .6rem; bottom: .6rem; padding: .9rem 1rem; }
+    .cookie-banner-actions { width: 100%; }
+    .cookie-btn { flex: 1; padding: .65rem .9rem; }
+  }
 </style>
 </head>
 <body>
@@ -798,10 +833,29 @@
     <a href="/blog" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.blog">Blog</a>
     <a href="mailto:hello@rhc.pt" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.contact">Contact</a>
     <a href="/privacy" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.privacy">Privacy</a>
+    <a href="/cookies" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.cookies">Cookies</a>
     <a href="/terms" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.terms">Terms</a>
   </div>
   <span data-i18n="foot.copy">© 2026 RHC. All rights reserved.</span>
 </footer>
+
+<!-- COOKIE CONSENT BANNER — hidden by default; shown by the script
+     below when localStorage('rhc_cookie_consent') has no choice yet,
+     or when the "Manage consent" button on /cookies calls
+     window.rhcReopenCookieBanner(). -->
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-banner-title" aria-describedby="cookie-banner-msg" aria-hidden="true">
+  <div class="cookie-banner-inner">
+    <div class="cookie-banner-text">
+      <strong id="cookie-banner-title" data-i18n="cookie.banner.title">We value your privacy</strong>
+      <p id="cookie-banner-msg" data-i18n="cookie.banner.msg">We use essential local storage to make the site work. With your consent, we may use Google Analytics to understand site usage and improve it.</p>
+      <a href="/cookies" class="cookie-banner-link" data-i18n="cookie.banner.link">Cookie Policy</a>
+    </div>
+    <div class="cookie-banner-actions">
+      <button type="button" class="cookie-btn cookie-btn-secondary" id="cookie-essential" data-i18n="cookie.banner.essential">Essential only</button>
+      <button type="button" class="cookie-btn cookie-btn-primary" id="cookie-accept-all" data-i18n="cookie.banner.acceptAll">Accept all</button>
+    </div>
+  </div>
+</div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   /* ─────────────────────────────────────────────────────────────
@@ -883,8 +937,15 @@
       'foot.blog': 'Blog',
       'foot.contact': 'Contacto',
       'foot.privacy': 'Privacidade',
+      'foot.cookies': 'Cookies',
       'foot.terms': 'Termos',
-      'foot.copy': '© 2026 RHC. Todos os direitos reservados.'
+      'foot.copy': '© 2026 RHC. Todos os direitos reservados.',
+
+      'cookie.banner.title': 'A tua privacidade importa',
+      'cookie.banner.msg': 'Usamos armazenamento essencial para o site funcionar. Com o teu consentimento, podemos usar o Google Analytics para perceber o uso do site e melhorá-lo.',
+      'cookie.banner.link': 'Política de Cookies',
+      'cookie.banner.essential': 'Apenas essenciais',
+      'cookie.banner.acceptAll': 'Aceitar tudo'
     },
     en: {
       'nav.home': 'Home',
@@ -957,8 +1018,15 @@
       'foot.blog': 'Blog',
       'foot.contact': 'Contact',
       'foot.privacy': 'Privacy',
+      'foot.cookies': 'Cookies',
       'foot.terms': 'Terms',
-      'foot.copy': '© 2026 RHC. All rights reserved.'
+      'foot.copy': '© 2026 RHC. All rights reserved.',
+
+      'cookie.banner.title': 'We value your privacy',
+      'cookie.banner.msg': 'We use essential local storage to make the site work. With your consent, we may use Google Analytics to understand site usage and improve it.',
+      'cookie.banner.link': 'Cookie Policy',
+      'cookie.banner.essential': 'Essential only',
+      'cookie.banner.acceptAll': 'Accept all'
     }
   };
 
@@ -1006,6 +1074,62 @@
     });
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
+
+  /* ─── Cookie consent + GA loader ───────────────────────────────────
+     localStorage('rhc_cookie_consent') = 'essential' | 'all'
+     - 'essential' → no analytics, no third-party scripts
+     - 'all'       → loadAnalytics() runs (Google Analytics)
+     The GA ID is a placeholder. While it stays 'G-XXXXXXXXXX',
+     loadAnalytics() short-circuits and injects nothing. When the
+     real GA ID is in place, swap the constant — no other changes
+     needed; consent gating already handles when GA loads.
+     ───────────────────────────────────────────────────────────────── */
+  const GA_ID = 'G-XXXXXXXXXX'; // TODO: replace with the real GA4 property ID
+  function loadAnalytics() {
+    if (GA_ID === 'G-XXXXXXXXXX') return;
+    if (window.__gaLoaded) return;
+    window.__gaLoaded = true;
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ window.dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GA_ID, { anonymize_ip: true });
+  }
+  function _readConsent() {
+    try { return localStorage.getItem('rhc_cookie_consent'); } catch(e) { return null; }
+  }
+  function _writeConsent(v) {
+    try { localStorage.setItem('rhc_cookie_consent', v); } catch(e) {}
+  }
+  function _showCookieBanner() {
+    const b = document.getElementById('cookie-banner');
+    if (b) { b.classList.add('visible'); b.setAttribute('aria-hidden', 'false'); }
+  }
+  function _hideCookieBanner() {
+    const b = document.getElementById('cookie-banner');
+    if (b) { b.classList.remove('visible'); b.setAttribute('aria-hidden', 'true'); }
+  }
+  window.rhcReopenCookieBanner = function() {
+    try { localStorage.removeItem('rhc_cookie_consent'); } catch(e) {}
+    window.__gaLoaded = false;
+    _showCookieBanner();
+  };
+  (function initCookieConsent() {
+    const choice = _readConsent();
+    if (choice === 'all') {
+      loadAnalytics();
+    } else if (!choice) {
+      _showCookieBanner();
+    }
+    const btnE = document.getElementById('cookie-essential');
+    const btnA = document.getElementById('cookie-accept-all');
+    if (btnE) btnE.addEventListener('click', () => { _writeConsent('essential'); _hideCookieBanner(); });
+    if (btnA) btnA.addEventListener('click', () => { _writeConsent('all'); _hideCookieBanner(); loadAnalytics(); });
+  })();
 </script>
 
 </body>
