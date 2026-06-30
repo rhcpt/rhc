@@ -1206,8 +1206,16 @@
       container-type: inline-size;
     }
     #hero .laptop .screen .dash {
-      transform: scale(calc(100cqw / 655));
+      transform: scale(calc(100cqw / 670));
     }
+    /* Tighten KPI vertical padding and ranking header gap so the canvas
+       (655x411) leaves room for at least the first ranking row. Canvas
+       pixels here get scaled by 100cqw/670 above; saved ~18px of canvas
+       becomes ~10px on screen, which combined with the scale tweak
+       clears the ~6px clip on the first row. Desktop scope above keeps
+       the original 16px/14px values. */
+    #hero .kpi { padding: 10px 22px; }
+    #hero .dl-head { margin-bottom: 8px; }
     /* Glow scales with viewport so very narrow phones aren't pushed
        by its absolute box during the parent's content-size calc. */
     #hero .glow { width: min(360px, 80vw); height: min(360px, 80vw); }
