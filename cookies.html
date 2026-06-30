@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  /* Language gate — runs in <head> before the body paints. Decides
+     the language with the same precedence used by _initialLang at the
+     bottom of the body (localStorage('rhc_lang') → navigator.language
+     → 'en') and pins it to <html> so the visibility-hidden rule below
+     can react immediately. The safety timer flips data-lang-ready
+     after 2s so the page never stays invisible if the bottom-of-body
+     applyLang() never runs (script blocked, fetch error, etc.). */
+  (function(){
+    var lang = null;
+    try { lang = localStorage.getItem('rhc_lang'); } catch(e) {}
+    if(lang !== 'pt' && lang !== 'en') {
+      var nav = ((navigator.language || '') + '').toLowerCase();
+      lang = nav.indexOf('pt') === 0 ? 'pt' : 'en';
+    }
+    document.documentElement.lang = lang;
+    document.documentElement.dataset.lang = lang;
+    setTimeout(function(){
+      if(!document.documentElement.hasAttribute('data-lang-ready')) {
+        document.documentElement.setAttribute('data-lang-ready', '1');
+      }
+    }, 2000);
+  })();
+</script>
+<noscript><style>html body { visibility: visible !important; }</style></noscript>
+<meta name="robots" content="noindex">
+<title>Cookie Policy · RHC</title>
+<meta name="description" content="Cookie Policy for RHC.">
+<meta property="og:title" content="Cookie Policy · RHC">
+<meta property="og:description" content="Cookie Policy for RHC.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  /* Hide the body until the bottom-of-body applyLang() has translated
+     the DOM (or the head safety timer has fired). The fallback inline
+     content is in EN; without this rule, PT users see a brief EN flash
+     before applyLang swaps the text. */
+  html:not([data-lang-ready]) body { visibility: hidden; }
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f3ef;
+    --accent: #e8ff47;
+    --accent2: #00d4aa;
+    --mid: #2a2a3a;
+    --muted: #6b6b7e;
+    --border: rgba(10,10,15,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.6rem;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent2); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.9rem; font-weight: 500;
+    color: rgba(245,243,239,0.6); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--paper); }
+  .nav-links a.active-link { color: var(--paper); }
+  .nav-cta {
+    background: var(--ink); color: var(--accent) !important;
+    padding: .55rem 1.4rem; border-radius: 100px;
+    font-weight: 600 !important; font-size: 0.88rem !important;
+    transition: transform .2s, background .2s !important;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-cta:hover { background: var(--mid) !important; transform: scale(1.04); }
+
+  /* ── Mobile nav toggle (checkbox-CSS, no JS) ── */
+  .nav-toggle {
+    position: absolute;
+    width: 1px; height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .nav-right { display: flex; align-items: center; gap: 2rem; }
+  .nav-burger {
+    display: none;          /* shown only ≤760px */
+    width: 44px; height: 44px;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 5px;
+    background: transparent; border: 0;
+  }
+  .nav-burger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--paper);
+    border-radius: 2px;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+  .nav-backdrop { display: none; }
+  /* Mobile drawer — sibling of <nav>, hidden by default; shown only
+     ≤760px. Lives outside <nav> so position:fixed escapes the nav's
+     backdrop-filter containing block. */
+  .nav-drawer { display: none; }
+
+  /* ── HERO ── */
+  .about-hero {
+    min-height: 60vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10rem 4rem 5rem;
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 50% 60% at 25% 50%, rgba(0,212,170,.18), transparent 60%),
+      radial-gradient(ellipse 40% 50% at 85% 30%, rgba(232,255,71,.06), transparent 60%);
+    pointer-events: none;
+  }
+  .about-hero-grid {
+    position: absolute; inset: 0; opacity: .25;
+    background-image:
+      linear-gradient(rgba(245,243,239,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,243,239,.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .about-hero-content {
+    max-width: 950px;
+    position: relative;
+    z-index: 1;
+  }
+  .about-tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 100px;
+    margin-bottom: 2rem;
+  }
+  .about-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 2.8vw, 2.4rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.5rem;
+    max-width: 720px;
+  }
+  .about-hero h1 em {
+    font-style: normal;
+    font-weight: 800;
+    color: var(--accent2);
+  }
+  .about-hero p.lead {
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    line-height: 1.6;
+    color: rgba(245,243,239,0.7);
+    max-width: 720px;
+    font-weight: 300;
+  }
+
+  /* ── STORY ── */
+  .story-section {
+    padding: 7rem 4rem;
+    background: var(--paper);
+  }
+  .story-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .story-block {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    grid-template-areas:
+      "num    ."
+      "eye    ."
+      "head   body";
+    column-gap: 5rem;
+    padding: 3.5rem 0;
+    border-top: 1px solid var(--border);
+    align-items: start;
+  }
+  .story-block:first-of-type { border-top: none; padding-top: 0; }
+  .story-block:last-of-type { padding-bottom: 0; }
+  .story-head { display: contents; }
+  .story-num {
+    grid-area: num;
+    font-family: 'Syne', sans-serif;
+    font-size: 3.4rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    color: rgba(0,212,170,.16);
+    margin-bottom: 0.6rem;
+  }
+  .story-eyebrow {
+    grid-area: eye;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.9rem;
+  }
+  .story-head h2 {
+    grid-area: head;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+    text-wrap: pretty;
+    color: var(--ink);
+  }
+  .story-body {
+    grid-area: body;
+  }
+  .story-body p {
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+  .story-body p:last-child { margin-bottom: 0; }
+  .story-body p strong { font-weight: 600; }
+
+  /* ── TEAM ── */
+  .team-section {
+    padding: 6rem 4rem;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .team-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .team-section .story-eyebrow {
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .team-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 0.6rem;
+    text-align: center;
+  }
+  .team-section .section-desc {
+    color: rgba(245,243,239,0.55);
+    font-size: 1rem;
+    margin-bottom: 3.5rem;
+    text-align: center;
+  }
+
+  .founder-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 22px;
+    padding: 2rem 2.2rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.8rem;
+    align-items: center;
+    transition: border-color .25s, background .25s;
+  }
+  .founder-card:hover {
+    border-color: rgba(0,212,170,0.3);
+    background: rgba(0,212,170,0.04);
+  }
+
+  .founder-avatar {
+    position: relative;
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d4aa 0%, #007a63 100%);
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .founder-avatar img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    display: block;
+  }
+  .founder-initials {
+    color: var(--ink);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -0.02em;
+  }
+
+  .founder-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+  .founder-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+    line-height: 1.1;
+  }
+  .founder-role {
+    color: var(--accent2);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  .founder-bio {
+    color: rgba(245,243,239,0.6);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-top: 0.4rem;
+    font-weight: 300;
+  }
+
+  .founder-link {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(245,243,239,0.7);
+    text-decoration: none;
+    transition: background .2s, color .2s, transform .2s;
+    flex-shrink: 0;
+  }
+  .founder-link:hover {
+    background: var(--accent2);
+    color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .founder-link svg { width: 20px; height: 20px; }
+
+  /* ── CONTACT — dual path ── */
+  .contact-band {
+    padding: 6rem 4rem;
+    background: var(--paper);
+  }
+  .contact-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .contact-head {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .contact-head h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 0.8rem;
+  }
+  .contact-head p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .contact-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    transition: transform .2s, border-color .2s, box-shadow .25s;
+    text-decoration: none;
+    color: var(--ink);
+    position: relative;
+  }
+  .contact-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--ink);
+    box-shadow: 0 12px 40px rgba(10,10,15,.08);
+  }
+  .contact-card.dark {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: transparent;
+  }
+  .contact-card.dark:hover {
+    border-color: var(--accent2);
+    box-shadow: 0 12px 40px rgba(10,10,15,.18);
+  }
+  .contact-card-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .contact-card.dark .contact-card-tag { color: var(--accent); }
+  .contact-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .contact-card p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    flex: 1;
+  }
+  .contact-card.dark p { color: rgba(245,243,239,.6); }
+  .contact-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--ink);
+    margin-top: 0.4rem;
+  }
+  .contact-card.dark .contact-card-cta { color: var(--accent); }
+  .contact-card-cta::after {
+    content: '→';
+    transition: transform .2s;
+  }
+  .contact-card:hover .contact-card-cta::after { transform: translateX(4px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #07070d;
+    color: rgba(245,243,239,.4);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: .82rem;
+    border-top: 1px solid rgba(255,255,255,.05);
+  }
+  footer a { text-decoration: none; transition: color .2s; }
+
+  /* ── Reveal ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 760px) {
+    /* Hide the desktop inline link list — the mobile drawer takes over. */
+    .nav-links { display: none; }
+
+    /* Show hamburger. */
+    .nav-burger { display: flex; }
+
+    /* Slide-in drawer from the right. Body-level sibling of <nav>, so
+       top/right/bottom are relative to the viewport — not the nav's
+       backdrop-filter containing block. */
+    .nav-drawer {
+      display: flex;
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: min(82vw, 320px);
+      background: rgba(10,10,15,0.98);
+      backdrop-filter: blur(14px);
+      border-left: 1px solid rgba(255,255,255,0.08);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.4rem;
+      padding: 5.5rem 2rem 2rem;
+      transform: translateX(100%);
+      transition: transform .25s ease;
+      z-index: 99;
+    }
+    #nav-toggle:checked ~ .nav-drawer { transform: translateX(0); }
+
+    /* Link styling inside the drawer — mirrors .nav-links a. */
+    .nav-drawer a {
+      font-size: 0.9rem; font-weight: 500;
+      color: rgba(245,243,239,0.6); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-drawer a:hover { color: var(--paper); }
+
+    /* Full-screen backdrop behind the drawer — tap to close. */
+    .nav-backdrop {
+      display: block;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      z-index: 98;
+    }
+    #nav-toggle:checked ~ .nav-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Hamburger morphs into ✕ when the menu is open. */
+    #nav-toggle:checked ~ nav .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #nav-toggle:checked ~ nav .nav-burger span:nth-child(2) { opacity: 0; }
+    #nav-toggle:checked ~ nav .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    nav, .about-hero, .story-section, .team-section, .contact-band, footer {
+      padding-left: 1.5rem; padding-right: 1.5rem;
+    }
+    .about-hero { padding-top: 7rem; padding-bottom: 4rem; }
+    .story-block {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "num"
+        "eye"
+        "head"
+        "body";
+      column-gap: 0;
+      row-gap: 0;
+      padding: 2.5rem 0;
+    }
+    .story-num { font-size: 2.4rem; margin-bottom: 0.4rem; }
+    .story-body { margin-top: 1rem; }
+    .founder-card { grid-template-columns: auto 1fr; padding: 1.6rem; }
+    .founder-link { grid-column: 1 / -1; justify-self: start; }
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Language toggle (PT / EN) ── */
+  .lang-toggle { display: flex; align-items: center; gap: 6px; list-style: none; }
+  .lang-flag {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 2px 4px;
+    font-size: 22px;
+    line-height: 1;
+    opacity: .5;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity .15s ease, border-color .15s ease;
+  }
+  .lang-flag:hover { opacity: 1; }
+  .lang-flag.active { opacity: 1; border-color: var(--accent2); }
+  @media (max-width: 768px) { .lang-flag { font-size: 20px; } }
+
+  /* ── LEGAL PAGE (placeholder) ── */
+  .legal-page {
+    padding: 8rem 4rem 6rem;
+    background: var(--paper);
+    min-height: 60vh;
+  }
+  .legal-wrap { max-width: 720px; margin: 0 auto; }
+  .legal-tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    padding: 0.4rem 0.95rem;
+    border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+  .legal-page h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 1.8rem;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .legal-body p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 1.4rem;
+  }
+  .legal-back a {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    transition: opacity .2s;
+  }
+  .legal-back a:hover { opacity: 0.65; }
+  /* — Last updated line — discreet, monospace-ish, between H1 and first section. */
+  .legal-updated {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    display: block;
+    opacity: 0.85;
+  }
+  /* — Section headings inside the legal body. */
+  .legal-body h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-top: 2.4rem;
+    margin-bottom: 1rem;
+    scroll-margin-top: 100px;
+  }
+  .legal-body h2:first-of-type { margin-top: 1.4rem; }
+  /* — Lists inside the legal body (acceptable-use bullet list, etc.). */
+  .legal-body ul {
+    margin: 0 0 1.4rem 0;
+    padding-left: 1.25rem;
+    list-style: disc outside;
+  }
+  .legal-body ul li {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  /* — Emphasis inside the legal body. */
+  .legal-body strong { color: var(--ink); font-weight: 600; }
+  .legal-body em { font-style: italic; }
+  /* — Inline links inside the legal body (e.g. link to the Privacy Policy). */
+  .legal-body a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--accent2);
+    text-decoration: none;
+    transition: opacity .2s;
+  }
+  .legal-body a:hover { opacity: 0.7; }
+  @media (max-width: 760px) {
+    .legal-page { padding: 7rem 1.5rem 4rem; }
+    /* Mobile: the title is too long to fit one line in narrow viewports;
+       drop the desktop nowrap so it wraps naturally and never spills
+       outside the screen. */
+    .legal-page h1 { white-space: normal; }
+  }
+
+  /* — "Manage consent" button on the cookies page. Calls the global
+     window.rhcReopenCookieBanner() defined in the page script below. */
+  .legal-cookie-btn {
+    background: var(--ink); color: var(--paper);
+    border: 1px solid var(--ink); border-radius: 8px;
+    padding: .7rem 1.4rem; font-family: inherit; font-weight: 600; font-size: .92rem;
+    cursor: pointer; transition: opacity .2s;
+    margin: 0.5rem 0 1rem 0;
+  }
+  .legal-cookie-btn:hover { opacity: .85; }
+
+  /* — Cookie consent banner. Shared markup/CSS/JS across all public
+     pages so the consent choice is honoured everywhere. Banner only
+     renders when window.rhcReopenCookieBanner() is called explicitly
+     OR when localStorage('rhc_cookie_consent') is empty on first
+     visit. localStorage choice is essential (allowed without consent). */
+  .cookie-banner {
+    position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 200;
+    display: none;
+    background: rgba(7,7,13,0.97); backdrop-filter: blur(14px);
+    color: var(--paper);
+    border: 1px solid rgba(245,243,239,.08); border-radius: 14px;
+    padding: 1.1rem 1.4rem;
+    box-shadow: 0 18px 50px rgba(0,0,0,.4);
+    font-size: .92rem; line-height: 1.55;
+  }
+  .cookie-banner.visible { display: block; animation: cookie-in .25s ease-out; }
+  @keyframes cookie-in { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .cookie-banner-inner { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+  .cookie-banner-text { flex: 1; min-width: 240px; }
+  .cookie-banner-text strong { font-family: 'Syne', sans-serif; font-weight: 700; display: block; margin-bottom: .25rem; font-size: 1rem; color: var(--paper); }
+  .cookie-banner-text p { color: rgba(245,243,239,.75); margin: 0 0 .35rem 0; font-size: .88rem; }
+  .cookie-banner-link { color: var(--accent2); text-decoration: none; font-size: .85rem; border-bottom: 1px solid rgba(0,212,170,.35); }
+  .cookie-banner-link:hover { opacity: .8; }
+  .cookie-banner-actions { display: flex; gap: .6rem; flex-shrink: 0; }
+  .cookie-btn { font-family: inherit; font-size: .85rem; font-weight: 600; padding: .55rem 1.1rem; border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: opacity .15s, background .15s; }
+  .cookie-btn-secondary { background: transparent; color: rgba(245,243,239,.85); border-color: rgba(245,243,239,.18); }
+  .cookie-btn-secondary:hover { background: rgba(245,243,239,.06); color: var(--paper); }
+  .cookie-btn-primary { background: var(--accent2); color: var(--ink); }
+  .cookie-btn-primary:hover { opacity: .85; }
+  @media (max-width: 640px) {
+    .cookie-banner { left: .6rem; right: .6rem; bottom: .6rem; padding: .9rem 1rem; }
+    .cookie-banner-actions { width: 100%; }
+    .cookie-btn { flex: 1; padding: .65rem .9rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" tabindex="-1">
+<nav>
+  <a href="/" class="logo" style="display:inline-flex;align-items:center;gap:.5rem;"><img src="/assets/logo.png" alt="RHC" loading="lazy" onerror="this.style.display='none'" style="height:1.2em;width:auto;"><span style="color:inherit;">RH<span>C</span></span></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="/" data-i18n="nav.home">Home</a></li>
+      <li><a href="/about" data-i18n="nav.about">About Us</a></li>
+      <li><a href="/blog" data-i18n="nav.blog">Blog</a></li>
+      <li><a href="/#cta" class="nav-cta" data-i18n="nav.cta">Get a Demo</a></li>
+    </ul>
+    <div class="lang-toggle" aria-label="Language">
+      <button type="button" class="lang-flag" data-lang="pt" aria-label="Português"><img src="/assets/flags/pt.png" alt="Português" width="26" height="18" style="display:block;border-radius:2px;" loading="eager" onerror="this.style.display='none'"></button>
+      <button type="button" class="lang-flag" data-lang="en" aria-label="English"><img src="/assets/flags/gb.png" alt="English" width="26" height="18" style="display:block;border-radius:2px;" loading="eager" onerror="this.style.display='none'"></button>
+    </div>
+    <label for="nav-toggle" class="nav-burger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </label>
+  </div>
+</nav>
+<!-- Mobile drawer — body-level sibling of <nav>. Lives outside nav so
+     position:fixed lands on the viewport, not on the nav's
+     backdrop-filter containing block. Mirrors the inline desktop links. -->
+<div class="nav-drawer" aria-hidden="true">
+  <a href="/" data-i18n="nav.home">Home</a>
+  <a href="/about" data-i18n="nav.about">About Us</a>
+  <a href="/blog" data-i18n="nav.blog">Blog</a>
+  <a href="/#cta" class="nav-cta" data-i18n="nav.cta">Get a Demo</a>
+</div>
+<label for="nav-toggle" class="nav-backdrop" aria-hidden="true"></label>
+
+<!-- HERO -->
+<!-- LEGAL PAGE — Cookie Policy -->
+<section class="legal-page">
+  <div class="legal-wrap">
+    <span class="legal-tag" data-i18n="legal.tag">Legal</span>
+    <h1 data-i18n="legal.h1">Cookie Policy</h1>
+    <div class="legal-body">
+      <p class="legal-updated" data-i18n="cookies.updated">Last updated: 30 June 2026</p>
+
+      <h2 id="s1" data-i18n="cookies.s1.h2">1. What are cookies and local storage</h2>
+      <p data-i18n="cookies.s1.p1">Cookies are small files a website stores in your browser. "Local storage" (localStorage) is a similar mechanism that lets a site keep small preferences (such as the chosen language) between visits. This policy describes what RHC uses, for what purpose, and how you can manage your choices.</p>
+
+      <h2 id="s2" data-i18n="cookies.s2.h2">2. What we use today</h2>
+      <p data-i18n="cookies.s2.p1">Currently, the RHC corporate website uses only essential local storage. We do not use tracking cookies, advertising, social networks, or user profiling.</p>
+      <ul>
+        <li data-i18n="cookies.s2.li1">rhc_lang — stores your language preference (PT or EN) between visits.</li>
+        <li data-i18n="cookies.s2.li2">rhc_cookie_consent — stores your consent choice (essential only or accept all), so the banner does not reappear.</li>
+      </ul>
+      <p data-i18n="cookies.s2.p2">Both are essential for basic site functioning and for your preference — they do not require your consent (they fall under the "strictly necessary" legal exception).</p>
+
+      <h2 id="s3" data-i18n="cookies.s3.h2">3. Third-party resources</h2>
+      <p data-i18n="cookies.s3.p1">The site loads typography from Google Fonts (fonts.googleapis.com) and icons/libraries from the jsDelivr CDN (cdn.jsdelivr.net). These services do not set cookies in your browser, but may log your IP address to deliver the files and protect against abuse. The files are public and identical for all visitors.</p>
+
+      <h2 id="s4" data-i18n="cookies.s4.h2">4. Analytics (future)</h2>
+      <p data-i18n="cookies.s4.p1">In the future we may use Google Analytics to understand, in an aggregated and anonymous way, how visitors use the site (pages visited, time, approximate origin). This feature will ONLY be activated for users who click "Accept all" in the banner. Those who choose "Essential only" will never have analytics. Currently Google Analytics is NOT active on this site.</p>
+
+      <h2 id="s5" data-i18n="cookies.s5.h2">5. How to manage your consent</h2>
+      <p data-i18n="cookies.s5.p1">You can change your choice at any time. The button below clears your current preference and reopens the consent banner. Alternatively, you can clear RHC local storage in your browser settings.</p>
+      <p><button type="button" class="legal-cookie-btn" onclick="if(window.rhcReopenCookieBanner) window.rhcReopenCookieBanner();" data-i18n="cookies.s5.btn">Manage consent</button></p>
+
+      <h2 id="s6" data-i18n="cookies.s6.h2">6. Contact</h2>
+      <p data-i18n="cookies.s6.p1">For any question about this policy, contact us at hello@rhc.pt.</p>
+
+      <p class="legal-back"><a href="/" data-i18n="legal.back">← Back to home</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--paper);text-decoration:none;letter-spacing:-0.04em;display:inline-flex;align-items:center;gap:.5rem;"><img src="/assets/logo.png" alt="RHC" loading="lazy" onerror="this.style.display='none'" style="height:1.2em;width:auto;"><span>RH<span style="color:var(--accent2)">C</span></span></a>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;">
+    <a href="/" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.home">Home</a>
+    <a href="/about" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.about">About Us</a>
+    <a href="/blog" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.blog">Blog</a>
+    <a href="mailto:hello@rhc.pt" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.contact">Contact</a>
+    <a href="/privacy" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.privacy">Privacy</a>
+    <a href="/cookies" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.cookies">Cookies</a>
+    <a href="/terms" style="color:rgba(245,243,239,.4);" onmouseover="this.style.color='var(--paper)'" onmouseout="this.style.color='rgba(245,243,239,.4)'" data-i18n="foot.terms">Terms</a>
+  </div>
+  <span data-i18n="foot.copy">© 2026 RHC. All rights reserved.</span>
+</footer>
+
+<!-- COOKIE CONSENT BANNER — hidden by default; shown by the script
+     below when localStorage('rhc_cookie_consent') has no choice yet,
+     or when the "Manage consent" button on this page calls
+     window.rhcReopenCookieBanner(). -->
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-banner-title" aria-describedby="cookie-banner-msg" aria-hidden="true">
+  <div class="cookie-banner-inner">
+    <div class="cookie-banner-text">
+      <strong id="cookie-banner-title" data-i18n="cookie.banner.title">We value your privacy</strong>
+      <p id="cookie-banner-msg" data-i18n="cookie.banner.msg">We use essential local storage to make the site work. With your consent, we may use Google Analytics to understand site usage and improve it.</p>
+      <a href="/cookies" class="cookie-banner-link" data-i18n="cookie.banner.link">Cookie Policy</a>
+    </div>
+    <div class="cookie-banner-actions">
+      <button type="button" class="cookie-btn cookie-btn-secondary" id="cookie-essential" data-i18n="cookie.banner.essential">Essential only</button>
+      <button type="button" class="cookie-btn cookie-btn-primary" id="cookie-accept-all" data-i18n="cookie.banner.acceptAll">Accept all</button>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  /* ─────────────────────────────────────────────────────────────
+     i18n (PT / EN) — same shape as index.html, sharing the
+     localStorage('rhc_lang') key so toggling on one page carries
+     over to the other. Page-specific keys live under ab.* — nav.*
+     and foot.* keys are kept identical to the index.html so the
+     vocabulary stays in sync.
+     ───────────────────────────────────────────────────────────── */
+  const T = {
+    pt: {
+      'nav.home': 'Home',
+      'nav.about': 'Sobre Nós',
+      'nav.blog': 'Blog',
+      'nav.cta': 'Pedir Demo',
+
+      'legal.title': 'Política de Cookies · RHC',
+      'legal.tag': 'Legal',
+      'legal.h1': 'Política de Cookies',
+      'legal.back': '← Voltar à página inicial',
+
+      'cookies.updated': 'Última atualização: 30/06/2026',
+
+      'cookies.s1.h2': '1. O que são cookies e armazenamento local',
+      'cookies.s1.p1': 'Cookies são pequenos ficheiros que um site guarda no teu browser. O "armazenamento local" (localStorage) é um mecanismo semelhante, que permite guardar pequenas preferências (como a língua escolhida) entre visitas. Esta política descreve o que o RHC usa, com que finalidade, e como podes gerir as tuas escolhas.',
+
+      'cookies.s2.h2': '2. O que usamos hoje',
+      'cookies.s2.p1': 'Atualmente, o site institucional do RHC usa apenas armazenamento local essencial. Não usamos cookies de rastreio, publicidade, redes sociais nem perfis de utilizador.',
+      'cookies.s2.li1': 'rhc_lang — guarda a tua preferência de língua (PT ou EN) entre visitas.',
+      'cookies.s2.li2': 'rhc_cookie_consent — guarda a tua escolha de consentimento (apenas essenciais ou aceitar tudo), para o banner não voltar a aparecer.',
+      'cookies.s2.p2': 'Ambos são essenciais para o funcionamento básico do site e da tua preferência — não precisam do teu consentimento (são abrangidos pela exceção legal de "estritamente necessários").',
+
+      'cookies.s3.h2': '3. Recursos de terceiros',
+      'cookies.s3.p1': 'O site carrega tipografia da Google Fonts (fonts.googleapis.com) e ícones/bibliotecas da CDN jsDelivr (cdn.jsdelivr.net). Estes serviços não definem cookies no teu browser, mas podem registar o teu endereço IP para entregar os ficheiros e proteger-se de abuso. Os ficheiros são públicos e idênticos para todos os visitantes.',
+
+      'cookies.s4.h2': '4. Análise (futuro)',
+      'cookies.s4.p1': 'No futuro poderemos vir a usar o Google Analytics para perceber, de forma agregada e anónima, como os visitantes usam o site (páginas visitadas, tempo, origem aproximada). Esta funcionalidade SÓ será ativada para utilizadores que cliquem em "Aceitar tudo" no banner. Quem escolher "Apenas essenciais" nunca terá análise. Atualmente o Google Analytics NÃO está ativo neste site.',
+
+      'cookies.s5.h2': '5. Como gerir o teu consentimento',
+      'cookies.s5.p1': 'Podes mudar a tua escolha a qualquer momento. O botão abaixo limpa a tua preferência atual e reabre o banner de consentimento. Em alternativa, podes apagar o armazenamento local do RHC nas definições do teu browser.',
+      'cookies.s5.btn': 'Gerir consentimento',
+
+      'cookies.s6.h2': '6. Contacto',
+      'cookies.s6.p1': 'Para qualquer questão sobre esta política, contacta-nos através de hello@rhc.pt.',
+
+      'cookie.banner.title': 'A tua privacidade importa',
+      'cookie.banner.msg': 'Usamos armazenamento essencial para o site funcionar. Com o teu consentimento, podemos usar o Google Analytics para perceber o uso do site e melhorá-lo.',
+      'cookie.banner.link': 'Política de Cookies',
+      'cookie.banner.essential': 'Apenas essenciais',
+      'cookie.banner.acceptAll': 'Aceitar tudo',
+
+      'foot.home': 'Home',
+      'foot.about': 'Sobre Nós',
+      'foot.blog': 'Blog',
+      'foot.contact': 'Contacto',
+      'foot.privacy': 'Privacidade',
+      'foot.cookies': 'Cookies',
+      'foot.terms': 'Termos',
+      'foot.copy': '© 2026 RHC. Todos os direitos reservados.'
+    },
+    en: {
+      'nav.home': 'Home',
+      'nav.about': 'About Us',
+      'nav.blog': 'Blog',
+      'nav.cta': 'Get a Demo',
+
+      'legal.title': 'Cookie Policy · RHC',
+      'legal.tag': 'Legal',
+      'legal.h1': 'Cookie Policy',
+      'legal.back': '← Back to home',
+
+      'cookies.updated': 'Last updated: 30 June 2026',
+
+      'cookies.s1.h2': '1. What are cookies and local storage',
+      'cookies.s1.p1': 'Cookies are small files a website stores in your browser. "Local storage" (localStorage) is a similar mechanism that lets a site keep small preferences (such as the chosen language) between visits. This policy describes what RHC uses, for what purpose, and how you can manage your choices.',
+
+      'cookies.s2.h2': '2. What we use today',
+      'cookies.s2.p1': 'Currently, the RHC corporate website uses only essential local storage. We do not use tracking cookies, advertising, social networks, or user profiling.',
+      'cookies.s2.li1': 'rhc_lang — stores your language preference (PT or EN) between visits.',
+      'cookies.s2.li2': 'rhc_cookie_consent — stores your consent choice (essential only or accept all), so the banner does not reappear.',
+      'cookies.s2.p2': 'Both are essential for basic site functioning and for your preference — they do not require your consent (they fall under the "strictly necessary" legal exception).',
+
+      'cookies.s3.h2': '3. Third-party resources',
+      'cookies.s3.p1': 'The site loads typography from Google Fonts (fonts.googleapis.com) and icons/libraries from the jsDelivr CDN (cdn.jsdelivr.net). These services do not set cookies in your browser, but may log your IP address to deliver the files and protect against abuse. The files are public and identical for all visitors.',
+
+      'cookies.s4.h2': '4. Analytics (future)',
+      'cookies.s4.p1': 'In the future we may use Google Analytics to understand, in an aggregated and anonymous way, how visitors use the site (pages visited, time, approximate origin). This feature will ONLY be activated for users who click "Accept all" in the banner. Those who choose "Essential only" will never have analytics. Currently Google Analytics is NOT active on this site.',
+
+      'cookies.s5.h2': '5. How to manage your consent',
+      'cookies.s5.p1': 'You can change your choice at any time. The button below clears your current preference and reopens the consent banner. Alternatively, you can clear RHC local storage in your browser settings.',
+      'cookies.s5.btn': 'Manage consent',
+
+      'cookies.s6.h2': '6. Contact',
+      'cookies.s6.p1': 'For any question about this policy, contact us at hello@rhc.pt.',
+
+      'cookie.banner.title': 'We value your privacy',
+      'cookie.banner.msg': 'We use essential local storage to make the site work. With your consent, we may use Google Analytics to understand site usage and improve it.',
+      'cookie.banner.link': 'Cookie Policy',
+      'cookie.banner.essential': 'Essential only',
+      'cookie.banner.acceptAll': 'Accept all',
+
+      'foot.home': 'Home',
+      'foot.about': 'About Us',
+      'foot.blog': 'Blog',
+      'foot.contact': 'Contact',
+      'foot.privacy': 'Privacy',
+      'foot.cookies': 'Cookies',
+      'foot.terms': 'Terms',
+      'foot.copy': '© 2026 RHC. All rights reserved.'
+    }
+  };
+
+  function applyLang(lang) {
+    if(lang !== 'pt' && lang !== 'en') lang = 'en';
+    const dict = T[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const v = dict[el.dataset.i18n]; if(v != null) el.textContent = v;
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const v = dict[el.dataset.i18nHtml]; if(v != null) el.innerHTML = v;
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const v = dict[el.dataset.i18nPlaceholder]; if(v != null) el.placeholder = v;
+    });
+    if(dict['legal.title']) document.title = dict['legal.title'];
+    document.documentElement.lang = lang;
+    try { localStorage.setItem('rhc_lang', lang); } catch(e) {}
+    document.querySelectorAll('.lang-flag').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    document.documentElement.setAttribute('data-lang-ready', '1');
+  }
+
+  const _initialLang = (() => {
+    let stored = null;
+    try { stored = localStorage.getItem('rhc_lang'); } catch(e) {}
+    if(stored === 'pt' || stored === 'en') return stored;
+    const browserLang = ((navigator.language || '') + '').toLowerCase();
+    return browserLang.startsWith('pt') ? 'pt' : 'en';
+  })();
+  document.querySelectorAll('.lang-flag').forEach(b => {
+    b.addEventListener('click', () => applyLang(b.dataset.lang));
+  });
+  applyLang(_initialLang);
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  /* ─── Cookie consent + GA loader ───────────────────────────────────
+     localStorage('rhc_cookie_consent') = 'essential' | 'all'
+     - 'essential' → no analytics, no third-party scripts
+     - 'all'       → loadAnalytics() runs (Google Analytics)
+     The GA ID is a placeholder. While it stays 'G-XXXXXXXXXX',
+     loadAnalytics() short-circuits and injects nothing. When the
+     real GA ID is in place, swap the constant — no other changes
+     needed; consent gating already handles when GA loads.
+     ───────────────────────────────────────────────────────────────── */
+  const GA_ID = 'G-XXXXXXXXXX'; // TODO: replace with the real GA4 property ID
+  function loadAnalytics() {
+    if (GA_ID === 'G-XXXXXXXXXX') return;
+    if (window.__gaLoaded) return;
+    window.__gaLoaded = true;
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ window.dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GA_ID, { anonymize_ip: true });
+  }
+  function _readConsent() {
+    try { return localStorage.getItem('rhc_cookie_consent'); } catch(e) { return null; }
+  }
+  function _writeConsent(v) {
+    try { localStorage.setItem('rhc_cookie_consent', v); } catch(e) {}
+  }
+  function _showCookieBanner() {
+    const b = document.getElementById('cookie-banner');
+    if (b) { b.classList.add('visible'); b.setAttribute('aria-hidden', 'false'); }
+  }
+  function _hideCookieBanner() {
+    const b = document.getElementById('cookie-banner');
+    if (b) { b.classList.remove('visible'); b.setAttribute('aria-hidden', 'true'); }
+  }
+  window.rhcReopenCookieBanner = function() {
+    try { localStorage.removeItem('rhc_cookie_consent'); } catch(e) {}
+    window.__gaLoaded = false;
+    _showCookieBanner();
+  };
+  (function initCookieConsent() {
+    const choice = _readConsent();
+    if (choice === 'all') {
+      loadAnalytics();
+    } else if (!choice) {
+      _showCookieBanner();
+    }
+    const btnE = document.getElementById('cookie-essential');
+    const btnA = document.getElementById('cookie-accept-all');
+    if (btnE) btnE.addEventListener('click', () => { _writeConsent('essential'); _hideCookieBanner(); });
+    if (btnA) btnA.addEventListener('click', () => { _writeConsent('all'); _hideCookieBanner(); loadAnalytics(); });
+  })();
+</script>
+
+</body>
+</html>
